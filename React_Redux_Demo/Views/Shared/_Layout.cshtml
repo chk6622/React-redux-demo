@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/twitter-bootstrap/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="~/twitter-bootstrap/css/bootstrap-reboot.css" rel="stylesheet" />
+    <link href="~/login.css" rel="stylesheet" />
+    <!--<link href="~/css/site.css" rel="stylesheet" />-->
+</head>
+<body>
+    <div class="container col-md-10">
+        @RenderBody()
+       
+    </div>
+    @if(IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts",required:false)
+    }
+</body>
+</html>

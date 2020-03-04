@@ -1,0 +1,26 @@
+{
+    "presets": [
+        "env",   //env参数囊括了es2015,2016,2017只写这一个就够了
+        "react",   //这个参数一定要加，解析react的
+        "stage-0" //这是babel规范，没有这个，我知道的有import,export使用会发生异常。
+    ],
+    "plugins": [
+        [
+            "transform-runtime",  //这个插件，是添加一个小垫片，拒绝把常用函数添加到每个引用文件，避免重复
+            {
+                "helpers": false,
+                "polyfill": false,
+                "regenerator": true
+            }
+        ],
+        "transform-decorators-legacy",  //可以使用装饰器
+        [  
+            "import",          //这个是antd官网推荐的使用方式,不然antd无法正常模块按需引用
+            {
+                "libraryName": "antd",
+                "libraryDirectory": "es",
+                "style": "css"
+            }
+        ]
+    ]
+}
