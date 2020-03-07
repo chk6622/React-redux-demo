@@ -11,23 +11,22 @@ export class Layout extends Component {
   render () {
       return (
           <main>
-              <banner>
-                  
+            <banner>
                   demo
             </banner>
-              <div className='workarea'>
+            <div className='workarea'>
                 <nav>
-                    <AppMenu />
+                      <AppMenu />
                 </nav>
                 <article>
                       <Container className='container'>
                         {this.props.children}
                     </Container>
                 </article>
-              </div>
-              <footer>
-                      &copy; XING TONG 
-               </footer>
+            </div>
+            <footer>
+                      &copy; XING TONG 2019
+            </footer>
           </main>
     );
   }

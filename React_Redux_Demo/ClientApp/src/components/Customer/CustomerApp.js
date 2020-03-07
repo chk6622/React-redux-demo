@@ -163,17 +163,20 @@ class CustomerApp extends Component {
 
     render() {
         return (
-          <>
-                <h1>Customer</h1>
-
-                <CustomerList {...this.props}
-                    paginate={this.paginate}
-                    refreshList={this.refreshList}
-                    myChangeHandler={this.myChangeHandler}
-                    addData={this.addData}
-                    updateData={this.updateData}
-                    deleteData={this.deleteData}
-                    skipPage={this.skipPage} />
+            <>
+                <div className='listTitle'>
+                    <h1>Customer</h1>
+                </div>
+                <div className='listContent'>
+                    <CustomerList {...this.props}
+                        paginate={this.paginate}
+                        refreshList={this.refreshList}
+                        myChangeHandler={this.myChangeHandler}
+                        addData={this.addData}
+                        updateData={this.updateData}
+                        deleteData={this.deleteData}
+                            skipPage={this.skipPage} />
+                </div>
           </>
         );
   }

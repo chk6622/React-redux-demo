@@ -190,8 +190,11 @@ class SalesApp extends Component {
         console.log("Enter 'render' method!");
         console.log(this.props);
         return (
-              <div>
+            <>
+                <div className='listTitle'>
                     <h1>Sales</h1>
+                </div>
+                <div className='listContent'>
                     <SalesList {...this.props}
                         paginate={this.paginate}
                         refreshList={this.refreshList}
@@ -202,8 +205,8 @@ class SalesApp extends Component {
                         updateData={this.updateData}
                         deleteData={this.deleteData}
                         skipPage={this.skipPage} />
-
-              </div>
+                </div>
+            </>
         );
   }
 }

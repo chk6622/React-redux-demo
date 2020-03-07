@@ -8,10 +8,16 @@ export class Home extends Component {
 
   render () {
     return (
-        <Container textAlign='center'>
-            <br/>
-            <h1>Welcome to the demo!</h1>           
-        </Container>
+        
+        <>
+            <div className='listTitle'>
+                <h1>Welcome to the demo!</h1>
+            </div>
+            <div className='listContent'>
+            </div>
+        </>
+
+        
     );
   }
 }

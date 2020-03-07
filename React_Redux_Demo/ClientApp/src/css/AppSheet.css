@@ -3,100 +3,85 @@
     margin:0;
 }
 main {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     justify-content: space-between;
     margin: 3px;
     height: 98vh;
-    border: solid green;
+    border: 1px solid black;
     font-family:Arial, Helvetica, sans-serif;
-    //background: #ccc;
 }
 
-    main > * {
-        //display: flex;
-        //flex-grow: 1;
-
-    }
-
-    main banner {
-        height: 80px;
-        width: 100%;
+    banner {
         display: flex;
+        height:10%;
         align-items: center;
-        justify-content: right;
-        background-image:url('../img/banner.jpg');
-        background-repeat:repeat-x;
+        justify-content: flex-start;
+        background-image: url('../img/banner.jpg');
+        background-repeat: repeat-x;
+        padding-left: 20px;
 
-        padding-left:20px;
-        font-size:50px;
-        font-weight:bold;
-        text-transform:uppercase;
-        color:#D1D1D1;
-        text-shadow:1px 1px white, -1px -1px #333;
+        font-size: 50px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #D1D1D1;
+        text-shadow: 1px 1px white, -1px -1px #333;
     }
 
-    main div.workarea{
+    div.workarea{
         padding-top:5px;
-        margin-left:5px;
         display:flex;
-        flex-direction:row;
-        //flex-grow:1;
-        height:640px;
+        height:85%;
+        flex-shrink:0;
+
     }
 
-        main div.workarea nav {
-            display: block;
-            width: 250px;
-            padding:10px;
-            border-right:solid 1px #D1D1D1;
-            //background:blue;
-            //align-items: center;
-            //justify-content: center;
-        }
-
-        main div.workarea article {
+    div.workarea nav {
             display: flex;
-            flex-grow: 1;
-            align-items: start;
+            flex-direction:column;
+            align-content: flex-end;
+            flex-grow:1;
+            border-right:1px solid #D1D1D1;
+            padding:10px;
+        }
+
+    div.workarea article {
+            display: flex;
+            flex-grow: 8;
+            align-items: flex-start;
             justify-content: center;
-            //margin-top:auto;
-            //width: 70%;
-            //background: green;
-            //height: 80%;
-            //border-top: solid 1px black;
+            padding:20px;
         }
 
-        main div.workarea article .container{
-            width:95%;
+        div.workarea article .container {
+            display: flex;
+            flex-direction: column;
+            width:100%;
+            height:100%;
+            margin: 0px;
+            padding: 0px;
         }
+.listTitle{
+    flex-grow:1;
 
-    main footer {
-        //display: block;
-        //flex-direction: row;
-        //height: 100%;
-        //font-weight:100%;
-        //align :center;
-        //vertical-align:middle;
-        //justify-content: center;
-        //align-items: flex-end;
-        //font: black;
-        //background: black;
-        //border-top: solid 1px #D1D1D1;
+}
+.listContent{
+    flex-grow:10;
+}
 
-        height: 30px;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-top: solid 1px #D1D1D1;
-        padding-top:15px;
-
-        font-size:15px;
-        font-weight:200;
-        text-transform:uppercase;
-        color:black;
-    }
+footer {
+    /*height: 30px;
+        width: 100%;*/
+    display: flex !important;
+    height:5%;
+    align-items: center;
+    justify-content: center;
+    border-top: solid 1px #D1D1D1;
+    font-size: 15px;
+    font-weight: 200;
+    text-transform: uppercase;
+    color: black;
+}
 
 .ui .modal {
     position: relative;
@@ -111,4 +96,9 @@ th {
     font-weight:bold !important;
     font-size:15px !important;
     color:red !important;
+}
+
+.menu{
+    width:100% !important;
+    font-size:1.2em;
 }

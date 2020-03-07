@@ -171,17 +171,21 @@ class StoreApp extends Component {
         console.log("Enter 'render' method!");
         console.log(this.props);
     return (
-      <div>
-            <h1>Stores</h1>
-            <StoreList {...this.props}
-                paginate={this.paginate}
-                refreshList={this.refreshList}
-                myChangeHandler={this.myChangeHandler}
-                addData={this.addData}
-                updateData={this.updateData}
-                deleteData={this.deleteData}
-                skipPage={this.skipPage} />
-      </div>
+        <>
+            <div className='listTitle'>
+                <h1>Stores</h1>
+            </div>
+            <div className='listContent'>
+                <StoreList {...this.props}
+                    paginate={this.paginate}
+                    refreshList={this.refreshList}
+                    myChangeHandler={this.myChangeHandler}
+                    addData={this.addData}
+                    updateData={this.updateData}
+                    deleteData={this.deleteData}
+                        skipPage={this.skipPage} />
+            </div>
+      </>
     );
   }
 }

@@ -86,7 +86,8 @@ export class AppMenu extends Component {
                     />
                     <Menu.Item as={Link} to='index'
                     icon='sign out'
-                    name='Exits'
+                        name='Exits'
+                        active={activeItem === 'Home'}
                     link='www.google.com'
                     onClick={this.openConfirm}
                 />
