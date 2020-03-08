@@ -35,49 +35,52 @@ import MyDatepicker from '../Datepicker';
         
 
         return (
-            <div>
-                <div>
-                    {/*<Input type='text' name='dateSoldQry' onChange={this.props.myChangeHandler} placeholder='Please input date sold.' />&nbsp;*/}
-                    <MyDatepicker name='dateSoldQry' handleChangeHandler={this.props.handleChangeHandler} />&nbsp;
-                    <DropdownSearchQuery
-                        myChangeHandler={this.props.handleChangeHandler}
-                        fetchDataUrl='/customer/query'
-                        optionTextPropsName='name'
-                        optionValuePropsName='id'
-                        returnPropsName='customerId'
-                        placeholder='Please select a customer.'
-                    />&nbsp;
-                    <DropdownSearchQuery
-                        myChangeHandler={this.props.handleChangeHandler}
-                        fetchDataUrl='/product/query'
-                        optionTextPropsName='name'
-                        optionValuePropsName='id'
-                        returnPropsName='productId'
-                        placeholder='Please select a product.'
-                    />&nbsp;
-                    <DropdownSearchQuery
-                        myChangeHandler={this.props.handleChangeHandler}
-                        fetchDataUrl='/store/query'
-                        optionTextPropsName='name'
-                        optionValuePropsName='id'
-                        returnPropsName='storeId'
-                        placeholder='Please select a store.'
-                    />&nbsp;
-                    <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
+            <>
+                <div className='queryBar'>
+                    <div>
+                        {/*<Input type='text' name='dateSoldQry' onChange={this.props.myChangeHandler} placeholder='Please input date sold.' />&nbsp;*/}
+                        <MyDatepicker name='dateSoldQry' handleChangeHandler={this.props.handleChangeHandler} />&nbsp;
+                        <DropdownSearchQuery
+                            myChangeHandler={this.props.handleChangeHandler}
+                            fetchDataUrl='/customer/query'
+                            optionTextPropsName='name'
+                            optionValuePropsName='id'
+                            returnPropsName='customerId'
+                            placeholder='Please select a customer.'
+                        />&nbsp;
+                        <DropdownSearchQuery
+                            myChangeHandler={this.props.handleChangeHandler}
+                            fetchDataUrl='/product/query'
+                            optionTextPropsName='name'
+                            optionValuePropsName='id'
+                            returnPropsName='productId'
+                            placeholder='Please select a product.'
+                        />&nbsp;
+                        <DropdownSearchQuery
+                            myChangeHandler={this.props.handleChangeHandler}
+                            fetchDataUrl='/store/query'
+                            optionTextPropsName='name'
+                            optionValuePropsName='id'
+                            returnPropsName='storeId'
+                            placeholder='Please select a store.'
+                        />&nbsp;
+                        <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
+                    </div>
+                    <AddSalesForm requeryData={this.props.refreshList} />
                 </div>
-        <Table celled>
+                <Table celled selectable>
             <Table.Header>
-                <Table.Row>
+                        {/*<Table.Row>
                     <Table.HeaderCell colSpan='6'>
                                 <AddSalesForm requeryData={this.props.refreshList}/>
                     </Table.HeaderCell> 
-                </Table.Row>
+                </Table.Row>*/}
                 <Table.Row>
-                    <Table.HeaderCell>DateSold</Table.HeaderCell>
-                    <Table.HeaderCell>Customer</Table.HeaderCell>
-                    <Table.HeaderCell>Product</Table.HeaderCell>
-                    <Table.HeaderCell>Store</Table.HeaderCell>
-                    <Table.HeaderCell colSpan='2'>Option</Table.HeaderCell>
+                    <Table.HeaderCell width='3'>DateSold</Table.HeaderCell>
+                    <Table.HeaderCell width='3'>Customer</Table.HeaderCell>
+                    <Table.HeaderCell width='3'>Product</Table.HeaderCell>
+                    <Table.HeaderCell width='3'>Store</Table.HeaderCell>
+                            <Table.HeaderCell colSpan='2' textAlign='center' width='4'>Option</Table.HeaderCell>
                     
                 </Table.Row>
             </Table.Header>
@@ -89,8 +92,8 @@ import MyDatepicker from '../Datepicker';
                         <Table.Cell>{sale.customer == null ? '' : sale.customer.name}</Table.Cell>
                         <Table.Cell>{sale.product == null ? '' : sale.product.name}</Table.Cell>
                         <Table.Cell>{sale.store == null ? '' : sale.store.name}</Table.Cell>
-                        <Table.Cell><UpdateSalesForm sale={sale} requeryData={this.props.refreshList}/></Table.Cell>
-                        <Table.Cell><DeleteButton deleteData={() => this.props.deleteData(sale.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)}/></Table.Cell>
+                        <Table.Cell textAlign='center'><UpdateSalesForm sale={sale} requeryData={this.props.refreshList} /></Table.Cell>
+                        <Table.Cell textAlign='center'><DeleteButton deleteData={() => this.props.deleteData(sale.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
                     </Table.Row>
                 )}
             </Table.Body>
@@ -109,7 +112,7 @@ import MyDatepicker from '../Datepicker';
                         </Table.Row>
                     </Table.Footer>
                 </Table>
-            </div>
+            </>
     );
   }
 

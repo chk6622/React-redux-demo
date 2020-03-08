@@ -164,9 +164,9 @@ class CustomerApp extends Component {
     render() {
         return (
             <>
-                <div className='listTitle'>
+                {/* <div className='listTitle'>
                     <h1>Customer</h1>
-                </div>
+                </div> */}
                 <div className='listContent'>
                     <CustomerList {...this.props}
                         paginate={this.paginate}

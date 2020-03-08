@@ -34,23 +34,26 @@ export class ProductList extends Component {
 
         let products = this.props.products == null ? [] : this.props.products;
         return (
-            <div>
-                <div>
-                    <Input type='text' name='nameQry' onChange={this.props.myChangeHandler} placeholder='Please input name.' />&nbsp;
-                    <Input type='text' name='priceQry' onChange={this.props.myChangeHandler} placeholder='Please input price.' />&nbsp;
-                    <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
+            <>
+                <div className='queryBar'>
+                    <div>
+                        <Input type='text' name='nameQry' onChange={this.props.myChangeHandler} placeholder='Please input name.' />&nbsp;
+                        <Input type='text' name='priceQry' onChange={this.props.myChangeHandler} placeholder='Please input price.' />&nbsp;
+                        <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
+                    </div>
+                    <AddProductForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' />
                 </div>
-            <Table celled>
+                <Table celled selectable>
                 <Table.Header>
-                    <Table.Row>
+                        {/*<Table.Row>
                         <Table.HeaderCell colSpan='4'>
                                 <AddProductForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' />
                         </Table.HeaderCell>
-                    </Table.Row>
+                    </Table.Row>*/}
                     <Table.Row>
-                        <Table.HeaderCell>Name</Table.HeaderCell>
-                        <Table.HeaderCell>Price</Table.HeaderCell>
-                            <Table.HeaderCell colspan='2' textAlign='center'>Option</Table.HeaderCell>
+                        <Table.HeaderCell width='8'>Name</Table.HeaderCell>
+                        <Table.HeaderCell width='4'>Price</Table.HeaderCell>
+                            <Table.HeaderCell colspan='2' textAlign='center' width='4'>Option</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -59,8 +62,8 @@ export class ProductList extends Component {
                         <Table.Row key={product.id}>
                             <Table.Cell>{product.name}</Table.Cell>
                             <Table.Cell>{product.price}</Table.Cell>
-                            <Table.Cell><UpdateProductForm product={product} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
-                            <Table.Cell><DeleteButton deleteData={() => this.props.deleteData(product.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)}  /></Table.Cell>
+                            <Table.Cell textAlign='center'><UpdateProductForm product={product} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
+                            <Table.Cell textAlign='center'><DeleteButton deleteData={() => this.props.deleteData(product.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)}  /></Table.Cell>
                         </Table.Row>
                     )}
                 </Table.Body>
@@ -79,7 +82,7 @@ export class ProductList extends Component {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
-            </div>
+            </>
         );
     }
 

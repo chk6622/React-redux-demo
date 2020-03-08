@@ -38,23 +38,26 @@ class StoreList extends Component {
         let stores = this.props.stores == null ? [] : this.props.stores;
         
         return (
-            <div>
-                <div>
-                    <Input type='text' name='nameQry' onChange={this.props.myChangeHandler} placeholder='Please input name.' />&nbsp;
-                    <Input type='text' name='addressQry' onChange={this.props.myChangeHandler} placeholder='Please input address.' />&nbsp;
-                    <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
+            <>
+                <div className='queryBar'>
+                    <div>
+                        <Input type='text' name='nameQry' onChange={this.props.myChangeHandler} placeholder='Please input name.' />&nbsp;
+                        <Input type='text' name='addressQry' onChange={this.props.myChangeHandler} placeholder='Please input address.' />&nbsp;
+                        <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
+                    </div>
+                    <AddStoreForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' />
                 </div>
-        <Table celled>
+                <Table celled selectable>
             <Table.Header>
-                <Table.Row>
+                        {/*<Table.Row>
                             <Table.HeaderCell colSpan='4'>
                                 <AddStoreForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' />
                     </Table.HeaderCell> 
-                </Table.Row>
+                </Table.Row>*/}
                 <Table.Row>
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Address</Table.HeaderCell>
-                            <Table.HeaderCell colspan='2' textAlign='center'>Option</Table.HeaderCell>
+                    <Table.HeaderCell width='3'>Name</Table.HeaderCell>
+                    <Table.HeaderCell width='9'>Address</Table.HeaderCell>
+                            <Table.HeaderCell colspan='2' textAlign='center' width='4'>Option</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -63,8 +66,8 @@ class StoreList extends Component {
                     <Table.Row key={store.id}>
                         <Table.Cell>{store.name}</Table.Cell>
                         <Table.Cell>{store.address}</Table.Cell>
-                        <Table.Cell><UpdateStoreForm store={store} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)}/></Table.Cell>
-                        <Table.Cell><DeleteButton deleteData={() => this.props.deleteData(store.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)}/></Table.Cell>
+                        <Table.Cell textAlign='center'><UpdateStoreForm store={store} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)}/></Table.Cell>
+                        <Table.Cell textAlign='center'><DeleteButton deleteData={() => this.props.deleteData(store.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)}/></Table.Cell>
                     </Table.Row>
                 )}
             </Table.Body>
@@ -83,7 +86,7 @@ class StoreList extends Component {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
-                </div>
+                </>
     );
   }
 

@@ -171,9 +171,9 @@ class ProductApp extends Component {
 
         return (
             <>
-                <div className='listTitle'>
+                {/*<div className='listTitle'>
                     <h1>Products</h1>
-                </div>
+                </div>*/}
                 <div className='listContent'>
                     <ProductList {...this.props} 
                         paginate={this.paginate}

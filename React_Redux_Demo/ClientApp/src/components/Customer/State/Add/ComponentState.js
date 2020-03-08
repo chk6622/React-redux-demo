@@ -21,9 +21,10 @@ class ButtonState extends BaseState {
         let state = this.com.state;
         console.log(this.com);
         return < Button floated='left' icon labelPosition='left' primary size='small' onClick={state.stateObj.init}>
-                    <Icon name='user' />
-                    Add Customer
+            <Icon name='user' />
+            Add customer
                 </Button>;
+
     }
 }
 

@@ -10,10 +10,8 @@ export class Home extends Component {
     return (
         
         <>
-            <div className='listTitle'>
+            <div className='welcome'>
                 <h1>Welcome to the demo!</h1>
-            </div>
-            <div className='listContent'>
             </div>
         </>
 

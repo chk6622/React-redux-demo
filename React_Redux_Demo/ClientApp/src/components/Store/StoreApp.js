@@ -172,9 +172,9 @@ class StoreApp extends Component {
         console.log(this.props);
     return (
         <>
-            <div className='listTitle'>
+            {/*<div className='listTitle'>
                 <h1>Stores</h1>
-            </div>
+            </div>*/}
             <div className='listContent'>
                 <StoreList {...this.props}
                     paginate={this.paginate}

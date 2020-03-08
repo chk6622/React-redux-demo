@@ -41,23 +41,26 @@ class CustomerList extends Component {
         let customers = this.props.customers == null ? [] : this.props.customers;
         
         return (
-            <div>
-                <div>
-                    <Input type='text' name='nameQry' onChange={this.props.myChangeHandler} placeholder='Please input name.' />&nbsp;
-                    <Input type='text' name='addressQry' onChange={this.props.myChangeHandler} placeholder='Please input address.' />&nbsp;
-                    <Button as='a' onClick={()=>this.props.refreshList(1)}>Query</Button>
-                </div>
-        <Table celled>
+            <>
+              <div className='queryBar'>
+                    <div>
+                        <Input type='text' name='nameQry' onChange={this.props.myChangeHandler} placeholder='Please input name.' />&nbsp;
+                        <Input type='text' name='addressQry' onChange={this.props.myChangeHandler} placeholder='Please input address.' />&nbsp;
+                        <Button as='a' onClick={()=>this.props.refreshList(1)}>Query</Button>
+                    </div>
+                    <AddCustomerForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' />
+              </div>
+                <Table celled selectable>
             <Table.Header>
-                <Table.Row>
+                        {/*<Table.Row>
                             <Table.HeaderCell colSpan='4'>
                                 <AddCustomerForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' />
                     </Table.HeaderCell> 
-                </Table.Row>
+                </Table.Row>*/}
                 <Table.Row>
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Address</Table.HeaderCell>
-                    <Table.HeaderCell colspan='2' textAlign='center'>Option</Table.HeaderCell>
+                            <Table.HeaderCell width='3'>Name</Table.HeaderCell>
+                            <Table.HeaderCell width='9'>Address</Table.HeaderCell>
+                            <Table.HeaderCell colspan='2' textAlign='center' width='4'>Option</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -66,8 +69,8 @@ class CustomerList extends Component {
                     <Table.Row key={customer.id}>
                         <Table.Cell>{customer.name}</Table.Cell>
                         <Table.Cell>{customer.address}</Table.Cell>
-                        <Table.Cell><UpdateCustomerForm customer={customer} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
-                        <Table.Cell><DeleteButton deleteData={() => this.props.deleteData(customer.id)} requeryData={()=>this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
+                        <Table.Cell width='2' textAlign='center'><UpdateCustomerForm customer={customer} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
+                        <Table.Cell width='2' textAlign='center'><DeleteButton deleteData={() => this.props.deleteData(customer.id)} requeryData={()=>this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
                     </Table.Row>
                 )}
             </Table.Body>
@@ -86,7 +89,7 @@ class CustomerList extends Component {
                 </Table.Row>
             </Table.Footer>
                 </Table>
-            </div>
+            </>
     );
   }
 

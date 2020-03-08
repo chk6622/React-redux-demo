@@ -191,9 +191,9 @@ class SalesApp extends Component {
         console.log(this.props);
         return (
             <>
-                <div className='listTitle'>
+                {/*<div className='listTitle'>
                     <h1>Sales</h1>
-                </div>
+                </div>*/}
                 <div className='listContent'>
                     <SalesList {...this.props}
                         paginate={this.paginate}

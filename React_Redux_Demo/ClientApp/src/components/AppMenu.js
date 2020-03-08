@@ -49,7 +49,7 @@ export class AppMenu extends Component {
         //debugger;
         return (
           <>
-            <Menu vertical>
+                <Menu vertical tabular>
                 <Menu.Item as={Link} to="index"
                     icon='home'
                     name='Home'
@@ -84,10 +84,10 @@ export class AppMenu extends Component {
                     active={activeItem === 'Sales'}
                     onClick={this.handleItemClick}
                     />
-                    <Menu.Item as={Link} to='index'
+                    <Menu.Item as={Link}
                     icon='sign out'
                         name='Exits'
-                        active={activeItem === 'Home'}
+                        active={activeItem === 'Exits'}
                     link='www.google.com'
                     onClick={this.openConfirm}
                 />
