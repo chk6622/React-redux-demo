@@ -115,7 +115,7 @@ namespace Onboarding_Task
 
                     if (context.Database.GetPendingMigrations().Any())
                     {
-                        //context.Database.Migrate(); //Ö´ÐÐÇ¨ÒÆ
+                       // context.Database.Migrate(); //Ö´ÐÐÇ¨ÒÆ
                     }
                 }
             }

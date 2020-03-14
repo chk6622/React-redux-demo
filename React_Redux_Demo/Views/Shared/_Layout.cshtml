@@ -8,13 +8,14 @@
     <link href="~/twitter-bootstrap/css/bootstrap-grid.css" rel="stylesheet" />
     <link href="~/twitter-bootstrap/css/bootstrap-reboot.css" rel="stylesheet" />
     <link href="~/login.css" rel="stylesheet" />
+    <link href="~/Register.css" rel="stylesheet" />
     <!--<link href="~/css/site.css" rel="stylesheet" />-->
 </head>
 <body>
-    <div class="container col-md-10">
+    
         @RenderBody()
        
-    </div>
+    
     @if(IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts",required:false)

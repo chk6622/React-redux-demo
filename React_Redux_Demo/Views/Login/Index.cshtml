@@ -5,26 +5,30 @@
 
         <div class="wrap" id="wrap">
             <div class="logGet">
-
+                
                 <div class="logD logDtip">
                     <p class="p1">Login</p>
                 </div>
                 <form asp-controller="Login" asp-action="Login" method="post">
+                    <div class="lgNotice">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
                     <div class="lgD">
                         <!--<img src="img/logName.png" width="20" height="20" alt="" />
-                    <input type="text"
-                           placeholder="输入用户名" />-->
+    <input type="text"
+           placeholder="输入用户名" />-->
+
                         <label asp-for="Email"></label>
                         <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <!--<span asp-validation-for="Email" class="text-danger"></span>-->
                     </div>
                     <div class="lgD">
                         <!--<img src="img/logPwd.png" width="20" height="20" alt="" />
-                    <input type="text"
-                           placeholder="输入用户密码" />-->
+    <input type="text"
+           placeholder="输入用户密码" />-->
                         <label asp-for="Password"></label>
                         <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <!--<span asp-validation-for="Password" class="text-danger"></span>-->
                     </div>
                     <div class="logC">
                         <!-- <a href="index.html" target="_self"><button>登 录</button></a>-->
@@ -33,6 +37,7 @@
                     </div>
                 </form>
                 @ViewBag.Message
+                
             </div>
         </div>
 
