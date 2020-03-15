@@ -49,7 +49,7 @@ export class AppMenu extends Component {
         //debugger;
         return (
           <>
-                <Menu vertical tabular>
+                <Menu vertical tabular fluid>
                 <Menu.Item as={Link} to="index"
                     icon='home'
                     name='Home'

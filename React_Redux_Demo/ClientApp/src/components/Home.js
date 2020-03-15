@@ -11,7 +11,7 @@ export class Home extends Component {
         
         <>
             <div className='welcome'>
-                <h1>Welcome to the demo!</h1>
+                <h1>Welcome to Sales Management System!</h1>
             </div>
         </>
 

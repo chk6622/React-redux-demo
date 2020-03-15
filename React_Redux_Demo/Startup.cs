@@ -11,6 +11,8 @@ using Onboarding_Task.AppDbContext;
 using System.Linq;
 using Onboarding_Task.Validation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Onboarding_Task
 {
@@ -47,6 +49,11 @@ namespace Onboarding_Task
                 );
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<MyDbContext>();
+
+            services.AddMvc(config=> {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 5;

@@ -3,9 +3,9 @@
 @{
 }
 
-
+<!--
     <div>
-        @ViewBag.Message  aaaaaaaaaaaaaaa
+        @ViewBag.Message
         @if (SignInManager.IsSignedIn(User))
         {
             <form method="post" asp-controller="account" asp-action="logout">
@@ -24,3 +24,41 @@
             </a>
         }
     </div>
+-->
+<div class='register_article'>
+    <div class='block'></div>
+    <div class='success'>
+        <div class='register_title'>
+            @ViewBag.Message
+
+        </div>
+
+
+
+
+            <div class='register_buttonField'>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <form method="post" asp-controller="account" asp-action="logout">
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a class="btn btn-primary" asp-controller="account" asp-action="register">
+                        Register
+                    </a>
+                    <button type="button" class="btn btn-primary" onclick="returnLoginPage()">Back</button>
+                }
+            </div>
+
+    </div>
+</div>
+
+<script language="javascript">
+    var returnLoginPage = function () {
+        window.location = '/';
+    }
+</script>

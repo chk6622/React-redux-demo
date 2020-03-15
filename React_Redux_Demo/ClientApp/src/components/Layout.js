@@ -12,7 +12,7 @@ export class Layout extends Component {
       return (
           <main>
             <banner>
-                  demo
+                  Sales Management System
             </banner>
             <div className='workarea'>
                 <nav>

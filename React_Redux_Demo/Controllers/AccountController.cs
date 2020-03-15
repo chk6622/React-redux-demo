@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using Onboarding_Task.ViewModels;
 
 namespace Onboarding_Task.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private UserManager<IdentityUser> _userManager = null;

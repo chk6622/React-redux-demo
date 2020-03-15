@@ -38,6 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\img\banner2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\components\Store\NewFolder\" />
   </ItemGroup>
 
