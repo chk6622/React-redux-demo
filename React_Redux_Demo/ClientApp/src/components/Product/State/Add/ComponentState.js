@@ -86,8 +86,8 @@ class AddDataState extends BaseState {
                             <Form.Input type='text' name='name' value={state.name} onChange={this.myChangeHandler} placeholder='Please input your name.' />
                         </Form.Field>
                         <Form.Field>
-                            <label>Address</label>
-                            <Form.Input type='text' name='price' value={state.address} onChange={this.myChangeHandler} placeholder='Please input your price.' />
+                            <label>Price</label>
+                            <Form.Input type='text' name='price' value={state.price} onChange={this.myChangeHandler} placeholder='Please input your price.' />
                         </Form.Field>
                         <Button type='submit'>Submit</Button>
                         <Button type='button' onClick={this.close}>Close</Button>

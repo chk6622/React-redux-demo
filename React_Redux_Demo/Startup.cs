@@ -50,10 +50,10 @@ namespace Onboarding_Task
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<MyDbContext>();
 
-            services.AddMvc(config=> {
+            /*services.AddMvc(config=> {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
-            });
+            });*/
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequiredLength = 5;

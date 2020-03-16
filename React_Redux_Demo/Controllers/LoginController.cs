@@ -57,7 +57,8 @@ namespace Onboarding_Task.Controllers
         {
             this._logger.LogInformation("enter 'Logout' method");
             await this._signInManager.SignOutAsync();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return Redirect("/Login/Index");
         }
     }
 }
