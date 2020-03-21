@@ -29,18 +29,16 @@ namespace Onboarding_Task.Controllers
             return View();
         }
 
-        public JsonResult Query(SalesView salesView) 
+        public async Task<JsonResult> Query(SalesView salesView) 
         {
-            QueryResultView<Sales> saless = this._salesDao.Query(salesView);
-            
+            QueryResultView<Sales> saless = await this._salesDao.Query(salesView);
             return Json(saless);
         }
 
         public async Task<JsonResult> Edit(int id)
         {
-            Sales sales = this._salesDao.GetObjectById(id);
+            Sales sales = await this._salesDao.GetObjectById(id);
             SalesView salesView = AppUtils.Mapper<SalesView, Sales>(sales);
-
             return Json(salesView);
         }
 
@@ -56,23 +54,23 @@ namespace Onboarding_Task.Controllers
             int customerId = salesView.CustomerId;
             if (customerId > 0)
             {
-                Customer customer = _customerDao.GetObjectById(customerId);
+                Customer customer = await _customerDao.GetObjectById(customerId);
                 salesView.Customer = customer;
             }
             int productId = salesView.ProductId;
             if (productId > 0)
             {
-                Product product = _productDao.GetObjectById(productId);
+                Product product = await _productDao.GetObjectById(productId);
                 salesView.Product = product;
             }
             int storeId = salesView.StoreId;
             if (storeId > 0)
             {
-                Store store = _storeDao.GetObjectById(storeId);
+                Store store = await _storeDao.GetObjectById(storeId);
                 salesView.Store = store;
             }
 
-            isSuccess = this._salesDao.Update(salesView);
+            isSuccess = await this._salesDao.Update(salesView);
             if (!isSuccess)
             {
                 rMessage.Message = "Update sales fail!";
@@ -94,24 +92,24 @@ namespace Onboarding_Task.Controllers
             int customerId = salesView.CustomerId;
             if(customerId>0)
             {
-                Customer customer = _customerDao.GetObjectById(customerId);
+                Customer customer = await _customerDao.GetObjectById(customerId);
                 salesView.Customer = customer;
             }
             int productId = salesView.ProductId;
             if (productId > 0)
             {
-                Product product = _productDao.GetObjectById(productId);
+                Product product = await _productDao.GetObjectById(productId);
                 salesView.Product = product;
             }
             int storeId = salesView.StoreId;
             if (storeId > 0)
             {
-                Store store = _storeDao.GetObjectById(storeId);
+                Store store = await _storeDao.GetObjectById(storeId);
                 salesView.Store = store;
             }
 
             //Sales sales = salesView;
-            isSuccess =this._salesDao.Add(salesView);
+            isSuccess =await this._salesDao.Add(salesView);
             if (!isSuccess)
             {
                 rMessage.Message = "Add sales fail!";
@@ -120,7 +118,7 @@ namespace Onboarding_Task.Controllers
             return Json(rMessage);
         }
 
-        public JsonResult Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
             bool isSuccess = false;
             ActionMessage rMessage = new ActionMessage()
@@ -128,7 +126,7 @@ namespace Onboarding_Task.Controllers
                 Message = "Delete sales success!",
                 Result = true
             };
-            isSuccess = this._salesDao.Delete(id);
+            isSuccess = await this._salesDao.Delete(id);
             if (!isSuccess)
             {
                 rMessage.Message = "Delete sales fail!";

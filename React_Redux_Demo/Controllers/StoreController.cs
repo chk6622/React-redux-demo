@@ -22,16 +22,16 @@ namespace Onboarding_Task.Controllers
             return View();
         }
 
-        public JsonResult Query(StoreView storeView) 
+        public async Task<JsonResult> Query(StoreView storeView) 
         {
-            QueryResultView<Store> stores = this._storeDao.Query(storeView);
+            QueryResultView<Store> stores = await this._storeDao.Query(storeView);
             
             return Json(stores);
         }
 
-        public JsonResult Edit(int id)
+        public async Task<JsonResult> Edit(int id)
         {
-            Store store = this._storeDao.GetObjectById(id);
+            Store store = await this._storeDao.GetObjectById(id);
             return Json(store);
         }
 
@@ -45,7 +45,7 @@ namespace Onboarding_Task.Controllers
                 Result = true
             };
             Store store = storeView;
-            isSuccess = this._storeDao.Update(store);
+            isSuccess = await this._storeDao.Update(store);
             if (!isSuccess)
             {
                 rMessage.Message = "Update store fail!";
@@ -64,7 +64,7 @@ namespace Onboarding_Task.Controllers
                 Result = true
             };
             Store store = storeView;
-            isSuccess = this._storeDao.Add(store);
+            isSuccess = await this._storeDao.Add(store);
             if (!isSuccess)
             {
                 rMessage.Message = "Add store fail!";
@@ -73,7 +73,7 @@ namespace Onboarding_Task.Controllers
             return Json(rMessage);
         }
 
-        public JsonResult Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
             bool isSuccess = false;
             ActionMessage rMessage = new ActionMessage()
@@ -81,7 +81,7 @@ namespace Onboarding_Task.Controllers
                 Message = "Delete store success!",
                 Result = true
             };
-            isSuccess = this._storeDao.Delete(id);
+            isSuccess = await this._storeDao.Delete(id);
             if (!isSuccess)
             {
                 rMessage.Message = "Delete store fail!";

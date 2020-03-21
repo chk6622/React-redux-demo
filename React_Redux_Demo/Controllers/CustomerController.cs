@@ -26,24 +26,24 @@ namespace Onboarding_Task.Controllers
             return Redirect("/");
         }
 
-        public JsonResult Query(CustomerView customerView) 
+        public async Task<JsonResult> Query(CustomerView customerView) 
         {
             this._logger.LogInformation("enter 'Query' method.");
-            QueryResultView<Customer> customers = this._customerDao.Query(customerView);
-            this._logger.LogInformation("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            QueryResultView<Customer> customers = await this._customerDao.Query(customerView);
+            /*this._logger.LogInformation("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             this._logger.LogInformation($"Get {customers.TotalData} data.");
             foreach(Customer customer in customers.Results)
             {
                 this._logger.LogInformation(customer.ToString());
             }
             this._logger.LogInformation("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
+            */
             return Json(customers);
         }
 
         public async Task<JsonResult> Edit(int id)
         {
-            Customer customer = this._customerDao.GetObjectById(id);
+            Customer customer = await this._customerDao.GetObjectById(id);
             return Json(customer);
         }
 
@@ -57,7 +57,7 @@ namespace Onboarding_Task.Controllers
                 Result = true
             };
             Customer customer = customerView;
-            isSuccess = this._customerDao.Update(customer);
+            isSuccess = await this._customerDao.Update(customer);
             if (!isSuccess)
             {
                 rMessage.Message = "Update customer fail!";
@@ -76,7 +76,7 @@ namespace Onboarding_Task.Controllers
                 Result = true 
             };
             Customer customer = customerView;
-            isSuccess=this._customerDao.Add(customer);
+            isSuccess=await this._customerDao.Add(customer);
             if (!isSuccess)
             {
                 rMessage.Message= "Add customer fail!";
@@ -93,7 +93,7 @@ namespace Onboarding_Task.Controllers
                 Message = "Delete customer success!",
                 Result = true
             };
-            isSuccess = this._customerDao.Delete(id);
+            isSuccess = await this._customerDao.Delete(id);
             if (!isSuccess)
             {
                 rMessage.Message = "Delete customer fail!";

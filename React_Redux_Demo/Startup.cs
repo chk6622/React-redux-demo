@@ -120,10 +120,10 @@ namespace Onboarding_Task
                 using (var context = serviceScope.ServiceProvider.GetService<MyDbContext>())
                 {
 
-                    if (context.Database.GetPendingMigrations().Any())
-                    {
+                    //if (context.Database.GetPendingMigrations().Any())
+                    //{
                        // context.Database.Migrate(); //Ö´ÐÐÇ¨ÒÆ
-                    }
+                    //}
                 }
             }
         }

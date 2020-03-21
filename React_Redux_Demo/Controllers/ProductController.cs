@@ -22,9 +22,9 @@ namespace Onboarding_Task.Controllers
             return View();
         }
 
-        public JsonResult Query(ProductView productView) 
+        public async Task<JsonResult> Query(ProductView productView) 
         {
-            QueryResultView<Product> products = this._productDao.Query(productView);
+            QueryResultView<Product> products = await this._productDao.Query(productView);
             //var product = null;
             //object model=null;
             //foreach (var product in products)
@@ -34,9 +34,9 @@ namespace Onboarding_Task.Controllers
             return Json(products);
         }
 
-        public JsonResult Edit(int id)
+        public async Task<JsonResult> Edit(int id)
         {
-            Product product = this._productDao.GetObjectById(id);
+            Product product = await this._productDao.GetObjectById(id);
             return Json(product);
         }
 
@@ -50,7 +50,7 @@ namespace Onboarding_Task.Controllers
                 Result = true
             };
             Product product = productView;
-            isSuccess = this._productDao.Update(product);
+            isSuccess = await this._productDao.Update(product);
             if (!isSuccess)
             {
                 rMessage.Message = "Update product fail!";
@@ -69,7 +69,7 @@ namespace Onboarding_Task.Controllers
                 Result = true
             };
             Product product = productView;
-            isSuccess = this._productDao.Add(product);
+            isSuccess = await this._productDao.Add(product);
             if (!isSuccess)
             {
                 rMessage.Message = "Add product fail!";
@@ -78,7 +78,7 @@ namespace Onboarding_Task.Controllers
             return Json(rMessage);
         }
 
-        public JsonResult Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
             bool isSuccess = false;
             ActionMessage rMessage = new ActionMessage()
@@ -86,7 +86,7 @@ namespace Onboarding_Task.Controllers
                 Message = "Delete product success!",
                 Result = true
             };
-            isSuccess = this._productDao.Delete(id);
+            isSuccess = await this._productDao.Delete(id);
             if (!isSuccess)
             {
                 rMessage.Message = "Delete product fail!";

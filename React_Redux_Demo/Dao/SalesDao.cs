@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Onboarding_Task.AppDbContext;
 using Onboarding_Task.Models;
@@ -16,13 +17,13 @@ namespace Onboarding_Task.Dao
         {
             this._context = myDbContext;
         }
-        public bool Add(Sales sales)
+        public async Task<bool> Add(Sales sales)
         {
             bool bReturn = false;
             try
             {
-                _context.Add<Sales>(sales);
-                _context.SaveChanges();
+                await _context.AddAsync<Sales>(sales);
+                await _context.SaveChangesAsync();
                 bReturn = true;
             }
             catch(Exception e)
@@ -32,14 +33,14 @@ namespace Onboarding_Task.Dao
             return bReturn;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             bool bReturn = false;
             try
             {
-                Sales sales=_context.Sales.Find(id);
+                Sales sales=await _context.Sales.FindAsync(id);
                 _context.Remove<Sales>(sales);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 bReturn = true;
             }
             catch (Exception e)
@@ -49,12 +50,12 @@ namespace Onboarding_Task.Dao
             return bReturn;
         }
 
-        public Sales GetObjectById(int id)
+        public async Task<Sales> GetObjectById(int id)
         {
             Sales sales = null;
             try
             {
-                sales = _context.Sales.Include(x => x.Customer).Include(x=>x.Product).Include(x=>x.Store).FirstOrDefault(x => x.Id == id);
+                sales = await _context.Sales.Include(x => x.Customer).Include(x=>x.Product).Include(x=>x.Store).FirstOrDefaultAsync(x => x.Id == id);
             }
             catch(Exception e)
             {
@@ -64,7 +65,7 @@ namespace Onboarding_Task.Dao
             return sales;
         }
 
-        public QueryResultView<Sales> Query(SalesView queryObject)
+        public async Task<QueryResultView<Sales>> Query(SalesView queryObject)
         {
             QueryResultView<Sales> results = new QueryResultView<Sales>();
             IQueryable<Sales> sales = null;
@@ -79,24 +80,24 @@ namespace Onboarding_Task.Dao
             {
                 sales = this._context.Sales;
             }
-            results.TotalData = sales.Count();
-            results.Results = sales.OrderByDescending(sale=>sale.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToList();
+            results.TotalData = await sales.CountAsync();
+            results.Results = await sales.OrderByDescending(sale=>sale.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToListAsync();
             return results;
         }
 
-        public IEnumerable<Sales> QueryAll()
+        public async Task<IEnumerable<Sales>> QueryAll()
         {
-            return this._context.Sales.Include(x => x.Customer).Include(x=>x.Product).Include(x=>x.Store);
+            return await this._context.Sales.Include(x => x.Customer).Include(x=>x.Product).Include(x=>x.Store).ToListAsync();
         }
 
-        public bool Update(Sales sales)
+        public async Task<bool> Update(Sales sales)
         {
             bool bReturn = false;
             try
             {
                 var updateSales = this._context.Sales.Attach(sales);
                 updateSales.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
                 bReturn = true;
             }
             catch (Exception e)

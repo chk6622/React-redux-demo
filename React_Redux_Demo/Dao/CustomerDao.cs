@@ -17,13 +17,13 @@ namespace Onboarding_Task.Dao
         {
             this._context = myDbContext;
         }
-        public bool Add(Customer customer)
+        public async Task<bool> Add(Customer customer)
         {
             bool bReturn = false;
             try
             {
-                _context.Add<Customer>(customer);
-                _context.SaveChanges();
+                await _context.AddAsync<Customer>(customer);
+                await _context.SaveChangesAsync();//.SaveChanges();
                 bReturn = true;
             }
             catch(Exception e)
@@ -33,19 +33,15 @@ namespace Onboarding_Task.Dao
             return bReturn;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             bool bReturn = false;
             try
             {
-                int count1=_context.Customers.Count<Customer>();
-                Customer customer=_context.Customers.Find(id);
+                int count1=await _context.Customers.CountAsync<Customer>();
+                Customer customer=await _context.Customers.FindAsync(id);
                 _context.Remove<Customer>(customer);
-                _context.SaveChanges();
-                int count2 = _context.Customers.Count<Customer>();
-                Console.WriteLine($"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                Console.WriteLine($"There are {count1} data before deleting, and there are {count2} data after deleting.");
-                Console.WriteLine($"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                await _context.SaveChangesAsync();
                 bReturn = true;
             }
             catch (Exception e)
@@ -55,14 +51,14 @@ namespace Onboarding_Task.Dao
             return bReturn;
         }
 
-        public Customer GetObjectById(int id)
+        public async Task<Customer> GetObjectById(int id)
         {
             Customer customer = null;
-            customer = _context.Customers.Find(id);
+            customer = await _context.Customers.FindAsync(id);
             return customer;
         }
 
-        public QueryResultView<Customer> Query(CustomerView queryCustomer)
+        public async Task<QueryResultView<Customer>> Query(CustomerView queryCustomer)
         {
             QueryResultView<Customer> queryResult = new QueryResultView<Customer>();
             IQueryable<Customer> customers = null;
@@ -77,24 +73,24 @@ namespace Onboarding_Task.Dao
             {
                 customers=_context.Customers;
             }
-            queryResult.TotalData = customers.Count();
-            queryResult.Results = customers.OrderByDescending(customer => customer.Id).Skip(queryCustomer.SkipData).Take(queryCustomer.DataPerPage).ToList();
+            queryResult.TotalData = await customers.CountAsync();
+            queryResult.Results = await customers.OrderByDescending(customer => customer.Id).Skip(queryCustomer.SkipData).Take(queryCustomer.DataPerPage).ToListAsync();
             return queryResult;
         }
 
-        public IEnumerable<Customer> QueryAll()
+        public async Task<IEnumerable<Customer>> QueryAll()
         {
-            return this._context.Customers;
+            return await this._context.Customers.ToListAsync();
         }
 
-        public bool Update(Customer customer)
+        public async Task<bool> Update(Customer customer)
         {
             bool bReturn = false;
             try
             {
                 var updateCustomer = this._context.Customers.Attach(customer);
                 updateCustomer.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
                 bReturn = true;
             }
             catch (Exception e)

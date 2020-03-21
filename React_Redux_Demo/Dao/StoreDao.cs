@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Onboarding_Task.AppDbContext;
 using Onboarding_Task.Models;
 using Onboarding_Task.ViewModels;
@@ -15,13 +17,13 @@ namespace Onboarding_Task.Dao
         {
             this._context = myDbContext;
         }
-        public bool Add(Store store)
+        public async Task<bool> Add(Store store)
         {
             bool bReturn = false;
             try
             {
-                _context.Add<Store>(store);
-                _context.SaveChanges();
+                await _context.AddAsync<Store>(store);
+                await _context.SaveChangesAsync();
                 bReturn = true;
             }
             catch(Exception e)
@@ -31,14 +33,14 @@ namespace Onboarding_Task.Dao
             return bReturn;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             bool bReturn = false;
             try
             {
                 Store store=_context.Stores.Find(id);
                 _context.Remove<Store>(store);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 bReturn = true;
             }
             catch (Exception e)
@@ -48,14 +50,14 @@ namespace Onboarding_Task.Dao
             return bReturn;
         }
 
-        public Store GetObjectById(int id)
+        public async Task<Store> GetObjectById(int id)
         {
             Store store = null;
-            store = _context.Stores.Find(id);
+            store = await _context.Stores.FindAsync(id);
             return store;
         }
 
-        public QueryResultView<Store> Query(StoreView queryObject)
+        public async Task<QueryResultView<Store>> Query(StoreView queryObject)
         {
             QueryResultView<Store> results = new QueryResultView<Store>();
             IQueryable<Store> stores = null;
@@ -67,24 +69,24 @@ namespace Onboarding_Task.Dao
             {
                 stores = this._context.Stores;
             }
-            results.TotalData = stores.Count();
-            results.Results = stores.OrderByDescending(store=>store.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToList();
+            results.TotalData = await stores.CountAsync();
+            results.Results = await stores.OrderByDescending(store=>store.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToListAsync();
             return results;
         }
 
-        public IEnumerable<Store> QueryAll()
+        public async Task<IEnumerable<Store>> QueryAll()
         {
-            return this._context.Stores;
+            return await this._context.Stores.ToListAsync();
         }
 
-        public bool Update(Store store)
+        public async Task<bool> Update(Store store)
         {
             bool bReturn = false;
             try
             {
                 var updateStore = this._context.Stores.Attach(store);
                 updateStore.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                this._context.SaveChanges();
+                await this._context.SaveChangesAsync();
                 bReturn = true;
             }
             catch (Exception e)
