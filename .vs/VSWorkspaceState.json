@@ -2,13 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\React_Redux_Demo",
+    "\\React_Redux_Demo\\ClientApp",
     "\\React_Redux_Demo\\ClientApp\\src",
-    "\\React_Redux_Demo\\Views",
-    "\\React_Redux_Demo\\Views\\Account",
-    "\\React_Redux_Demo\\Views\\Login",
-    "\\React_Redux_Demo\\Views\\Shared",
-    "\\React_Redux_Demo\\wwwroot"
+    "\\React_Redux_Demo\\DbContext",
+    "\\React_Redux_Demo\\Migrations",
+    "\\React_Redux_Demo\\Models"
   ],
-  "SelectedNode": "\\React_Redux_Demo\\wwwroot\\Register.css",
+  "SelectedNode": "\\React_Redux_Demo\\Dao",
   "PreviewInSolutionExplorer": false
 }
