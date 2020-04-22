@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Onboarding_Task.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Onboarding_Task.AppDbContext

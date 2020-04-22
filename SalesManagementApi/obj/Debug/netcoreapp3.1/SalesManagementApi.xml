@@ -4,5 +4,178 @@
         <name>SalesManagementApi</name>
     </assembly>
     <members>
+        <member name="M:Onboarding_Task.Dao.ICustomerDao.QueryAll">
+            <summary>
+            Get all data
+            </summary>
+            <returns>A collection including all data</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ICustomerDao.Query(Onboarding_Task.ViewModels.CustomerQryDto)">
+            <summary>
+            Query data by 'queryCustomer' object
+            </summary>
+            <param name="queryCustomer">CustomerView object including query params</param>
+            <returns>A collection of data getted from the database</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ICustomerDao.GetObjectById(System.Int32)">
+            <summary>
+            Get a customer by id 
+            </summary>
+            <param name="id">the Id of customer</param>
+            <returns>the customer or null</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ICustomerDao.Add(Onboarding_Task.Models.Customer)">
+            <summary>
+            Add a customer to database
+            </summary>
+            <param name="customer">the customer which needs to add to the database</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ICustomerDao.Update(Onboarding_Task.Models.Customer)">
+            <summary>
+            Update a customer
+            </summary>
+            <param name="customer">the customer which needs to be update</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ICustomerDao.Delete(System.Int32)">
+            <summary>
+            Delete a customer
+            </summary>
+            <param name="id">The customer's primary key</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IProductDao.QueryAll">
+            <summary>
+            Get all data
+            </summary>
+            <returns>A collection including all data</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IProductDao.Query(Onboarding_Task.ViewModels.ProductView)">
+            <summary>
+            Query data by query string
+            </summary>
+            <param name="queryObject">query object including query params</param>
+            <returns>A collection of data getted from the database</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IProductDao.GetObjectById(System.Int32)">
+            <summary>
+            Get a product by id 
+            </summary>
+            <param name="id">the id of product</param>
+            <returns>the product or null</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IProductDao.Add(Onboarding_Task.Models.Product)">
+            <summary>
+            Add a product to database
+            </summary>
+            <param name="product">the product which needs to add to the database</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IProductDao.Update(Onboarding_Task.Models.Product)">
+            <summary>
+            Update a product
+            </summary>
+            <param name="product">the product which needs to be update</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IProductDao.Delete(System.Int32)">
+            <summary>
+            Delete a product
+            </summary>
+            <param name="id">The product's primary key</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ISalesDao.QueryAll">
+            <summary>
+            Get all data
+            </summary>
+            <returns>A collection including all data</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ISalesDao.Query(Onboarding_Task.ViewModels.SalesView)">
+            <summary>
+            Query data by query string
+            </summary>
+            <param name="queryObject">query object including query params</param>
+            <returns>A collection of data getted from the database</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ISalesDao.GetObjectById(System.Int32)">
+            <summary>
+            Get a sales by id 
+            </summary>
+            <param name="id">the Id of sales</param>
+            <returns>the sales or null</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ISalesDao.Add(Onboarding_Task.Models.Sales)">
+            <summary>
+            Add a sales to database
+            </summary>
+            <param name="sales">the sales which needs to add to the database</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ISalesDao.Update(Onboarding_Task.Models.Sales)">
+            <summary>
+            Update a sales
+            </summary>
+            <param name="sales">the sales which needs to be update</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.ISalesDao.Delete(System.Int32)">
+            <summary>
+            Delete a sales
+            </summary>
+            <param name="id">The sales's primary key</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IStoreDao.QueryAll">
+            <summary>
+            Get all data
+            </summary>
+            <returns>A collection including all data</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IStoreDao.Query(Onboarding_Task.ViewModels.StoreView)">
+            <summary>
+            Query data by query string
+            </summary>
+            <param name="queryObject">query object including query params</param>
+            <returns>A collection of data getted from the database</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IStoreDao.GetObjectById(System.Int32)">
+            <summary>
+            Get a store by id 
+            </summary>
+            <param name="id">the Id of store</param>
+            <returns>the store or null</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IStoreDao.Add(Onboarding_Task.Models.Store)">
+            <summary>
+            Add a store to database
+            </summary>
+            <param name="store">the store which needs to add to the database</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IStoreDao.Update(Onboarding_Task.Models.Store)">
+            <summary>
+            Update a store
+            </summary>
+            <param name="store">the store which needs to be update</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Onboarding_Task.Dao.IStoreDao.Delete(System.Int32)">
+            <summary>
+            Delete a store
+            </summary>
+            <param name="id">The store's primary key</param>
+            <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Routine.Api.Services.PropertyMappingService.ValidMappingExistsFor``2(System.String)">
+            <summary>
+            验证TDestination中是否有fields属性
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

@@ -8,11 +8,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Onboarding_Task.AppDbContext;
+using Onboarding_Task.Dao;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace SalesManagementApi
@@ -31,7 +34,11 @@ namespace SalesManagementApi
         {
             services.AddControllers();
 
-            //services.AddMvcCore().AddAuthorization();
+            services.AddScoped<ICustomerDao, CustomerDao>();
+
+            services.AddDbContext<MyDbContext>(
+                option => option.UseSqlServer(Configuration.GetConnectionString("AppDBConnection"))
+            );
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
