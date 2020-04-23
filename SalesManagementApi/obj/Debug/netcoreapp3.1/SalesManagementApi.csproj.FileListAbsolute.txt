@@ -77,6 +77,8 @@ D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcore
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.genruntimeconfig.cache
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.csprojAssemblyReference.cache
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcoreapp3.1\System.Linq.Dynamic.Core.dll
+D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcoreapp3.1\AutoMapper.dll
+D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.csproj.CoreCompileInputs.cache
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.MvcApplicationPartsAssemblyInfo.cs
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.MvcApplicationPartsAssemblyInfo.cache

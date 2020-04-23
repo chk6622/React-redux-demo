@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Onboarding_Task.AppDbContext;
@@ -26,12 +27,14 @@ namespace Routine.Api.Test
             Services = new ServiceCollection();
             
             Services.AddDbContext<MyDbContext>(
-                option => option.UseSqlServer("Data Source = localhost,1435;Initial Catalog = myDataBase;User Id = sa;Password = Xhy123456;")
+                option => option.UseSqlServer("Data Source = localhost,1435;Initial Catalog = myDataBaseTest;User Id = sa;Password = Xhy123456;")
             );
 
             Services.AddScoped<ICustomerDao, CustomerDao>();
             Services.AddTransient<IPropertyMappingService, PropertyMappingService>();
             Services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
+
+            Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  //注册automapper，用于对象属性映射。
 
             Provider = Services.BuildServiceProvider();
             Console.WriteLine("All services have been built!");

@@ -4,6 +4,50 @@
         <name>SalesManagementApi</name>
     </assembly>
     <members>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.GetCustomers(Onboarding_Task.ViewModels.CustomerQryDto)">
+            <summary>
+            Get customers
+            </summary>
+            <param name="customerQryDto">Query parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.GetCustomer(System.Int32,System.String,System.String)">
+            <summary>
+            Get a customer
+            </summary>
+            <param name="customerId">the customer's id</param>
+            <param name="shapeFields">the columns selected </param>
+            <param name="mediaType">media type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.AddCustomer(Onboarding_Task.ViewModels.CustomerDto)">
+            <summary>
+            Add a customer
+            </summary>
+            <param name="customer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.GetCustomerOptions">
+            <summary>
+            Get the operations type of customer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.DeleteCustomer(System.Int32)">
+            <summary>
+            Delete a customer
+            </summary>
+            <param name="customerId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.CreateCustomersResourceUri(Onboarding_Task.ViewModels.CustomerQryDto,SalesManagementApi.Helpers.ResourceUriType)">
+            <summary>
+            创建翻页的url
+            </summary>
+            <param name="parameters"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:Onboarding_Task.Dao.ICustomerDao.QueryAll">
             <summary>
             Get all data

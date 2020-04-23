@@ -8,6 +8,8 @@ using Onboarding_Task.ViewModels;
 using System.Linq;
 using System.Collections.Generic;
 using Routine.Api.Services;
+using Routine.Api.Helpers;
+using AutoMapper;
 
 namespace SalesManagementApiTest
 {
@@ -22,6 +24,7 @@ namespace SalesManagementApiTest
         public async void DoCurdOperation()
         {
             var customerDao = Provider.GetService<ICustomerDao>();
+            var mapper = Provider.GetService<IMapper> ();
 
             #region test add
             var customer1 = new Customer
@@ -78,43 +81,58 @@ namespace SalesManagementApiTest
             var queryDto = new CustomerQryDto
             {
                 NameQry = "K",
-                OrderField="id desc"
+                OrderFields="id desc",
+                ShapeFields="Id"
             };
 
-            QueryResultView<Customer> queryResult=await customerDao.Query(queryDto);
+            PagedList<Customer> queryResult=await customerDao.Query(queryDto);
 
             Assert.NotNull(queryResult);
-            Assert.Equal(2, queryResult.TotalData);
-            var customerF = queryResult.Results[0];
-            var customerS = queryResult.Results[1];
+            Assert.Equal(2, queryResult.TotalCount);
+            var customerF = queryResult[0];
+            var customerS = queryResult[1];
             Assert.True(customerS.Id < customerF.Id);
             Assert.Equal("Kate", customerS.Name);
             Assert.Equal("Mt Albert", customerS.Address);
 
             queryDto.PageSize = 1;
             queryDto.PageNumber = 2;
-            queryDto.OrderField = "id";
+            queryDto.OrderFields = "id";
 
             Assert.Equal(1, queryDto.Skip);
 
             queryResult = await customerDao.Query(queryDto);
 
             Assert.NotNull(queryResult);
-            Assert.Equal(2, queryResult.TotalData);
-            Assert.Equal(1, queryResult.Results.Count);
-            var customer = queryResult.Results[0];
+            Assert.Equal(2, queryResult.TotalCount);
+            Assert.Equal(1, queryResult.Count);
+            var customer = queryResult[0];
             Assert.Equal("Kelly", customer.Name);
             Assert.Equal("City center", customer.Address);
 
             #endregion
 
+            #region Shaped
+
+            var customerDtos = mapper.Map<IEnumerable<CustomerDto>>(queryResult);
+            var shapedData = customerDtos.ShapData<CustomerDto>(queryDto.ShapeFields);
+            foreach(var obj in shapedData)
+            {
+                var customerDict = obj as IDictionary<string, object>;
+                Assert.NotNull(customerDict);
+                Assert.True(customerDict.ContainsKey("Id"));
+                Assert.False(customerDict.ContainsKey("Name"));
+                Assert.False(customerDict.ContainsKey("Address"));
+            }
+            #endregion
+
             #region delete
-            result =await customerDao.Delete(customer1.Id);
+            result = await customerDao.Delete(customer1.Id);
             Assert.True(result);
             queryDto.NameQry = "To";
             queryResult = await customerDao.Query(queryDto);
             Assert.NotNull(queryResult);
-            Assert.Equal(0, queryResult.TotalData);
+            Assert.Equal(0, queryResult.TotalCount);
             #endregion
 
         }

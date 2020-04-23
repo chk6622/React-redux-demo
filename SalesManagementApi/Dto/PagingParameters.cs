@@ -13,7 +13,8 @@ namespace SalesManagementApi.Dto
 
         private int pageSize = 2;
 
-        private string orderField;
+        private string orderFields;
+
 
         public int PageNumber
         {
@@ -33,20 +34,22 @@ namespace SalesManagementApi.Dto
 
         
 
-        public string OrderField
+        public string OrderFields
         {
             set
             {
-                this.orderField = value;
+                this.orderFields = value;
             }
             get
             {
-                if (string.IsNullOrWhiteSpace(this.orderField))
+                if (string.IsNullOrWhiteSpace(this.orderFields))
                 {
-                    this.orderField = "id";
+                    this.orderFields = "id";
                 }
-                return this.orderField;
+                return this.orderFields;
             }
         }
+
+        public string ShapeFields { set; get; }
     }
 }

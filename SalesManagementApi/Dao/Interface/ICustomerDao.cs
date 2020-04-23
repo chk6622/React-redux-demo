@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Onboarding_Task.Models;
 using Onboarding_Task.ViewModels;
+using Routine.Api.Helpers;
 
 namespace Onboarding_Task.Dao
 {
@@ -20,7 +21,7 @@ namespace Onboarding_Task.Dao
         /// </summary>
         /// <param name="queryCustomer">CustomerView object including query params</param>
         /// <returns>A collection of data getted from the database</returns>
-        Task<QueryResultView<Customer>> Query(CustomerQryDto queryCustomer);
+        Task<PagedList<Customer>> Query(CustomerQryDto queryCustomer);
 
         /// <summary>
         /// Get a customer by id 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Onboarding_Task.AppDbContext;
 using Onboarding_Task.Dao;
+using Routine.Api.Services;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace SalesManagementApi
@@ -34,12 +36,21 @@ namespace SalesManagementApi
         {
             services.AddControllers();
 
+            #region Model and Database
             services.AddScoped<ICustomerDao, CustomerDao>();
+            services.AddTransient<IPropertyMappingService, PropertyMappingService>();
+            services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
 
             services.AddDbContext<MyDbContext>(
                 option => option.UseSqlServer(Configuration.GetConnectionString("AppDBConnection"))
             );
+            #endregion
 
+            #region Automapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  //注册automapper，用于对象属性映射。
+            #endregion
+
+            #region Authenication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -48,6 +59,7 @@ namespace SalesManagementApi
                     options.Audience = "SalesManagementApi"; // required audience of access tokens
                     options.RequireHttpsMetadata = false; // dev only!
                 });
+            #endregion
 
             #region Swagger
 

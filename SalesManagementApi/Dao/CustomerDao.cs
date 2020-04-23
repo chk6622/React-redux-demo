@@ -64,11 +64,11 @@ namespace Onboarding_Task.Dao
             return customer;
         }
 
-        public async Task<QueryResultView<Customer>> Query(CustomerQryDto queryCustomer)
+        public async Task<PagedList<Customer>> Query(CustomerQryDto queryCustomer)
         {
-            QueryResultView<Customer> queryResult = new QueryResultView<Customer>();
+            
             IQueryable<Customer> customers = null;
-            //_context.ChangeTracker.DetectChanges();
+            
             if (queryCustomer != null)
             {
                 customers = _context.Customers
@@ -79,17 +79,20 @@ namespace Onboarding_Task.Dao
             {
                 customers=_context.Customers;
             }
-            queryResult.TotalData = await customers.CountAsync();
+            var totalData = await customers.CountAsync();
 
             
 
             var mappingDictionary = this._propertyMappingService.GetPropertyMapping<CustomerDto, Customer>();
 
-            customers = customers.ApplySort(queryCustomer.OrderField, mappingDictionary);
+            customers = customers.ApplySort(queryCustomer.OrderFields, mappingDictionary);
 
-            queryResult.Results = await customers.Skip(queryCustomer.Skip).Take(queryCustomer.PageSize).ToListAsync();
+            var results = await customers.Skip(queryCustomer.Skip).Take(queryCustomer.PageSize).ToListAsync();
 
-            return queryResult;
+            PagedList<Customer> queryList = new PagedList<Customer>(results, totalData, queryCustomer.PageNumber, queryCustomer.PageSize);
+
+
+            return queryList;
         }
 
         public async Task<IEnumerable<Customer>> QueryAll()

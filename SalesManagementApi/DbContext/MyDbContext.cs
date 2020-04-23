@@ -37,6 +37,43 @@ namespace Onboarding_Task.AppDbContext
                .OnDelete(DeleteBehavior.Restrict);  //DeleteBehavior.Restrict:非级联删除，DeleteBehavior.Cascade:级联删除
 
           */
+            modelBuilder.Entity<Customer>().HasData(
+                        new Customer
+                        {
+                            Id = 1,
+                            Name = "King",
+                            Address = "City center"
+
+                        },
+                         new Customer
+                         {
+                             Id = 2,
+                             Name = "Tom",
+                             Address = "Long bay"
+
+                         },
+                         new Customer
+                         {
+                             Id = 3,
+                             Name = "Mary",
+                             Address = "Mission bay"
+
+                         },
+                        new Customer
+                        {
+                            Id = 4,
+                            Name = "Kate",
+                            Address = "Mt Eden"
+
+                        },
+                        new Customer
+                        {
+                            Id = 5,
+                            Name = "Kelly",
+                            Address = "Mt Albert"
+
+                        }
+                );
 
         }
     }

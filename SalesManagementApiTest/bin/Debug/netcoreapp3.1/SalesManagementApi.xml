@@ -4,6 +4,14 @@
         <name>SalesManagementApi</name>
     </assembly>
     <members>
+        <member name="M:Onboarding_Task.Controllers.CustomerController.CreateCustomersResourceUri(Onboarding_Task.ViewModels.CustomerQryDto,SalesManagementApi.Helpers.ResourceUriType)">
+            <summary>
+            创建翻页的url
+            </summary>
+            <param name="parameters"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:Onboarding_Task.Dao.ICustomerDao.QueryAll">
             <summary>
             Get all data
