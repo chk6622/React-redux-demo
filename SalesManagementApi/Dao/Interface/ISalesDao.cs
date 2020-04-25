@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using Routine.Api.Helpers;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Dao
+namespace SalesManagementApi.Dao
 {
     public interface ISalesDao:IBaseDao
     {
@@ -20,7 +21,7 @@ namespace Onboarding_Task.Dao
         /// </summary>
         /// <param name="queryObject">query object including query params</param>
         /// <returns>A collection of data getted from the database</returns>
-        Task<QueryResultView<Sales>> Query(SalesView queryObject);
+        Task<PagedList<Sales>> Query(SalesQryDto queryObject);
 
         /// <summary>
         /// Get a sales by id 

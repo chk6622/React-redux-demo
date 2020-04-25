@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Onboarding_Task.Validation
+namespace SalesManagementApi.Validation
 {
     /// <summary>
     /// This class is used to validate input data before controller

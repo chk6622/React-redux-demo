@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Onboarding_Task.Models;
+using SalesManagementApi.Models;
 
-namespace Onboarding_Task.ViewModels
+namespace SalesManagementApi.ViewModels
 {
     public class ProductView:Product
     {

@@ -2,24 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Onboarding_Task.Models;
+using SalesManagementApi.Dto;
+using SalesManagementApi.Models;
 
-namespace Onboarding_Task.ViewModels
+namespace SalesManagementApi.ViewModels
 {
-    public class SalesView:Sales
+    public class SalesQryDto:PagingParameters
     {
-        private string dateSoldQry;
-        public string DateSoldQry
+        private DateTime beginDateSoldQry;
+        public DateTime BeginDateSoldQry
         {
-            set
-            {
-                this.dateSoldQry = value;
-            }
-            get
-            {
-                return this.dateSoldQry == null ?"" : this.dateSoldQry;
-            }
+            set;get;
         }
+
+        private DateTime endDateSoldQry;
+        public DateTime EndDateSoldQry
+        {
+            set; get;
+        }
+
+        public int CustomerId { get; set; }
+        public int ProductId { set; get; }
+        public int StoreId { set; get; }
+        /*public Customer Customer { get; set; }
+        public Product Product { set; get; }
+        public Store Store { set; get; }
 
         private int customerId;
         public int CustomerId 
@@ -78,12 +85,7 @@ namespace Onboarding_Task.ViewModels
                     return this.storeId;
                 }
             }
-        }
-
-        private int dataPerPage;
-        public int DataPerPage { set { this.dataPerPage = value; } get { return this.dataPerPage == 0 ? 10 : this.dataPerPage; } }
-
-        public int SkipData { set; get; }
+        }*/
 
     }
 }

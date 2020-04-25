@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Onboarding_Task.AppDbContext;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using Routine.Api.Helpers;
+using Routine.Api.Services;
+using SalesManagementApi.AppDbContext;
+using SalesManagementApi.Dto;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Dao
+namespace SalesManagementApi.Dao
 {
     public class StoreDao : IStoreDao
     {
         private readonly MyDbContext _context = null;
+        private readonly IPropertyCheckerService _propertyCheckerService = null;
+        private readonly IPropertyMappingService _propertyMappingService = null;
 
-        public StoreDao(MyDbContext myDbContext)
+        public StoreDao(MyDbContext myDbContext, IPropertyCheckerService propertyCheckerService, IPropertyMappingService propertyMappingService)
         {
             this._context = myDbContext;
+            this._propertyCheckerService = propertyCheckerService;
+            this._propertyMappingService = propertyMappingService;
         }
         public async Task<bool> Add(Store store)
         {
@@ -57,9 +64,8 @@ namespace Onboarding_Task.Dao
             return store;
         }
 
-        public async Task<QueryResultView<Store>> Query(StoreView queryObject)
+        public async Task<PagedList<Store>> Query(StoreQryDto queryObject)
         {
-            QueryResultView<Store> results = new QueryResultView<Store>();
             IQueryable<Store> stores = null;
             if (queryObject != null)
             {
@@ -69,9 +75,16 @@ namespace Onboarding_Task.Dao
             {
                 stores = this._context.Stores;
             }
-            results.TotalData = await stores.CountAsync();
-            results.Results = await stores.OrderByDescending(store=>store.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToListAsync();
-            return results;
+            var totalData = await stores.CountAsync();
+
+            var mappingDictionary = this._propertyMappingService.GetPropertyMapping<StoreDto, Store>();
+
+            stores = stores.ApplySort(queryObject.OrderFields, mappingDictionary);
+
+            var results = await stores.Skip(queryObject.Skip).Take(queryObject.PageSize).ToListAsync();
+            PagedList<Store> queryList = new PagedList<Store>(results, totalData, queryObject.PageNumber, queryObject.PageSize);
+
+            return queryList;
         }
 
         public async Task<IEnumerable<Store>> QueryAll()

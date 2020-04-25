@@ -2,15 +2,11 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Onboarding_Task.AppDbContext;
-using Onboarding_Task.Dao;
+using SalesManagementApi.AppDbContext;
+using SalesManagementApi.Dao;
 using Routine.Api.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Routine.Api.Test
 {
@@ -31,6 +27,9 @@ namespace Routine.Api.Test
             );
 
             Services.AddScoped<ICustomerDao, CustomerDao>();
+            Services.AddScoped<IProductDao, ProductDao>();
+            Services.AddScoped<IStoreDao, StoreDao>();
+            Services.AddScoped<ISalesDao, SalesDao>();
             Services.AddTransient<IPropertyMappingService, PropertyMappingService>();
             Services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
 
@@ -52,6 +51,12 @@ namespace Routine.Api.Test
             var dbContext = Provider.GetService<MyDbContext>();
             dbContext.Database.EnsureDeleted();
             dbContext.Database.Migrate();
+            dbContext.Sales.RemoveRange(dbContext.Sales);
+            dbContext.Customers.RemoveRange(dbContext.Customers);
+            dbContext.Stores.RemoveRange(dbContext.Stores);
+            dbContext.Products.RemoveRange(dbContext.Products);
+
+            dbContext.SaveChanges();
             Console.WriteLine("The database has initilized!");
         }
 

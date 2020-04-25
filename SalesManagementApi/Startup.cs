@@ -15,8 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Onboarding_Task.AppDbContext;
-using Onboarding_Task.Dao;
+using Newtonsoft.Json.Serialization;
+using SalesManagementApi.AppDbContext;
+using SalesManagementApi.Dao;
 using Routine.Api.Services;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -34,10 +35,16 @@ namespace SalesManagementApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(setup => //添加对patchjson的支持
+            {
+                setup.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            }).AddXmlDataContractSerializerFormatters(); //同时添加xml的输入和输出格式化器，如使用此方法就不用添加（1）和（2）语句了。;
 
             #region Model and Database
             services.AddScoped<ICustomerDao, CustomerDao>();
+            services.AddScoped<IProductDao, ProductDao>();
+            services.AddScoped<IStoreDao, StoreDao>();
+            services.AddScoped<ISalesDao, SalesDao>();
             services.AddTransient<IPropertyMappingService, PropertyMappingService>();
             services.AddTransient<IPropertyCheckerService, PropertyCheckerService>();
 
@@ -134,9 +141,10 @@ namespace SalesManagementApi
             #endregion
             app.UseRouting();
 
+            #region Auth
             app.UseAuthentication();
             app.UseAuthorization();
-
+            #endregion
 
 
             app.UseEndpoints(endpoints =>

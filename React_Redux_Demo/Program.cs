@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 
 
-namespace Onboarding_Task
+namespace SalesManagementApi
 {
     public class Program
     {

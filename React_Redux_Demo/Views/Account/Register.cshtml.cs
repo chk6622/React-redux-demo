@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Onboarding_Task.Views.Account
+namespace SalesManagementApi.Views.Account
 {
     public class RegisterModel : PageModel
     {

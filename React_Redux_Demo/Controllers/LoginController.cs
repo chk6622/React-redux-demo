@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Controllers
+namespace SalesManagementApi.Controllers
 {
     [AllowAnonymous]
     public class LoginController : Controller

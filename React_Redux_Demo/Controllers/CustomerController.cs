@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Onboarding_Task.Dao;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.Dao;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Controllers
+namespace SalesManagementApi.Controllers
 {
     public class CustomerController : Controller
     {

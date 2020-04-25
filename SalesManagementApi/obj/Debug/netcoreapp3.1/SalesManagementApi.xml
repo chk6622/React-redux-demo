@@ -4,14 +4,14 @@
         <name>SalesManagementApi</name>
     </assembly>
     <members>
-        <member name="M:Onboarding_Task.Controllers.CustomerController.GetCustomers(Onboarding_Task.ViewModels.CustomerQryDto)">
+        <member name="M:SalesManagementApi.Controllers.CustomerController.GetCustomers(SalesManagementApi.ViewModels.CustomerQryDto)">
             <summary>
             Get customers
             </summary>
             <param name="customerQryDto">Query parameters</param>
             <returns></returns>
         </member>
-        <member name="M:Onboarding_Task.Controllers.CustomerController.GetCustomer(System.Int32,System.String,System.String)">
+        <member name="M:SalesManagementApi.Controllers.CustomerController.GetCustomer(System.Int32,System.String,System.String)">
             <summary>
             Get a customer
             </summary>
@@ -20,27 +20,43 @@
             <param name="mediaType">media type</param>
             <returns></returns>
         </member>
-        <member name="M:Onboarding_Task.Controllers.CustomerController.AddCustomer(Onboarding_Task.ViewModels.CustomerDto)">
+        <member name="M:SalesManagementApi.Controllers.CustomerController.AddCustomer(SalesManagementApi.ViewModels.CustomerDto)">
             <summary>
             Add a customer
             </summary>
             <param name="customer"></param>
             <returns></returns>
         </member>
-        <member name="M:Onboarding_Task.Controllers.CustomerController.GetCustomerOptions">
+        <member name="M:SalesManagementApi.Controllers.CustomerController.GetCustomerOptions">
             <summary>
             Get the operations type of customer
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Onboarding_Task.Controllers.CustomerController.DeleteCustomer(System.Int32)">
+        <member name="M:SalesManagementApi.Controllers.CustomerController.DeleteCustomer(System.Int32)">
             <summary>
             Delete a customer
             </summary>
             <param name="customerId"></param>
             <returns></returns>
         </member>
-        <member name="M:Onboarding_Task.Controllers.CustomerController.CreateCustomersResourceUri(Onboarding_Task.ViewModels.CustomerQryDto,SalesManagementApi.Helpers.ResourceUriType)">
+        <member name="M:SalesManagementApi.Controllers.CustomerController.SaveOrUpdateCustomer(System.Int32,SalesManagementApi.ViewModels.CustomerDto)">
+            <summary>
+            Full update a customer
+            </summary>
+            <param name="customerId"></param>
+            <param name="customerDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.CustomerController.PartiallyUpdateCustomer(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{SalesManagementApi.ViewModels.CustomerDto})">
+            <summary>
+            Partially update a object
+            </summary>
+            <param name="customerId"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.CustomerController.CreateCustomersResourceUri(SalesManagementApi.ViewModels.CustomerQryDto,SalesManagementApi.Helpers.ResourceUriType)">
             <summary>
             创建翻页的url
             </summary>
@@ -48,164 +64,224 @@
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ICustomerDao.QueryAll">
+        <member name="M:SalesManagementApi.Controllers.ProductController.GetProducts(SalesManagementApi.Dto.ProductQryDto)">
+            <summary>
+            Get products
+            </summary>
+            <param name="productQryDto">Query parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.GetProduct(System.Int32,System.String,System.String)">
+            <summary>
+            Get a product
+            </summary>
+            <param name="productId">the product's id</param>
+            <param name="shapeFields">the columns selected </param>
+            <param name="mediaType">media type</param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.AddProduct(SalesManagementApi.Dto.ProductDto)">
+            <summary>
+            Add a product
+            </summary>
+            <param name="product"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.GetProductOptions">
+            <summary>
+            Get the operations type of product
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.DeleteProduct(System.Int32)">
+            <summary>
+            Delete a product
+            </summary>
+            <param name="productId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.SaveOrUpdateProduct(System.Int32,SalesManagementApi.Dto.ProductDto)">
+            <summary>
+            Full update a product
+            </summary>
+            <param name="productId"></param>
+            <param name="productDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.PartiallyUpdateProduct(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{SalesManagementApi.Dto.ProductDto})">
+            <summary>
+            Partially update a object
+            </summary>
+            <param name="productId"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.ProductController.CreateProductsResourceUri(SalesManagementApi.Dto.ProductQryDto,SalesManagementApi.Helpers.ResourceUriType)">
+            <summary>
+            创建翻页的url
+            </summary>
+            <param name="parameters"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Dao.ICustomerDao.QueryAll">
             <summary>
             Get all data
             </summary>
             <returns>A collection including all data</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ICustomerDao.Query(Onboarding_Task.ViewModels.CustomerQryDto)">
+        <member name="M:SalesManagementApi.Dao.ICustomerDao.Query(SalesManagementApi.ViewModels.CustomerQryDto)">
             <summary>
             Query data by 'queryCustomer' object
             </summary>
             <param name="queryCustomer">CustomerView object including query params</param>
             <returns>A collection of data getted from the database</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ICustomerDao.GetObjectById(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.ICustomerDao.GetObjectById(System.Int32)">
             <summary>
             Get a customer by id 
             </summary>
             <param name="id">the Id of customer</param>
             <returns>the customer or null</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ICustomerDao.Add(Onboarding_Task.Models.Customer)">
+        <member name="M:SalesManagementApi.Dao.ICustomerDao.Add(SalesManagementApi.Models.Customer)">
             <summary>
             Add a customer to database
             </summary>
             <param name="customer">the customer which needs to add to the database</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ICustomerDao.Update(Onboarding_Task.Models.Customer)">
+        <member name="M:SalesManagementApi.Dao.ICustomerDao.Update(SalesManagementApi.Models.Customer)">
             <summary>
             Update a customer
             </summary>
             <param name="customer">the customer which needs to be update</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ICustomerDao.Delete(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.ICustomerDao.Delete(System.Int32)">
             <summary>
             Delete a customer
             </summary>
             <param name="id">The customer's primary key</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IProductDao.QueryAll">
+        <member name="M:SalesManagementApi.Dao.IProductDao.QueryAll">
             <summary>
             Get all data
             </summary>
             <returns>A collection including all data</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IProductDao.Query(Onboarding_Task.ViewModels.ProductView)">
+        <member name="M:SalesManagementApi.Dao.IProductDao.Query(SalesManagementApi.Dto.ProductQryDto)">
             <summary>
             Query data by query string
             </summary>
             <param name="queryObject">query object including query params</param>
             <returns>A collection of data getted from the database</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IProductDao.GetObjectById(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.IProductDao.GetObjectById(System.Int32)">
             <summary>
             Get a product by id 
             </summary>
             <param name="id">the id of product</param>
             <returns>the product or null</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IProductDao.Add(Onboarding_Task.Models.Product)">
+        <member name="M:SalesManagementApi.Dao.IProductDao.Add(SalesManagementApi.Models.Product)">
             <summary>
             Add a product to database
             </summary>
             <param name="product">the product which needs to add to the database</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IProductDao.Update(Onboarding_Task.Models.Product)">
+        <member name="M:SalesManagementApi.Dao.IProductDao.Update(SalesManagementApi.Models.Product)">
             <summary>
             Update a product
             </summary>
             <param name="product">the product which needs to be update</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IProductDao.Delete(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.IProductDao.Delete(System.Int32)">
             <summary>
             Delete a product
             </summary>
             <param name="id">The product's primary key</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ISalesDao.QueryAll">
+        <member name="M:SalesManagementApi.Dao.ISalesDao.QueryAll">
             <summary>
             Get all data
             </summary>
             <returns>A collection including all data</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ISalesDao.Query(Onboarding_Task.ViewModels.SalesView)">
+        <member name="M:SalesManagementApi.Dao.ISalesDao.Query(SalesManagementApi.ViewModels.SalesQryDto)">
             <summary>
             Query data by query string
             </summary>
             <param name="queryObject">query object including query params</param>
             <returns>A collection of data getted from the database</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ISalesDao.GetObjectById(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.ISalesDao.GetObjectById(System.Int32)">
             <summary>
             Get a sales by id 
             </summary>
             <param name="id">the Id of sales</param>
             <returns>the sales or null</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ISalesDao.Add(Onboarding_Task.Models.Sales)">
+        <member name="M:SalesManagementApi.Dao.ISalesDao.Add(SalesManagementApi.Models.Sales)">
             <summary>
             Add a sales to database
             </summary>
             <param name="sales">the sales which needs to add to the database</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ISalesDao.Update(Onboarding_Task.Models.Sales)">
+        <member name="M:SalesManagementApi.Dao.ISalesDao.Update(SalesManagementApi.Models.Sales)">
             <summary>
             Update a sales
             </summary>
             <param name="sales">the sales which needs to be update</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.ISalesDao.Delete(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.ISalesDao.Delete(System.Int32)">
             <summary>
             Delete a sales
             </summary>
             <param name="id">The sales's primary key</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IStoreDao.QueryAll">
+        <member name="M:SalesManagementApi.Dao.IStoreDao.QueryAll">
             <summary>
             Get all data
             </summary>
             <returns>A collection including all data</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IStoreDao.Query(Onboarding_Task.ViewModels.StoreView)">
+        <member name="M:SalesManagementApi.Dao.IStoreDao.Query(SalesManagementApi.Dto.StoreQryDto)">
             <summary>
             Query data by query string
             </summary>
             <param name="queryObject">query object including query params</param>
             <returns>A collection of data getted from the database</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IStoreDao.GetObjectById(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.IStoreDao.GetObjectById(System.Int32)">
             <summary>
             Get a store by id 
             </summary>
             <param name="id">the Id of store</param>
             <returns>the store or null</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IStoreDao.Add(Onboarding_Task.Models.Store)">
+        <member name="M:SalesManagementApi.Dao.IStoreDao.Add(SalesManagementApi.Models.Store)">
             <summary>
             Add a store to database
             </summary>
             <param name="store">the store which needs to add to the database</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IStoreDao.Update(Onboarding_Task.Models.Store)">
+        <member name="M:SalesManagementApi.Dao.IStoreDao.Update(SalesManagementApi.Models.Store)">
             <summary>
             Update a store
             </summary>
             <param name="store">the store which needs to be update</param>
             <returns>true if succeed, or false</returns>
         </member>
-        <member name="M:Onboarding_Task.Dao.IStoreDao.Delete(System.Int32)">
+        <member name="M:SalesManagementApi.Dao.IStoreDao.Delete(System.Int32)">
             <summary>
             Delete a store
             </summary>

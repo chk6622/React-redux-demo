@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Onboarding_Task.Dao;
-using Onboarding_Task.AppDbContext;
+using SalesManagementApi.Dao;
+using SalesManagementApi.AppDbContext;
 using System.Linq;
-using Onboarding_Task.Validation;
+using SalesManagementApi.Validation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
-namespace Onboarding_Task
+namespace SalesManagementApi
 {
     public class Startup
     {

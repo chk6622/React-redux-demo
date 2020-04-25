@@ -7,18 +7,19 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
-using Onboarding_Task.Dao;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.Dao;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 using Routine.Api.Helpers;
 using Routine.Api.Models;
 using Routine.Api.Services;
 using SalesManagementApi.Helpers;
 
-namespace Onboarding_Task.Controllers
+namespace SalesManagementApi.Controllers
 {
     [ApiController]
     [Route("api/customers")]
@@ -164,10 +165,10 @@ namespace Onboarding_Task.Controllers
             var entity = _mapper.Map<Customer>(customer);
             bool isSuccess=await this._customerDao.Add(entity);
             var rDto = this._mapper.Map<CustomerDto>(entity);
-            var links = CreateLinksForCustomer(rDto.Id, null);  //添加HATEOAS支持
+            /*var links = CreateLinksForCustomer(rDto.Id, null);  //添加HATEOAS支持
             var linkedDict = rDto.ShapeData(null) as IDictionary<string, object>;
-            linkedDict.Add("links", links);
-            return CreatedAtRoute(nameof(GetCustomer), new { customerId = linkedDict["Id"] }, linkedDict);
+            linkedDict.Add("links", links);*/
+            return CreatedAtRoute(nameof(GetCustomer), new { customerId = rDto.Id }, rDto);
         }
 
         /// <summary>
@@ -196,6 +197,76 @@ namespace Onboarding_Task.Controllers
             }
             await this._customerDao.Delete(customerId);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Full update a customer
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="customerDto"></param>
+        /// <returns></returns>
+        [HttpPut("{customerId}")]
+        public async Task<IActionResult> SaveOrUpdateCustomer(int customerId, CustomerDto customerDto)
+        {
+            var customer=await this._customerDao.GetObjectById(customerId);
+            if (customer == null)
+            {
+                customer = this._mapper.Map<Customer>(customerDto);
+                customer.Id = customerId;
+                await this._customerDao.Add(customer);
+            }
+            else
+            {
+                this._mapper.Map(customerDto, customer);
+                customer.Id = customerId;
+                await this._customerDao.Update(customer);   
+            }
+            var rCustomerDto = this._mapper.Map<CustomerDto>(customer);
+            return CreatedAtRoute(nameof(GetCustomer), new { customerId = customerId }, rCustomerDto);
+        }
+
+        /// <summary>
+        /// Partially update a object
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="patchDocument"></param>
+        /// <returns></returns>
+        [HttpPatch("{customerId}")]
+        public async Task<IActionResult> PartiallyUpdateCustomer(int customerId, JsonPatchDocument<CustomerDto> patchDocument)
+        {
+            var customer = await this._customerDao.GetObjectById(customerId);
+            if (customer == null)
+            {
+                var customerDto = new CustomerDto();
+                patchDocument.ApplyTo(customerDto, ModelState);
+                if (!TryValidateModel(customerDto))  //验证输入是否合法
+                {
+                    return ValidationProblem(ModelState);
+                }
+                customer = this._mapper.Map<Customer>(customerDto);
+                customer.Id = customerId;
+                await this._customerDao.Add(customer);
+
+                
+            }
+            else
+            {
+                var customerDto = this._mapper.Map<CustomerDto>(customer);  //entityObj => updateObj
+
+                patchDocument.ApplyTo(customerDto, ModelState);  //apply patch
+
+                if (!TryValidateModel(customerDto))  //验证输入是否合法
+                {
+                    return ValidationProblem(ModelState);
+                }
+
+                this._mapper.Map(customerDto, customer);  //updateObj=>entityObj
+                customer.Id = customerId;
+                await this._customerDao.Update(customer);
+            }
+
+            var rCustomerDto = this._mapper.Map<CustomerDto>(customer);
+            return CreatedAtRoute(nameof(GetCustomer), new { customerId = customerId }, rCustomerDto);
         }
 
 
@@ -254,11 +325,8 @@ namespace Onboarding_Task.Controllers
                 links.Add(new LinkDto(Url.Link(nameof(GetCustomers), new { customerId, fields }), "self", "GET"));
             }
 
-           // links.Add(new LinkDto(Url.Link(nameof(DeleteCompany), new { companyId }), "delete_company", "DELETE"));
+            links.Add(new LinkDto(Url.Link(nameof(DeleteCustomer), new { customerId }), "delete_customer", "DELETE"));
 
-           // links.Add(new LinkDto(Url.Link(nameof(EmployeesController.CreateEmployeeForCompany), new { companyId }), "create_employee_for_company", "POST"));
-
-           // links.Add(new LinkDto(Url.Link(nameof(EmployeesController.GetEmployeesFromCompany), new { companyId }), "get_employees_from_company", "GET"));
             return links;
         }
 

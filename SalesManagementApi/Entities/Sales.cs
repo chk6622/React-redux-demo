@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Onboarding_Task.Models
+namespace SalesManagementApi.Models
 {
     public class Sales
     {
@@ -15,6 +15,6 @@ namespace Onboarding_Task.Models
         public Store Store { set; get; }
         [Required(ErrorMessage ="{0} can't be NULL!")]
         [StringLength(10,ErrorMessage ="{0} must be between {2} and {1}",MinimumLength =4)]
-        public string DateSold { set; get; }
+        public DateTime DateSold { set; get; }
     }
 }

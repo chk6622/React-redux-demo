@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Onboarding_Task.Models;
+using SalesManagementApi.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Onboarding_Task.AppDbContext
+namespace SalesManagementApi.AppDbContext
 {
     public class MyDbContext: IdentityDbContext
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Onboarding_Task.Models;
+using SalesManagementApi.Models;
 
-namespace Onboarding_Task.ViewModels
+namespace SalesManagementApi.Dto
 {
-    public class StoreView:Store
+    public class StoreQryDto:PagingParameters
     {
         private string nameQry;
         public string NameQry
@@ -24,9 +24,6 @@ namespace Onboarding_Task.ViewModels
             get { return this.addressQry == null ? "" : this.addressQry; }
         }
 
-        private int dataPerPage;
-        public int DataPerPage { set { this.dataPerPage = value; } get { return this.dataPerPage == 0 ? 10 : this.dataPerPage; } }
-
-        public int SkipData { set; get; }
+       
     }
 }

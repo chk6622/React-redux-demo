@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Onboarding_Task.Validation
+namespace SalesManagementApi.Validation
 {
     public class ValidationResult
     {

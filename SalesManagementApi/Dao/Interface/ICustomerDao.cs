@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 using Routine.Api.Helpers;
 
-namespace Onboarding_Task.Dao
+namespace SalesManagementApi.Dao
 {
     public interface ICustomerDao:IBaseDao
     {

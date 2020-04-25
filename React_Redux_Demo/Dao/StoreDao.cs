@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Onboarding_Task.AppDbContext;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.AppDbContext;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Dao
+namespace SalesManagementApi.Dao
 {
     public class StoreDao : IStoreDao
     {

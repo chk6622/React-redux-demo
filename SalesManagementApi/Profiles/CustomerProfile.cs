@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

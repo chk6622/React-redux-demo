@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Onboarding_Task.AppDbContext;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using Routine.Api.Helpers;
+using Routine.Api.Services;
+using SalesManagementApi.AppDbContext;
+using SalesManagementApi.Dto;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Dao
+namespace SalesManagementApi.Dao
 {
     public class SalesDao : ISalesDao
     {
         private readonly MyDbContext _context = null;
+        private readonly IPropertyCheckerService _propertyCheckerService = null;
+        private readonly IPropertyMappingService _propertyMappingService = null;
 
-        public SalesDao(MyDbContext myDbContext)
+        public SalesDao(MyDbContext myDbContext, IPropertyCheckerService propertyCheckerService, IPropertyMappingService propertyMappingService)
         {
             this._context = myDbContext;
+            this._propertyCheckerService = propertyCheckerService;
+            this._propertyMappingService = propertyMappingService;
         }
         public async Task<bool> Add(Sales sales)
         {
@@ -65,24 +72,52 @@ namespace Onboarding_Task.Dao
             return sales;
         }
 
-        public async Task<QueryResultView<Sales>> Query(SalesView queryObject)
+        public async Task<PagedList<Sales>> Query(SalesQryDto queryObject)
         {
-            QueryResultView<Sales> results = new QueryResultView<Sales>();
-            IQueryable<Sales> sales = null;
+            IQueryable<Sales> sales = this._context.Sales;
             if (queryObject != null)
             {
-                sales = this._context.Sales.Where(s => s.DateSold.Contains(queryObject.DateSoldQry) 
-                                                && s.Customer.Id==(queryObject.CustomerId==0?s.Customer.Id : queryObject.CustomerId)
+                if(queryObject.BeginDateSoldQry!=DateTime.MinValue)
+                {
+                    sales = sales.Where(s => s.DateSold >= queryObject.BeginDateSoldQry);
+                }
+                if (queryObject.EndDateSoldQry != DateTime.MinValue)
+                {
+                    sales = sales.Where(s => s.DateSold <= queryObject.EndDateSoldQry);
+                }
+               /* sales = sales.Where(s=>s.Customer.Id==(queryObject.CustomerId==0?s.Customer.Id : queryObject.CustomerId)
                                                 && s.Product.Id==(queryObject.ProductId==0?s.Product.Id:queryObject.ProductId)
-                                                && s.Store.Id==(queryObject.StoreId==0?s.Store.Id:queryObject.StoreId)).Include(x => x.Customer).Include(x => x.Product).Include(x => x.Store);
+                                                && s.Store.Id==(queryObject.StoreId==0?s.Store.Id:queryObject.StoreId))
+                                                */
+                if(queryObject.CustomerId>0)
+                {
+                    sales = sales.Where(s => s.Customer.Id == queryObject.CustomerId);
+                }
+                if (queryObject.ProductId > 0)
+                {
+                    sales = sales.Where(s => s.Product.Id == queryObject.ProductId);
+                }
+                if (queryObject.StoreId > 0)
+                {
+                    sales = sales.Where(s => s.Store.Id == queryObject.StoreId);
+                }
+                sales =sales.Include(x => x.Customer)
+                    .Include(x => x.Product)
+                    .Include(x => x.Store);
             }
             else
             {
                 sales = this._context.Sales;
             }
-            results.TotalData = await sales.CountAsync();
-            results.Results = await sales.OrderByDescending(sale=>sale.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToListAsync();
-            return results;
+            var totalData = await sales.CountAsync();
+            var mappingDictionary = this._propertyMappingService.GetPropertyMapping<SalesDto, Sales>();
+
+            sales = sales.ApplySort(queryObject.OrderFields, mappingDictionary);
+
+            var results = await sales.Skip(queryObject.Skip).Take(queryObject.PageSize).ToListAsync();
+            PagedList<Sales> queryList = new PagedList<Sales>(results, totalData, queryObject.PageNumber, queryObject.PageSize);
+
+            return queryList;
         }
 
         public async Task<IEnumerable<Sales>> QueryAll()

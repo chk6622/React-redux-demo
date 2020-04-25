@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Onboarding_Task.Models
+namespace SalesManagementApi.Models
 {
     public class Store
     {

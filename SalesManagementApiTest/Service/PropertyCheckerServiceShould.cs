@@ -2,7 +2,7 @@
 using Routine.Api.Test;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Onboarding_Task.Models;
+using SalesManagementApi.Models;
 
 namespace SalesManagementApiTest.Service
 {

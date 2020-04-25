@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Onboarding_Task.Controllers
+namespace SalesManagementApi.Controllers
 {
     public class HomeController : Controller
     {

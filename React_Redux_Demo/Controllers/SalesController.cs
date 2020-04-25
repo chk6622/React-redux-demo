@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Onboarding_Task.Dao;
-using Onboarding_Task.Models;
-using Onboarding_Task.Utils;
-using Onboarding_Task.ViewModels;
+using SalesManagementApi.Dao;
+using SalesManagementApi.Models;
+using SalesManagementApi.Utils;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Controllers
+namespace SalesManagementApi.Controllers
 {
     public class SalesController : Controller
     {

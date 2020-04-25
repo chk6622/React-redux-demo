@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Onboarding_Task.AppDbContext;
-using Onboarding_Task.Models;
-using Onboarding_Task.ViewModels;
+using Routine.Api.Helpers;
+using Routine.Api.Services;
+using SalesManagementApi.AppDbContext;
+using SalesManagementApi.Dto;
+using SalesManagementApi.Models;
+using SalesManagementApi.ViewModels;
 
-namespace Onboarding_Task.Dao
+namespace SalesManagementApi.Dao
 {
     public class ProductDao : IProductDao
     {
         private readonly MyDbContext _context = null;
+        private readonly IPropertyCheckerService _propertyCheckerService = null;
+        private readonly IPropertyMappingService _propertyMappingService = null;
 
-        public ProductDao(MyDbContext myDbContext)
+        public ProductDao(MyDbContext myDbContext, IPropertyCheckerService propertyCheckerService, IPropertyMappingService propertyMappingService)
         {
             this._context = myDbContext;
+            this._propertyCheckerService = propertyCheckerService;
+            this._propertyMappingService = propertyMappingService;
         }
         public async Task<bool> Add(Product product)
         {
@@ -57,10 +64,10 @@ namespace Onboarding_Task.Dao
             return product;
         }
 
-        public async Task<QueryResultView<Product>> Query(ProductView queryObject)
+        public async Task<PagedList<Product>> Query(ProductQryDto queryObject)
         {
-            QueryResultView<Product> queryResults=new QueryResultView<Product>();
             IQueryable<Product> products = null;
+
             if (queryObject != null)
             {
                 products=_context.Products.Where(p => p.Name.Contains(queryObject.NameQry)
@@ -70,9 +77,17 @@ namespace Onboarding_Task.Dao
             {
                 products = _context.Products;
             }
-            queryResults.TotalData = await products.CountAsync();
-            queryResults.Results = await products.OrderByDescending(product=>product.Id).Skip(queryObject.SkipData).Take(queryObject.DataPerPage).ToListAsync();
-            return queryResults;
+            var totalData = await products.CountAsync();
+
+            var mappingDictionary = this._propertyMappingService.GetPropertyMapping<ProductDto, Product>();
+
+            products = products.ApplySort(queryObject.OrderFields, mappingDictionary);
+
+            var results = await products.Skip(queryObject.Skip).Take(queryObject.PageSize).ToListAsync();
+
+            PagedList<Product> queryList = new PagedList<Product>(results, totalData,queryObject.PageNumber,queryObject.PageSize);
+           
+            return queryList;
         }
 
         public async Task<IEnumerable<Product>> QueryAll()
