@@ -179,7 +179,7 @@ namespace SalesManagementApi.Controllers
         [HttpOptions]
         public IActionResult GetProductOptions()
         {
-            Response.Headers.Add("Allow", "GET,POST,OPTIONS");
+            Response.Headers.Add("Allow", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
             return Ok();
         }
 

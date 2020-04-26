@@ -10,8 +10,8 @@ using SalesManagementApi.AppDbContext;
 namespace SalesManagementApi.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20200423070611_add init data")]
-    partial class addinitdata
+    [Migration("20200426005537_AddNewSeed")]
+    partial class AddNewSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace SalesManagementApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Onboarding_Task.Models.Customer", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace SalesManagementApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Product", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,9 +94,41 @@ namespace SalesManagementApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Banana",
+                            Price = 5.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Apple",
+                            Price = 3.0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Orange",
+                            Price = 5.0
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Pen",
+                            Price = 7.0
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Note",
+                            Price = 2.0
+                        });
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Sales", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Sales", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,9 +138,8 @@ namespace SalesManagementApi.Migrations
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DateSold")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
+                    b.Property<DateTime>("DateSold")
+                        .HasColumnType("datetime2")
                         .HasMaxLength(10);
 
                     b.Property<int?>("ProductId")
@@ -128,7 +159,7 @@ namespace SalesManagementApi.Migrations
                     b.ToTable("Sales");
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Store", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Store", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -148,19 +179,51 @@ namespace SalesManagementApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Stores");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "City center",
+                            Name = "Countdown"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Long bay",
+                            Name = "Countdown"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Mission bay",
+                            Name = "Parking Save"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "Mt Eden",
+                            Name = "Parking Save"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "Mt Albert",
+                            Name = "New world"
+                        });
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Sales", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Sales", b =>
                 {
-                    b.HasOne("Onboarding_Task.Models.Customer", "Customer")
+                    b.HasOne("SalesManagementApi.Models.Customer", "Customer")
                         .WithMany("ProductSold")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Onboarding_Task.Models.Product", "Product")
+                    b.HasOne("SalesManagementApi.Models.Product", "Product")
                         .WithMany("ProductSold")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("Onboarding_Task.Models.Store", "Store")
+                    b.HasOne("SalesManagementApi.Models.Store", "Store")
                         .WithMany("ProductSold")
                         .HasForeignKey("StoreId");
                 });

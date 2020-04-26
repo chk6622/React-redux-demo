@@ -10,8 +10,8 @@ using SalesManagementApi.AppDbContext;
 namespace SalesManagementApi.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20200422021516_SalesManagement")]
-    partial class SalesManagement
+    [Migration("20200426005158_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace SalesManagementApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Onboarding_Task.Models.Customer", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,9 +41,41 @@ namespace SalesManagementApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "City center",
+                            Name = "King"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Long bay",
+                            Name = "Tom"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Mission bay",
+                            Name = "Mary"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "Mt Eden",
+                            Name = "Kate"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "Mt Albert",
+                            Name = "Kelly"
+                        });
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Product", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,7 +96,7 @@ namespace SalesManagementApi.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Sales", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Sales", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,9 +106,8 @@ namespace SalesManagementApi.Migrations
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DateSold")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
+                    b.Property<DateTime>("DateSold")
+                        .HasColumnType("datetime2")
                         .HasMaxLength(10);
 
                     b.Property<int?>("ProductId")
@@ -96,7 +127,7 @@ namespace SalesManagementApi.Migrations
                     b.ToTable("Sales");
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Store", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Store", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,17 +149,17 @@ namespace SalesManagementApi.Migrations
                     b.ToTable("Stores");
                 });
 
-            modelBuilder.Entity("Onboarding_Task.Models.Sales", b =>
+            modelBuilder.Entity("SalesManagementApi.Models.Sales", b =>
                 {
-                    b.HasOne("Onboarding_Task.Models.Customer", "Customer")
+                    b.HasOne("SalesManagementApi.Models.Customer", "Customer")
                         .WithMany("ProductSold")
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Onboarding_Task.Models.Product", "Product")
+                    b.HasOne("SalesManagementApi.Models.Product", "Product")
                         .WithMany("ProductSold")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("Onboarding_Task.Models.Store", "Store")
+                    b.HasOne("SalesManagementApi.Models.Store", "Store")
                         .WithMany("ProductSold")
                         .HasForeignKey("StoreId");
                 });

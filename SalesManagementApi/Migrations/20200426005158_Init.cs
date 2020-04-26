@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SalesManagementApi.Migrations
 {
-    public partial class SalesManagement : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +58,7 @@ namespace SalesManagementApi.Migrations
                     CustomerId = table.Column<int>(nullable: true),
                     ProductId = table.Column<int>(nullable: true),
                     StoreId = table.Column<int>(nullable: true),
-                    DateSold = table.Column<string>(maxLength: 10, nullable: false)
+                    DateSold = table.Column<DateTime>(maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,6 +81,18 @@ namespace SalesManagementApi.Migrations
                         principalTable: "Stores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "Address", "Name" },
+                values: new object[,]
+                {
+                    { 1, "City center", "King" },
+                    { 2, "Long bay", "Tom" },
+                    { 3, "Mission bay", "Mary" },
+                    { 4, "Mt Eden", "Kate" },
+                    { 5, "Mt Albert", "Kelly" }
                 });
 
             migrationBuilder.CreateIndex(

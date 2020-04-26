@@ -124,6 +124,126 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.GetSaless(SalesManagementApi.ViewModels.SalesQryDto)">
+            <summary>
+            Get sales
+            </summary>
+            <param name="salesQryDto">Query parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.GetSales(System.Int32,System.String,System.String)">
+            <summary>
+            Get a sales
+            </summary>
+            <param name="salesId">the sales's id</param>
+            <param name="shapeFields">the columns selected </param>
+            <param name="mediaType">media type</param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.AddSales(SalesManagementApi.Dto.SalesDto)">
+            <summary>
+            Add a sales
+            </summary>
+            <param name="salesDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.GetSalesOptions">
+            <summary>
+            Get the operations type of sales
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.DeleteSales(System.Int32)">
+            <summary>
+            Delete a sales
+            </summary>
+            <param name="salesId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.SaveOrUpdateSales(System.Int32,SalesManagementApi.Dto.SalesDto)">
+            <summary>
+            Full update a sales
+            </summary>
+            <param name="salesId"></param>
+            <param name="salesDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.PartiallyUpdateSales(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{SalesManagementApi.Dto.SalesDto})">
+            <summary>
+            Partially update a object
+            </summary>
+            <param name="salesId"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.SalesController.CreateSalessResourceUri(SalesManagementApi.ViewModels.SalesQryDto,SalesManagementApi.Helpers.ResourceUriType)">
+            <summary>
+            创建翻页的url
+            </summary>
+            <param name="parameters"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.GetStores(SalesManagementApi.Dto.StoreQryDto)">
+            <summary>
+            Get stores
+            </summary>
+            <param name="storeQryDto">Query parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.GetStore(System.Int32,System.String,System.String)">
+            <summary>
+            Get a store
+            </summary>
+            <param name="storeId">the store's id</param>
+            <param name="shapeFields">the columns selected </param>
+            <param name="mediaType">media type</param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.AddStore(SalesManagementApi.Dto.StoreDto)">
+            <summary>
+            Add a store
+            </summary>
+            <param name="store"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.GetStoreOptions">
+            <summary>
+            Get the operations type of store
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.DeleteStore(System.Int32)">
+            <summary>
+            Delete a store
+            </summary>
+            <param name="storeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.SaveOrUpdateStore(System.Int32,SalesManagementApi.Dto.StoreDto)">
+            <summary>
+            Full update a store
+            </summary>
+            <param name="storeId"></param>
+            <param name="storeDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.PartiallyUpdateStore(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{SalesManagementApi.Dto.StoreDto})">
+            <summary>
+            Partially update a object
+            </summary>
+            <param name="storeId"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SalesManagementApi.Controllers.StoreController.CreateStoresResourceUri(SalesManagementApi.Dto.StoreQryDto,SalesManagementApi.Helpers.ResourceUriType)">
+            <summary>
+            创建翻页的url
+            </summary>
+            <param name="parameters"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:SalesManagementApi.Dao.ICustomerDao.QueryAll">
             <summary>
             Get all data
