@@ -25,6 +25,7 @@ namespace SalesManagementApi
 {
     public class Startup
     {
+        private const string CORS_POLICY_NAME = "LimitRequests";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,11 +36,31 @@ namespace SalesManagementApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddControllers().AddNewtonsoftJson(setup => //添加对patchjson的支持
             {
                 setup.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 setup.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;  //忽略循环引用
             }).AddXmlDataContractSerializerFormatters(); //同时添加xml的输入和输出格式化器，如使用此方法就不用添加（1）和（2）语句了。;
+
+            #region CORS
+            services.AddCors(c =>
+            {
+
+                // 配置策略
+                c.AddPolicy(CORS_POLICY_NAME, policy =>
+                {
+                    // 支持多个域名端口，注意端口号后不要带/斜杆：比如localhost:8000/，是错的
+                    // http://127.0.0.1:1818 和 http://localhost:1818 是不一样的，尽量写两个
+                    policy
+                    //.AllowAnyOrigin()
+                    .WithOrigins("http://127.0.0.1:5500", "http://localhost:5500" )  //允许的客户端ip
+                    .WithExposedHeaders("x-pagination")                  //允许的返回头信息
+                    .AllowAnyHeader()//允许任意头
+                    .AllowAnyMethod();//允许任意方法
+                });
+            });
+            #endregion
 
             #region Model and Database
             services.AddScoped<ICustomerDao, CustomerDao>();
@@ -119,6 +140,8 @@ namespace SalesManagementApi
             });
 
             #endregion
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -140,7 +163,14 @@ namespace SalesManagementApi
                 c.RoutePrefix = string.Empty;
             });
             #endregion
+
+            #region CORS
+            app.UseCors(CORS_POLICY_NAME);//添加 Cors 跨域中间件
+            #endregion
+
             app.UseRouting();
+
+            
 
             #region Auth
             app.UseAuthentication();
