@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalesManagementApi.AppDbContext;
 
 namespace SalesManagementApi.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200426233327_AddSalesSeedData")]
+    partial class AddSalesSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,26 +162,17 @@ namespace SalesManagementApi.Migrations
                         new
                         {
                             Id = 1,
-                            CustomerId = 1,
-                            DateSold = new DateTime(2020, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 2,
-                            StoreId = 3
+                            DateSold = new DateTime(2020, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            CustomerId = 3,
-                            DateSold = new DateTime(2020, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 5,
-                            StoreId = 1
+                            DateSold = new DateTime(2020, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            CustomerId = 5,
-                            DateSold = new DateTime(2020, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProductId = 2,
-                            StoreId = 5
+                            DateSold = new DateTime(2020, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

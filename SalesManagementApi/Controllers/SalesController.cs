@@ -166,6 +166,7 @@ namespace SalesManagementApi.Controllers
         {
             var sales = _mapper.Map<Sales>(salesDto);
             bool isSuccess = await this._salesDao.Add(sales);
+            sales = await this._salesDao.GetObjectById(sales.Id);
             var rSalesDto = this._mapper.Map<SalesDto>(sales);
             return CreatedAtRoute(nameof(GetSales), new { salesId = rSalesDto.Id }, rSalesDto);
         }
@@ -220,6 +221,7 @@ namespace SalesManagementApi.Controllers
                 sales.Id = salesId;
                 await this._salesDao.Update(sales);
             }
+            sales = await this._salesDao.GetObjectById(sales.Id);
             var rSalesDto = this._mapper.Map<SalesDto>(sales);
             return CreatedAtRoute(nameof(GetSales), new { salesId = salesId }, rSalesDto);
         }
@@ -263,7 +265,7 @@ namespace SalesManagementApi.Controllers
                 sales.Id = salesId;
                 await this._salesDao.Update(sales);
             }
-
+            sales = await this._salesDao.GetObjectById(sales.Id);
             var rSalesDto = this._mapper.Map<SalesDto>(sales);
             return CreatedAtRoute(nameof(GetSales), new { salesId = salesId }, rSalesDto);
         }

@@ -38,6 +38,7 @@ namespace SalesManagementApi
             services.AddControllers().AddNewtonsoftJson(setup => //添加对patchjson的支持
             {
                 setup.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                setup.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;  //忽略循环引用
             }).AddXmlDataContractSerializerFormatters(); //同时添加xml的输入和输出格式化器，如使用此方法就不用添加（1）和（2）语句了。;
 
             #region Model and Database
