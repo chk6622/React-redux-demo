@@ -55,7 +55,7 @@ namespace SalesManagementApi
                     policy
                     //.AllowAnyOrigin()
                     .WithOrigins("http://127.0.0.1:5500", "http://localhost:5500" )  //允许的客户端ip
-                    .WithExposedHeaders("x-pagination")                  //允许的返回头信息
+                    .WithExposedHeaders("x-pagination", "location")                  //允许的返回头信息
                     .AllowAnyHeader()//允许任意头
                     .AllowAnyMethod();//允许任意方法
                 });

@@ -8,11 +8,13 @@ import '../css/AppSheet.css';
 export class Layout extends Component {
   static displayName = Layout.name;
 
-  render () {
+    render() {
+      let user = JSON.parse(sessionStorage.getItem('user'));
       return (
           <main>
             <banner>
                   Sales Management System
+                  {user.access_token}
             </banner>
             <div className='workarea'>
                 <nav>

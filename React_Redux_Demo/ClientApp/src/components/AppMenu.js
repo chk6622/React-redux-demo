@@ -84,7 +84,7 @@ export class AppMenu extends Component {
                     active={activeItem === 'Sales'}
                     onClick={this.handleItemClick}
                     />
-                    <Menu.Item as={Link}
+                <Menu.Item as={Link}
                     icon='sign out'
                         name='Exits'
                         active={activeItem === 'Exits'}
