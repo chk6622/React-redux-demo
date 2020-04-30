@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import { AppMenu } from './AppMenu';
 import '../css/AppSheet.css';
+import { environment } from '../environments/environment';
 
 
 
@@ -9,12 +10,15 @@ export class Layout extends Component {
   static displayName = Layout.name;
 
     render() {
-      let user = JSON.parse(sessionStorage.getItem('user'));
+        let user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user) {
+            //alert('abc');
+            window.location = '/';
+        }
       return (
           <main>
             <banner>
                   Sales Management System
-                  {user.access_token}
             </banner>
             <div className='workarea'>
                 <nav>

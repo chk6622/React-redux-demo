@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Segment, Menu, Confirm } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import { Link, withRouter } from 'react-router-dom';
+import { environment } from '../environments/environment';
+import Oidc from 'oidc-client';
+import { GetUser } from '../helpers/UserHelper';
 
 const menuHeader = {
     height: '35px',
@@ -20,7 +23,18 @@ const menuItem = {
 }
 
 function logout() {
-    window.location = '/login/Logout';
+    let user = GetUser();
+    if (user) {
+        let mgr = new Oidc.UserManager(environment.openIdConnectSettings);
+        if (mgr) {
+            mgr.signoutRedirect().then(res => {
+                sessionStorage.clear();
+            });
+        }
+    }
+    else {
+        window.location = '/';
+    }
 }
 
 export class AppMenu extends Component {
