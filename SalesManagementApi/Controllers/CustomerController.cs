@@ -188,14 +188,27 @@ namespace SalesManagementApi.Controllers
         /// <param name="customerId"></param>
         /// <returns></returns>
         [HttpDelete("{customerId}", Name = nameof(DeleteCustomer))]
-        public async Task<IActionResult> DeleteCustomer(int customerId)
+        public IActionResult DeleteCustomer(int customerId)
         {
-            var entity = await this._customerDao.GetObjectById(customerId);
+            /*var entity = await this._customerDao.GetObjectById(customerId);
             if (entity == null)
             {
                 return NotFound();
+            }*/
+            try
+            {
+                this._customerDao.Delete(customerId);
             }
-            await this._customerDao.Delete(customerId);
+            catch(System.ArgumentNullException)
+            {
+                return NotFound();
+            }
+            catch(Exception e)
+            {
+                e.ToString();
+                return Forbid();
+            }
+            
             return NoContent();
         }
 

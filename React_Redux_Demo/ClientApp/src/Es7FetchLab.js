@@ -1,4 +1,12 @@
+import { Header } from "semantic-ui-react";
+
 export class Es7FetchData{
+
+    /**
+     * query
+     * @param {string} url
+     * @param {string} access_token
+     */
     async get(url,access_token){
         const res = await fetch(url, {
             method: 'GET',
@@ -48,10 +56,26 @@ export class Es7FetchData{
         return await res.json();
     }
 
-    async delete(url){
-        const res=await fetch(url,{method:'DELETE'});
-
-        return await res.status===200?'Delete success!':'Delete failed!';
+    async delete(url, access_token){
+        const res = await fetch(url,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer " + access_token
+                }
+            });
+        let status = await res.status;
+        switch (status) {
+            case 204:
+                return 'Delete success!';
+            case 403:
+                return 'The data is referred by a sale data, so cannot be deleted! ';
+            case 404:
+                return 'The data is not exist!';
+            default:
+                return 'Delete failed!'
+        }
     }
 }
 

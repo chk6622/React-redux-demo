@@ -72,9 +72,9 @@ class CustomerApp extends Component {
                     dataPerPage: pagination == null ? null :pagination['pageSize'],
                     curPageIndex: pagination == null ? null :pagination['currentPage'],
                     maxPageNumber: pagination == null ? null : pagination['totalPages'],
-                    curPageLink:curPageLink,
-                    nextPageLink:nextPageLink,
-                    prePageLink:prePageLink,
+                    curPageLink: curPageLink==null?null:curPageLink,
+                    nextPageLink: curPageLink == null ? null :nextPageLink,
+                    prePageLink: curPageLink == null ? null :prePageLink,
                     loading: false
                 });  //put customers into redux
             })
@@ -114,24 +114,47 @@ class CustomerApp extends Component {
     }
 
     deleteData = (customerId) => {
-        let url = '/customer/delete/' + customerId;
-        fetch(url)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
-                return myJson;
-            })
-            .then(
-                myJson => {
-                    if (myJson.result) {
-                        //debugger;
-                        this.props.deleteCustomers(customerId)
+        let httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/customers/${customerId}`;
+        console.log(`execute delete ${url}`);
+        httpHelper.delete(url, GetAccessToken())
+            .then(message => {
+                alert(message);
+            }).then(
+                () => {
+                    let curPageLink = this.props.curPageLink;
+                    if (curPageLink !== null) {
+                        httpHelper.get(curPageLink['href'], GetAccessToken())
+                            .then((data) => {
+                                //debugger
+                                let body = data['body'];
+                                let pagination = data['pagination'];
+                                let location = data['location'];
+                                let customers = body.value;
+                                let curPageLink = body.links.find(link => link.rel === 'self');
+                                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
+                                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+                                pagination = JSON.parse(pagination);
+                                this.props.reflashCustomers({
+                                    customers: customers,
+                                    totalData: pagination == null ? null : pagination['totalCount'],
+                                    dataPerPage: pagination == null ? null : pagination['pageSize'],
+                                    curPageIndex: pagination == null ? null : pagination['currentPage'],
+                                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                                    curPageLink: curPageLink === null ? null : curPageLink,
+                                    nextPageLink: curPageLink === null ? null : nextPageLink,
+                                    prePageLink: curPageLink === null ? null : prePageLink,
+                                    loading: false
+                                });  //put customers into redux
+                            })
                     }
                 }
             );
     }
+                
+
+        
 
 
     getQueryParamsUrl(queryUrl) {

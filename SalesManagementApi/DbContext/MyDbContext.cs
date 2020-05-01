@@ -21,7 +21,7 @@ namespace SalesManagementApi.AppDbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            /* modelBuilder.Entity<Sales>()
+            modelBuilder.Entity<Sales>()
                  .HasOne(x => x.Customer)
                  .WithMany(x => x.ProductSold)
                  .OnDelete(DeleteBehavior.Restrict);  //DeleteBehavior.Restrict:非级联删除，DeleteBehavior.Cascade:级联删除
@@ -35,7 +35,7 @@ namespace SalesManagementApi.AppDbContext
                .HasOne(x => x.Store)
                .WithMany(x => x.ProductSold)
                .OnDelete(DeleteBehavior.Restrict);  //DeleteBehavior.Restrict:非级联删除，DeleteBehavior.Cascade:级联删除
-*/
+
           
             modelBuilder.Entity<Sales>().HasData(
                            new
