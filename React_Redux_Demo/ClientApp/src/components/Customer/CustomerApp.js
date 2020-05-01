@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
 
 import 'semantic-ui-css/semantic.min.css';
 import '../../css/AppSheet.css';
+import { GetUser, GetAccessToken } from '../../helpers/UserHelper';
+import { environment } from '../../environments/environment';
+import { Es7FetchData } from '../../Es7FetchLab';
 
 
 
@@ -33,25 +36,59 @@ class CustomerApp extends Component {
 
     }  
 
-    componentWillMount() {
+    componentDidMount() {
         this.refreshList();
     }
 
     queryData(queryUrl) {
+        //debugger
+        var httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = queryUrl === null ? `${apiUrl}/api/customers` : queryUrl;
+        console.log(`execute query ${url}`);
+        httpHelper.get(url, GetAccessToken())
+            .then((data) => {
+                //debugger
+               let body = data['body'];
+                let pagination = data['pagination'];
+                let location = data['location'];
+                let customers = body.value;
+                let curPageLink = body.links.find(link => link.rel === 'self');
+                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
+                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+                console.log('=========================');
+                console.log(customers);
+                console.log(pagination);
+                console.log(location);
+                console.log(curPageLink);
+                console.log(nextPageLink);
+                console.log(prePageLink);
+                console.log('=========================');
+                pagination=JSON.parse(pagination);
+                //pagination['totalCount']
+                this.props.reflashCustomers({
+                    customers: customers,
+                    totalData: pagination==null?null:pagination['totalCount'],
+                    dataPerPage: pagination == null ? null :pagination['pageSize'],
+                    curPageIndex: pagination == null ? null :pagination['currentPage'],
+                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                    curPageLink:curPageLink,
+                    nextPageLink:nextPageLink,
+                    prePageLink:prePageLink,
+                    loading: false
+                });  //put customers into redux
+            })
 
-        fetch(queryUrl)
-            .then(response => response.json())
-            .then(data => {
-                let customers = data.results;
-                //console.log(customers);
-                this.props.reflashCustomers({ customers: customers, totalData: data.totalData, loading: false });  //put customers into redux
-            });
     }
 
     addData = (customer) => {
-        fetch('/customer/add', {
+        fetch(environment.apiBase+'/api/customers', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: 
+            {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + GetUser.GetAccessToken()
+            },
             body: JSON.stringify(customer)
         })
             .then(function (response) {
@@ -109,19 +146,34 @@ class CustomerApp extends Component {
         return queryUrl;
     }
 
-    getPaginatedUrl(url, paginationParams) {     
-        url += '?skipData=' + paginationParams.skipData + '&dataPerPage=' + paginationParams.dataPerPage;
+    getPaginatedUrl(url,pageIndex) { 
+        debugger;
+        /*let skip = paginationParams.skipData;
+        let pageSize = paginationParams.pageSize;
+        let tempUrl = '';
+        if (skip > 0) {
+            tempUrl += 'Skip=' + paginationParams.skipData;
+        }
+        if (tempUrl !== '') {
+            tempUrl += '&'
+        }
+        if (pageSize > 0) {
+            tempUrl += 'PageSize=' + paginationParams.dataPerPage;
+        }*/
+        let pageNumber = pageIndex == null ? 1 : (pageIndex < 1 ? 1 : pageIndex);
+        url = `${url}?PageNumber=${pageNumber}`;
+        //url += '?Skip=' + paginationParams.skipData + '&PageSize=' + paginationParams.dataPerPage;
         return url;
     }
 
     paginate(curPageIndex=null) {
         //debugger
-        let totalData = (this.props.totalData == null || this.props.totalData == undefined) ? 0 : this.props.totalData;
-        let dataPerPage = (this.props.dataPerPage == null || this.props.dataPerPage == undefined) ? 5 : this.props.dataPerPage;
+        let totalData = (this.props.totalData === null || this.props.totalData === undefined) ? 0 : this.props.totalData;
+        let dataPerPage = (this.props.dataPerPage === null || this.props.dataPerPage === undefined) ? 0 : this.props.dataPerPage;
 
         let thisCurPageIndex; //= (this.props.curPageIndex == null || this.props.curPageIndex == undefined) ? 1 : this.props.curPageIndex;
-        if (curPageIndex == null) {
-            thisCurPageIndex = (this.props.curPageIndex == null || this.props.curPageIndex == undefined) ? 1 : this.props.curPageIndex;
+        if (curPageIndex === null) {
+            thisCurPageIndex = (this.props.curPageIndex === null || this.props.curPageIndex === undefined) ? 1 : this.props.curPageIndex;
         }
         else {
             thisCurPageIndex = curPageIndex;
@@ -133,17 +185,17 @@ class CustomerApp extends Component {
         let beginPage = thisCurPageIndex - 2 <= 0 ? 1 : thisCurPageIndex - 2;
         let endPage = thisCurPageIndex + 2 > maxPageNumber ? maxPageNumber : thisCurPageIndex + 2;
         this.props.updateQueryParams({ curPageIndex: thisCurPageIndex});  //put current page index into the store.
-        return { totalData: totalData, dataPerPage: dataPerPage, curPageIndex: curPageIndex, skipData: skipData, maxPageNumber: maxPageNumber, beginPage: beginPage, endPage: endPage };
+        return { totalData: totalData, dataPerPage: dataPerPage, curPageIndex: thisCurPageIndex, skipData: skipData, maxPageNumber: maxPageNumber, beginPage: beginPage, endPage: endPage };
     }
 
 
-    refreshList(curPageIndex=null) {
+    refreshList(pageIndex) {
         //debugger
         //console.log('refreshList');
-
-        let url = '/customer/query/';
-        let paginationParams = this.paginate(curPageIndex);
-        url = this.getPaginatedUrl(url, paginationParams);
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/customers`;
+        //let paginationParams = this.paginate();
+        url = this.getPaginatedUrl(url,pageIndex);
         url = this.getQueryParamsUrl(url);
         this.queryData(url);
     }
@@ -155,13 +207,17 @@ class CustomerApp extends Component {
     }
 
     skipPage = (event, { pageIndex }) => {
-        //debugger
+        debugger
         //console.log("enter skipPage method");
         //console.log(name);
+        this.props.updateQueryParams({ curPageIndex: pageIndex });  //put current page index into the store.
+        console.log(this.props.curPageIndex);
         this.refreshList(pageIndex);
     }
 
     render() {
+        console.log('render !!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        console.log(this.props);
         return (
             <>
                 {/* <div className='listTitle'>

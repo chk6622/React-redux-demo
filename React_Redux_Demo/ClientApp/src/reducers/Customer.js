@@ -36,7 +36,8 @@ let initState = {
     skipData: 0,
     maxPageNumber: 1,
     beginPage: 1,
-    endPage: 1};
+    endPage: 1
+};
 
 export const reducer = (state = initState, action) => {
     /*if (!state) {
@@ -47,9 +48,9 @@ export const reducer = (state = initState, action) => {
         case INIT_CUSTOMERS:
             return { ...action.customers }
         case REFLASH_CUSTOMERS:
-            console.log('Excute reflash customers action');
+            //console.log('Excute reflash customers action');
             newState = {...state, ...action.customers };
-            console.log(state);
+            //console.log(state);
             console.log(newState);
             return newState;
         case ADD_CUSTOMER:
@@ -68,7 +69,7 @@ export const reducer = (state = initState, action) => {
             }
             let newCustomers = index == -1 ? [...customers] : [...customers.slice(0, index), ...customers.slice(index + 1)];
             newState = { ...state, customers:newCustomers };
-            console.log(newState);
+            //console.log(newState);
             return newState;
         case UPDATE_QUERY_PARAMS:
             newState = { ...state, ...action.queryParams };

@@ -1,10 +1,17 @@
-class Es7FetchData{
-    async get(url){
-        const res=await fetch(url);
+export class Es7FetchData{
+    async get(url,access_token){
+        const res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + access_token
+            },
+        });
         
         let body = await res.json();
-        let header=await res.headers.get('Content-Type');
-        return {header,body};
+        let pagination = await res.headers.get('x-pagination');
+        let location = await res.headers.get('location');
+        return { pagination,body,location};
     }
 
     async post(url,newData){

@@ -26,12 +26,16 @@ class CustomerList extends Component {
     }  
 
     renderCustomersTable() {
-        //debugger
+        debugger
         console.log(this.props);
-        let paginationParams=this.props.paginate(this.props.curPageIndex);
-        let beginPage = paginationParams.beginPage;
-        let endPage = paginationParams.endPage;
-        let curPage = paginationParams.curPageIndex;
+        //let paginationParams=this.props.paginate();
+        let beginPage = 1; //paginationParams.beginPage;
+        let endPage = this.props.maxPageNumber; //paginationParams.endPage;
+        let curPage = this.props.curPageIndex;
+        console.log('=================================');
+        console.log(endPage);
+        console.log(curPage);
+        console.log('=================================');
         let pages = new Array();
         //debugger
         for (let ind = beginPage; ind <= endPage; ind++) {
@@ -80,7 +84,7 @@ class CustomerList extends Component {
                     <Table.HeaderCell colSpan='4'>                       
                             <Menu floated='right' pagination> 
                                     {pages.map(pageIndex => 
-                                        <Menu.Item as='a' className={pageIndex == curPage ?'big':'normal'} pageIndex={pageIndex} onClick={this.props.skipPage}>
+                                        <Menu.Item as='a' className={pageIndex === curPage ?'big':'normal'} pageIndex={pageIndex} onClick={this.props.skipPage}>
                                             {pageIndex}   
                                         </Menu.Item>                                    
                                     )}                              

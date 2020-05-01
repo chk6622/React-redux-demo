@@ -1,5 +1,5 @@
 ﻿export const idpBase = 'http://localhost:5000';
-export const apiBase = 'http://localhost:5001';
+export const apiBase = 'http://localhost:8080';
 export const angularBase = 'http://localhost:3000';
 
 export const environment = {
