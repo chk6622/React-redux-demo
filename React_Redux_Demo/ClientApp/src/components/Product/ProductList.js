@@ -22,10 +22,10 @@ export class ProductList extends Component {
     }
 
     renderProductsTable() {
-        let paginationParams = this.props.paginate(this.props.curPageIndex);
-        let beginPage = paginationParams.beginPage;
-        let endPage = paginationParams.endPage;
-        let curPage = paginationParams.curPageIndex;
+        //let paginationParams = this.props.paginate(this.props.curPageIndex);
+        let beginPage = 1;
+        let endPage = this.props.maxPageNumber;
+        let curPage = this.props.curPageIndex;
         let pages = new Array();
         //debugger
         for (let ind = beginPage; ind <= endPage; ind++) {

@@ -4,11 +4,10 @@ import { reflashStores, addCustomer, updateQueryParams, deleteStore  } from '../
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import StoreList from './StoreList';
-
-//import AddStoreModal from './AddStoreModal';
-//import UpdateStoreModal from './UpdateStoreModal';
-//import DeleteButton from '../DeleteButton.js';
 import 'semantic-ui-css/semantic.min.css';
+import { GetUser, GetAccessToken } from '../../helpers/UserHelper';
+import { environment } from '../../environments/environment';
+import { Es7FetchData } from '../../Es7FetchLab';
 
 
 
@@ -24,16 +23,6 @@ class StoreApp extends Component {
   constructor (props) {
       super(props);
       this.state = {
-          /*stores: [],
-          loading: true,
-          refresh: true,
-          totalData: 0,
-          dataPerPage: 5,
-          curPageIndex: 1,
-          skipData: 0,
-          maxPageNumber: 1,
-          beginPage: 1,
-          endPage: 1,*/
       };
       this.queryData = this.queryData.bind(this);
       //this.deleteData = this.deleteData.bind(this);
@@ -42,7 +31,6 @@ class StoreApp extends Component {
       this.skipPage = this.skipPage.bind(this);
       this.skipPage = this.skipPage.bind(this);
       this.getQueryParamsUrl = this.getQueryParamsUrl.bind(this);
-      this.paginate = this.paginate.bind(this);
 
     }  
 
@@ -51,60 +39,94 @@ class StoreApp extends Component {
     }
 
     queryData(queryUrl, curPage) {   
-        console.log(queryUrl);
-        fetch(queryUrl)
-            .then(response => response.json())
-            .then(data => {
-                console.log('There are ' + data.length + ' stores. They are:');
-                console.log(data.results);
-                //this.setState({ curPageIndex: curPage, totalData: data.totalData, stores: data.results, loading: false, refresh: !this.state.refresh });
-                this.props.reflashStores({ totalData: data.totalData, stores: data.results, loading: false});
-            });
+        var httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = queryUrl === null ? `${apiUrl}/api/stores` : queryUrl;
+        console.log(`execute query ${url}`);
+        httpHelper.get(url, GetAccessToken())
+            .then((data) => {
+                //debugger
+                let body = data['body'];
+                let pagination = data['pagination'];
+                let location = data['location'];
+                let stores = body.value;
+                let curPageLink = body.links.find(link => link.rel === 'self');
+                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
+                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+             
+                pagination = JSON.parse(pagination);
+
+                this.props.reflashStores({
+                    stores: stores,
+                    totalData: pagination == null ? null : pagination['totalCount'],
+                    dataPerPage: pagination == null ? null : pagination['pageSize'],
+                    curPageIndex: pagination == null ? null : pagination['currentPage'],
+                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                    curPageLink: curPageLink == null ? null : curPageLink,
+                    nextPageLink: curPageLink == null ? null : nextPageLink,
+                    prePageLink: curPageLink == null ? null : prePageLink,
+                    loading: false
+                });  
+            })
     }
 
     addData = (store) => {
-        fetch('/store/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(store)
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
+        var httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/stores`;
+
+        httpHelper.post(url, GetAccessToken(), store)
+            .then(data => {
+                alert(data['msg']);
             });
     }
 
     updateData = (store) => {
-        fetch('/store/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(store)
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
+        let httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/stores/${store.id}`;
+        console.log(`execute Update ${url}`);
+        httpHelper.put(url, GetAccessToken(), store)
+            .then(data => {
+                alert(data['msg']);
             });
     }
 
     deleteData = (storeId) => {
-        let url = '/store/delete/' + storeId;
-        fetch(url)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
-                return myJson;
-            })
-            .then(
-                myJson => {
-                    if (myJson.result) {
-                        //debugger;
-                        this.props.deleteStore(storeId)
+        let httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/stores/${storeId}`;
+        console.log(`execute delete ${url}`);
+        httpHelper.delete(url, GetAccessToken())
+            .then(message => {
+                alert(message);
+            }).then(
+                () => {
+                    let curPageLink = this.props.curPageLink;
+                    if (curPageLink !== null) {
+                        httpHelper.get(curPageLink['href'], GetAccessToken())
+                            .then((data) => {
+                                //debugger
+                                let body = data['body'];
+                                let pagination = data['pagination'];
+                                let location = data['location'];
+                                let stores = body.value;
+                                let curPageLink = body.links.find(link => link.rel === 'self');
+                                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
+                                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+                                pagination = JSON.parse(pagination);
+                                this.props.reflashStores({
+                                    stores: stores,
+                                    totalData: pagination == null ? null : pagination['totalCount'],
+                                    dataPerPage: pagination == null ? null : pagination['pageSize'],
+                                    curPageIndex: pagination == null ? null : pagination['currentPage'],
+                                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                                    curPageLink: curPageLink === null ? null : curPageLink,
+                                    nextPageLink: curPageLink === null ? null : nextPageLink,
+                                    prePageLink: curPageLink === null ? null : prePageLink,
+                                    loading: false
+                                });  //put customers into redux
+                            })
                     }
                 }
             );
@@ -122,36 +144,16 @@ class StoreApp extends Component {
         return queryUrl;
     }
 
-    getPaginatedUrl(url, paginationParams) {
-        url += '?skipData=' + paginationParams.skipData + '&dataPerPage=' + paginationParams.dataPerPage;
+    getPaginatedUrl(url, pageIndex) {
+        let pageNumber = pageIndex == null ? 1 : (pageIndex < 1 ? 1 : pageIndex);
+        url = `${url}?PageNumber=${pageNumber}`;
         return url;
     }
 
-    paginate(curPageIndex = null) {
-        let totalData = (this.props.totalData == null || this.props.totalData == undefined) ? 0 : this.props.totalData;
-        let dataPerPage = (this.props.dataPerPage == null || this.props.dataPerPage == undefined) ? 5 : this.props.dataPerPage;
-
-        let thisCurPageIndex; //= (this.props.curPageIndex == null || this.props.curPageIndex == undefined) ? 1 : this.props.curPageIndex;
-        if (curPageIndex == null) {
-            thisCurPageIndex = (this.props.curPageIndex == null || this.props.curPageIndex == undefined) ? 1 : this.props.curPageIndex;
-        }
-        else {
-            thisCurPageIndex = curPageIndex;
-        }
-
-        let skipData = (thisCurPageIndex - 1) * dataPerPage;
-        //let maxPageNumber = totalData % dataPerPage > 0 ? integer(totalData / dataPerPage) + 1 : int(totalData / dataPerPage);
-        let maxPageNumber = Math.ceil(totalData / dataPerPage) <= 0 ? 1 : Math.ceil(totalData / dataPerPage);
-        let beginPage = thisCurPageIndex - 2 <= 0 ? 1 : thisCurPageIndex - 2;
-        let endPage = thisCurPageIndex + 2 > maxPageNumber ? maxPageNumber : thisCurPageIndex + 2;
-        this.props.updateQueryParams({ curPageIndex: thisCurPageIndex });  //put current page index into the store.
-        return { totalData: totalData, dataPerPage: dataPerPage, curPageIndex: curPageIndex, skipData: skipData, maxPageNumber: maxPageNumber, beginPage: beginPage, endPage: endPage };
-    }
-
-    refreshList(curPageIndex=null) {
-        let url = '/store/query/';
-        let paginationParams = this.paginate(curPageIndex);
-        url = this.getPaginatedUrl(url, paginationParams);
+    refreshList(pageIndex=null) {
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/stores`;
+        url = this.getPaginatedUrl(url, pageIndex);
         url = this.getQueryParamsUrl(url);
         this.queryData(url);
     }
@@ -164,6 +166,8 @@ class StoreApp extends Component {
 
     skipPage = (event, { pageIndex }) => {
         //debugger
+        this.props.updateQueryParams({ curPageIndex: pageIndex });  //put current page index into the store.
+        console.log(this.props.curPageIndex);
         this.refreshList(pageIndex);
     }
 
@@ -177,7 +181,7 @@ class StoreApp extends Component {
             </div>*/}
             <div className='listContent'>
                 <StoreList {...this.props}
-                    paginate={this.paginate}
+                    //paginate={this.paginate}
                     refreshList={this.refreshList}
                     myChangeHandler={this.myChangeHandler}
                     addData={this.addData}
@@ -191,8 +195,8 @@ class StoreApp extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("enter 'mapStateToProps' method");
-    console.log(state);
+    //console.log("enter 'mapStateToProps' method");
+    //console.log(state);
     return state.storeReducer;
 }
 

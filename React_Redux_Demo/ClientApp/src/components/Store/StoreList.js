@@ -25,10 +25,10 @@ class StoreList extends Component {
 
     renderStoresTable() {
         console.log(this.props);
-        let paginationParams = this.props.paginate(this.props.curPageIndex);
-        let beginPage = paginationParams.beginPage;
-        let endPage = paginationParams.endPage;
-        let curPage = paginationParams.curPageIndex;
+       // let paginationParams = this.props.paginate(this.props.curPageIndex);
+        let beginPage = 1; //paginationParams.beginPage;
+        let endPage = this.props.maxPageNumber; //paginationParams.endPage;
+        let curPage = this.props.curPageIndex;
         let pages = new Array();
         //debugger
         for (let ind = beginPage; ind <= endPage; ind++) {

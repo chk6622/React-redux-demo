@@ -90,22 +90,6 @@ class CustomerApp extends Component {
             .then(data => {
                 alert(data['msg']);
             });
-
-        /*fetch(environment.apiBase+'/api/customers', {
-            method: 'POST',
-            headers: 
-            {
-                'Content-Type': 'application/json',
-                "Authorization": "Bearer " + GetUser.GetAccessToken()
-            },
-            body: JSON.stringify(customer)
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
-            });*/
     }
 
     updateData = (customer) => {
@@ -117,18 +101,6 @@ class CustomerApp extends Component {
             .then(data => {
                 alert(data['msg']);
             });
-
-        /*fetch('/customer/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(customer)
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
-            });*/
     }
 
     deleteData = (customerId) => {
@@ -187,7 +159,7 @@ class CustomerApp extends Component {
     }
 
     getPaginatedUrl(url,pageIndex) { 
-        debugger;
+        //debugger;
         /*let skip = paginationParams.skipData;
         let pageSize = paginationParams.pageSize;
         let tempUrl = '';
@@ -247,7 +219,7 @@ class CustomerApp extends Component {
     }
 
     skipPage = (event, { pageIndex }) => {
-        debugger
+        //debugger
         //console.log("enter skipPage method");
         //console.log(name);
         this.props.updateQueryParams({ curPageIndex: pageIndex });  //put current page index into the store.
@@ -256,8 +228,8 @@ class CustomerApp extends Component {
     }
 
     render() {
-        console.log('render !!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        console.log(this.props);
+        //console.log('render !!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        //console.log(this.props);
         return (
             <>
                 {/* <div className='listTitle'>
@@ -265,7 +237,7 @@ class CustomerApp extends Component {
                 </div> */}
                 <div className='listContent'>
                     <CustomerList {...this.props}
-                        paginate={this.paginate}
+                        //paginate={this.paginate}
                         refreshList={this.refreshList}
                         myChangeHandler={this.myChangeHandler}
                         addData={this.addData}

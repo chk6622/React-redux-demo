@@ -48,7 +48,7 @@ namespace SalesManagementApi.Controllers
         /// <returns></returns>
         [HttpGet(Name = nameof(GetProducts))]
         [HttpHead]  //Head请求不返回body，只返回head
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetProducts([FromQuery]ProductQryDto productQryDto)
         {
             this._logger.LogInformation("enter 'GetProducts' method.");
@@ -124,6 +124,7 @@ namespace SalesManagementApi.Controllers
              )
              ]
         [HttpGet("{productId}", Name = nameof(GetProduct))]
+        [Authorize]
         public async Task<IActionResult> GetProduct(int productId, string shapeFields, [FromHeader(Name = "Accept")] string mediaType)
         {
             if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue parsedMediaType))
@@ -161,6 +162,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="product"></param>
         /// <returns></returns>
         [HttpPost(Name = nameof(AddProduct))]
+        [Authorize]
         public async Task<ActionResult<ProductDto>> AddProduct(ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
@@ -177,6 +179,7 @@ namespace SalesManagementApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpOptions]
+        [Authorize]
         public IActionResult GetProductOptions()
         {
             Response.Headers.Add("Allow", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
@@ -189,6 +192,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="productId"></param>
         /// <returns></returns>
         [HttpDelete("{productId}", Name = nameof(DeleteProduct))]
+        [Authorize]
         public IActionResult DeleteProduct(int productId)
         {
 
@@ -216,6 +220,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="productDto"></param>
         /// <returns></returns>
         [HttpPut("{productId}")]
+        [Authorize]
         public async Task<IActionResult> SaveOrUpdateProduct(int productId, ProductDto productDto)
         {
             var product = await this._productDao.GetObjectById(productId);
@@ -243,6 +248,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="patchDocument"></param>
         /// <returns></returns>
         [HttpPatch("{productId}")]
+        [Authorize]
         public async Task<IActionResult> PartiallyUpdateProduct(int productId, JsonPatchDocument<ProductDto> patchDocument)
         {
             var product = await this._productDao.GetObjectById(productId);
