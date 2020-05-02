@@ -189,14 +189,23 @@ namespace SalesManagementApi.Controllers
         /// <param name="productId"></param>
         /// <returns></returns>
         [HttpDelete("{productId}", Name = nameof(DeleteProduct))]
-        public async Task<IActionResult> DeleteProduct(int productId)
+        public IActionResult DeleteProduct(int productId)
         {
-            var entity = await this._productDao.GetObjectById(productId);
-            if (entity == null)
+
+            try
+            {
+                this._productDao.Delete(productId);
+            }
+            catch (System.ArgumentNullException)
             {
                 return NotFound();
             }
-            await this._productDao.Delete(productId);
+            catch (Exception e)
+            {
+                e.ToString();
+                return Forbid();
+            }
+            
             return NoContent();
         }
 
@@ -212,9 +221,10 @@ namespace SalesManagementApi.Controllers
             var product = await this._productDao.GetObjectById(productId);
             if (product == null)
             {
-                product = this._mapper.Map<Product>(productDto);
+                /*product = this._mapper.Map<Product>(productDto);
                 product.Id = productId;
-                await this._productDao.Add(product);
+                await this._productDao.Add(product);*/
+                return NotFound();
             }
             else
             {

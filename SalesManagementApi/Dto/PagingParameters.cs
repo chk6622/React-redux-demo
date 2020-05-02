@@ -44,7 +44,7 @@ namespace SalesManagementApi.Dto
             {
                 if (string.IsNullOrWhiteSpace(this.orderFields))
                 {
-                    this.orderFields = "id";
+                    this.orderFields = "id desc";
                 }
                 return this.orderFields;
             }

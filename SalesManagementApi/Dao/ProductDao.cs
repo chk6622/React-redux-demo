@@ -40,21 +40,11 @@ namespace SalesManagementApi.Dao
             return bReturn;
         }
 
-        public async Task<bool> Delete(int id)
+        public void Delete(int id)
         {
-            bool bReturn = false;
-            try
-            {
-                Product product=await _context.Products.FindAsync(id);
-                _context.Remove<Product>(product);
-                await _context.SaveChangesAsync();
-                bReturn = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            return bReturn;
+            Product product=_context.Products.Find(id);
+            _context.Remove<Product>(product);
+            _context.SaveChanges();
         }
 
         public async Task<Product> GetObjectById(int id)

@@ -82,7 +82,16 @@ class CustomerApp extends Component {
     }
 
     addData = (customer) => {
-        fetch(environment.apiBase+'/api/customers', {
+        var httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/customers`;
+
+        httpHelper.post(url, GetAccessToken(), customer)
+            .then(data => {
+                alert(data['msg']);
+            });
+
+        /*fetch(environment.apiBase+'/api/customers', {
             method: 'POST',
             headers: 
             {
@@ -96,11 +105,20 @@ class CustomerApp extends Component {
             })
             .then(function (myJson) {
                 alert(myJson.message);
-            });
+            });*/
     }
 
-    updateData=(customer) => {
-        fetch('/customer/update', {
+    updateData = (customer) => {
+        let httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/customers/${customer.id}`;
+        console.log(`execute Update ${url}`);
+        httpHelper.put(url, GetAccessToken(), customer)
+            .then(data => {
+                alert(data['msg']);
+            });
+
+        /*fetch('/customer/update', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(customer)
@@ -110,7 +128,7 @@ class CustomerApp extends Component {
             })
             .then(function (myJson) {
                 alert(myJson.message);
-            });
+            });*/
     }
 
     deleteData = (customerId) => {
@@ -153,8 +171,7 @@ class CustomerApp extends Component {
             );
     }
                 
-
-        
+     
 
 
     getQueryParamsUrl(queryUrl) {

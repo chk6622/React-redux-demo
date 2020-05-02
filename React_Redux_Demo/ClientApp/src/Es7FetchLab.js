@@ -22,27 +22,49 @@ export class Es7FetchData{
         return { pagination,body,location};
     }
 
-    async post(url,newData){
+    /**
+     * add
+     * @param {string} url
+     * @param {string} access_token
+     * @param {object} newData
+     */
+    async post(url, access_token, newData){
 
         const res=await fetch(url,{
             method:'POST',
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + access_token
             },
             body:JSON.stringify(newData)
         });
-        return await res.json();
+        let status = await res.status;
+        let body = status=='201'?await res.json():null;
+        let location = status == '201' ? await res.headers.get('location') : null;
+        let msg = status == '201' ? 'Add success!' : 'Add fail!';
+        return { msg, body, location };
     }
 
-    async put(url,updateData){
+    /**
+     * update
+     * @param {string} url
+     * @param {string} access_token
+     * @param {object} updateData
+     */
+    async put(url,access_token,updateData){
         const res=await fetch(url,{
             method:'PUT',
             headers:{
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + access_token
             },
             body:JSON.stringify(updateData)
         });
-        return await res.json();
+        let status = await res.status;
+        let body = status == '201' ? await res.json() : null;
+        let location = status == '201' ? await res.headers.get('location') : null;
+        let msg = status == '201' ? 'Update success!' : status=='404'?'The data is not exist in the database!':'Updata fail!';
+        return { msg, body, location };
     }
 
     async patch(url,updateData){

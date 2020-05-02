@@ -11,7 +11,7 @@ export const environment = {
         redirect_uri: `${angularBase}`,
         post_logout_redirec_uri: `${angularBase}/`,
         silent_redirect_uri: `${angularBase}/redirect-silentrenew`,
-        scope: 'api1 openid profile address email phone roles',
+        scope: 'SalesManagementApi openid profile address email phone roles',
         response_type: 'id_token token',
         automaticSilentRenew: true
     }

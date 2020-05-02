@@ -186,14 +186,21 @@ namespace SalesManagementApi.Controllers
         /// <param name="storeId"></param>
         /// <returns></returns>
         [HttpDelete("{storeId}", Name = nameof(DeleteStore))]
-        public async Task<IActionResult> DeleteStore(int storeId)
+        public IActionResult DeleteStore(int storeId)
         {
-            var entity = await this._storeDao.GetObjectById(storeId);
-            if (entity == null)
+            try
+            {
+                this._storeDao.Delete(storeId);
+            }
+            catch (System.ArgumentNullException)
             {
                 return NotFound();
             }
-            await this._storeDao.Delete(storeId);
+            catch (Exception e)
+            {
+                e.ToString();
+                return Forbid();
+            }
             return NoContent();
         }
 
@@ -209,9 +216,10 @@ namespace SalesManagementApi.Controllers
             var store = await this._storeDao.GetObjectById(storeId);
             if (store == null)
             {
-                store = this._mapper.Map<Store>(storeDto);
+                /*store = this._mapper.Map<Store>(storeDto);
                 store.Id = storeId;
-                await this._storeDao.Add(store);
+                await this._storeDao.Add(store);*/
+                return NotFound();
             }
             else
             {

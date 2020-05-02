@@ -3,11 +3,10 @@
     "",
     "\\React_Redux_Demo",
     "\\React_Redux_Demo\\ClientApp",
-    "\\React_Redux_Demo\\ClientApp\\src",
     "\\React_Redux_Demo\\DbContext",
     "\\React_Redux_Demo\\Migrations",
     "\\React_Redux_Demo\\Models"
   ],
-  "SelectedNode": "\\React_Redux_Demo\\Startup.cs",
+  "SelectedNode": "\\SalesManagementApi",
   "PreviewInSolutionExplorer": false
 }

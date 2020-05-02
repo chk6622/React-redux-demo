@@ -47,7 +47,7 @@ namespace SalesManagementApi.Controllers
         /// <returns></returns>
         [HttpGet(Name = nameof(GetCustomers))]
         [HttpHead]  //Head请求不返回body，只返回head
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetCustomers([FromQuery]CustomerQryDto customerQryDto) 
         {
             this._logger.LogInformation("enter 'GetCustomers' method.");
@@ -122,7 +122,8 @@ namespace SalesManagementApi.Controllers
              //"application/vnd.company.company.full+json")
              )
              ]
-        [HttpGet("{customerId}", Name = nameof(GetCustomer))] 
+        [HttpGet("{customerId}", Name = nameof(GetCustomer))]
+        [Authorize]
         public async Task<IActionResult> GetCustomer(int customerId, string shapeFields, [FromHeader(Name = "Accept")] string mediaType)
         {
             if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue parsedMediaType))
@@ -160,6 +161,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="customer"></param>
         /// <returns></returns>
         [HttpPost(Name = nameof(AddCustomer))]
+        [Authorize]
         public async Task<ActionResult<CustomerDto>> AddCustomer(CustomerDto customer)
         {
             var entity = _mapper.Map<Customer>(customer);
@@ -176,6 +178,7 @@ namespace SalesManagementApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpOptions]
+        [Authorize]
         public IActionResult GetCustomerOptions()
         {
             Response.Headers.Add("Allow", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
@@ -188,6 +191,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="customerId"></param>
         /// <returns></returns>
         [HttpDelete("{customerId}", Name = nameof(DeleteCustomer))]
+        [Authorize]
         public IActionResult DeleteCustomer(int customerId)
         {
             /*var entity = await this._customerDao.GetObjectById(customerId);
@@ -219,14 +223,16 @@ namespace SalesManagementApi.Controllers
         /// <param name="customerDto"></param>
         /// <returns></returns>
         [HttpPut("{customerId}")]
+        [Authorize]
         public async Task<IActionResult> SaveOrUpdateCustomer(int customerId, CustomerDto customerDto)
         {
             var customer=await this._customerDao.GetObjectById(customerId);
             if (customer == null)
             {
-                customer = this._mapper.Map<Customer>(customerDto);
+                /*customer = this._mapper.Map<Customer>(customerDto);
                 customer.Id = customerId;
-                await this._customerDao.Add(customer);
+                await this._customerDao.Add(customer);*/
+                return NotFound();
             }
             else
             {

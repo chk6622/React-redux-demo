@@ -50,6 +50,6 @@ namespace SalesManagementApi.Dao
         /// </summary>
         /// <param name="id">The product's primary key</param>
         /// <returns>true if succeed, or false</returns>
-        Task<bool> Delete(int id);
+        void Delete(int id);
     }
 }
