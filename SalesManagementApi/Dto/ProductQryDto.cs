@@ -4,6 +4,7 @@ namespace SalesManagementApi.Dto
 {
     public class ProductQryDto:PagingParameters
     {
+        public int Id { get; set; }
         private string nameQry;
         public string NameQry
         {

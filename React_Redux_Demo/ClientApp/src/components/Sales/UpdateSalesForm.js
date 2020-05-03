@@ -57,8 +57,11 @@ class UpdateSalesForm extends React.Component {
         let customerId = this.state.customerId;
         let productId = this.state.productId;
         let storeId = this.state.storeId;
-
-        fetch('/sales/update', {
+        let sales = { "id": id, "dateSold": dateSold, 'customerId': customerId, "productId": productId, "storeId": storeId };
+        console.log(`Sales:${sales}`);
+        debugger;
+        this.props.updateData(sales);
+        /*fetch('/sales/update', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ "id": id, "dateSold": dateSold, 'customerId': customerId, "productId": productId, "storeId": storeId })
@@ -68,7 +71,7 @@ class UpdateSalesForm extends React.Component {
             })
             .then(function (myJson) {
                 alert(myJson.message);
-            });
+            });*/
     }
     /*myChangeHandler = (event) => {
         let nam = event.target.name;
@@ -113,9 +116,11 @@ class UpdateSalesForm extends React.Component {
                             <DropdownSearchQuery
                                 myChangeHandler={this.handleChangeHandler}
                                 initValue={this.state.customerId}
-                                fetchDataUrl='/customer/query'
+                                initOptions={[this.props.sale.customer]}
+                                fetchDataUrl='/api/customers'
                                 optionTextPropsName='name'
                                 optionValuePropsName='id'
+                                queryPropsName='nameQry'
                                 returnPropsName='customerId'
                             />
                         </Form.Field>
@@ -124,9 +129,11 @@ class UpdateSalesForm extends React.Component {
                             <DropdownSearchQuery
                                 myChangeHandler={this.handleChangeHandler}
                                 initValue={this.state.productId}
-                                fetchDataUrl='/product/query'
+                                initOptions={[this.props.sale.product]}
+                                fetchDataUrl='/api/products'
                                 optionTextPropsName='name'
                                 optionValuePropsName='id'
+                                queryPropsName='nameQry'
                                 returnPropsName='productId'
                             />
                         </Form.Field>
@@ -135,9 +142,11 @@ class UpdateSalesForm extends React.Component {
                             <DropdownSearchQuery
                                 myChangeHandler={this.handleChangeHandler}
                                 initValue={this.state.storeId}
-                                fetchDataUrl='/store/query'
+                                initOptions={[this.props.sale.store]}
+                                fetchDataUrl='/api/stores'
                                 optionTextPropsName='name'
                                 optionValuePropsName='id'
+                                queryPropsName='nameQry'
                                 returnPropsName='storeId'
                             />
                         </Form.Field>

@@ -188,14 +188,21 @@ namespace SalesManagementApi.Controllers
         /// <param name="salesId"></param>
         /// <returns></returns>
         [HttpDelete("{salesId}", Name = nameof(DeleteSales))]
-        public async Task<IActionResult> DeleteSales(int salesId)
+        public IActionResult DeleteSales(int salesId)
         {
-            var entity = await this._salesDao.GetObjectById(salesId);
-            if (entity == null)
+            try
+            {
+                this._salesDao.Delete(salesId);
+            }
+            catch (System.ArgumentNullException)
             {
                 return NotFound();
             }
-            await this._salesDao.Delete(salesId);
+            catch (Exception e)
+            {
+                e.ToString();
+                return Forbid();
+            }
             return NoContent();
         }
 
@@ -211,14 +218,19 @@ namespace SalesManagementApi.Controllers
             var sales = await this._salesDao.GetObjectById(salesId);
             if (sales == null)
             {
-                sales = this._mapper.Map<Sales>(salesDto);
+                /*sales = this._mapper.Map<Sales>(salesDto);
                 sales.Id = salesId;
-                await this._salesDao.Add(sales);
+                await this._salesDao.Add(sales);*/
+                return NotFound();
             }
             else
             {
-                this._mapper.Map(salesDto, sales);
-                sales.Id = salesId;
+                //this._mapper.Map(salesDto, sales);
+                //sales.Id = salesId;
+                sales.CustomerId = salesDto.CustomerId;
+                sales.ProductId = salesDto.ProductId;
+                sales.StoreId = salesDto.StoreId;
+                sales.DateSold = salesDto.DateSold;
                 await this._salesDao.Update(sales);
             }
             sales = await this._salesDao.GetObjectById(sales.Id);

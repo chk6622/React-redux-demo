@@ -8,6 +8,8 @@ namespace SalesManagementApi.Dto
 {
     public class StoreQryDto:PagingParameters
     {
+        public int Id { get; set; }
+
         private string nameQry;
         public string NameQry
         {
@@ -23,7 +25,6 @@ namespace SalesManagementApi.Dto
 
             get { return this.addressQry == null ? "" : this.addressQry; }
         }
-
        
     }
 }

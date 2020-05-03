@@ -9,13 +9,15 @@ namespace SalesManagementApi.ViewModels
 {
     public class SalesQryDto:PagingParameters
     {
-        private DateTime beginDateSoldQry;
+        public int Id { get; set; }
+
+        //private DateTime beginDateSoldQry;
         public DateTime BeginDateSoldQry
         {
             set;get;
         }
 
-        private DateTime endDateSoldQry;
+        //private DateTime endDateSoldQry;
         public DateTime EndDateSoldQry
         {
             set; get;

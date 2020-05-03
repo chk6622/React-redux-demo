@@ -3,8 +3,10 @@ import { reflashSales, deleteSales, updateQueryParams} from '../../reducers/Sale
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import SalesList from './SalesList';
-
 import 'semantic-ui-css/semantic.min.css';
+import { GetUser, GetAccessToken } from '../../helpers/UserHelper';
+import { environment } from '../../environments/environment';
+import { Es7FetchData } from '../../Es7FetchLab';
 
 
 
@@ -21,26 +23,16 @@ class SalesApp extends Component {
   constructor (props) {
       super(props);
       this.state = {
-          /*saless: [],
-          loading: true,
-          refresh: true,
-          totalData: 0,
-          dataPerPage: 5,
-          curPageIndex: 1,
-          skipData: 0,
-          maxPageNumber: 1,
-          beginPage: 1,
-          endPage: 1,*/
+         
       };
       this.queryData = this.queryData.bind(this);
 
       this.refreshList = this.refreshList.bind(this);
-      //this.myChangeHandler = this.myChangeHandler.bind(this);
-      //this.myDropDownChangeHandler = this.myDropDownChangeHandler.bind(this);
+
       this.skipPage = this.skipPage.bind(this);
       this.skipPage = this.skipPage.bind(this);
       this.getQueryParamsUrl = this.getQueryParamsUrl.bind(this);
-      this.paginate = this.paginate.bind(this);
+      //this.paginate = this.paginate.bind(this);
       this.handleChangeHandler = this.handleChangeHandler.bind(this);
       
     }  
@@ -49,72 +41,111 @@ class SalesApp extends Component {
         this.refreshList();
     }
 
-    queryData(queryUrl, curPage) {   
-        //alert(queryUrl);
-        fetch(queryUrl)
-            .then(response => response.json())
-            .then(data => {
-                //console.log('There are '+data.length+' saless.');
-                //this.setState({ curPageIndex: curPage, totalData: data.totalData, saless: data.results, loading: false, refresh: !this.state.refresh });
-                this.props.reflashSales({ totalData: data.totalData, sales: data.results, loading: false});
-            });
+    queryData(queryUrl) {   
+        var httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = queryUrl === null ? `${apiUrl}/api/sales` : queryUrl;
+        console.log(`execute query ${url}`);
+        httpHelper.get(url, GetAccessToken())
+            .then((data) => {
+                //debugger
+                let body = data['body'];
+                let pagination = data['pagination'];
+                let location = data['location'];
+                let sales = body.value;
+                let curPageLink = body.links.find(link => link.rel === 'self');
+                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
+                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+                pagination = JSON.parse(pagination);
+                //pagination['totalCount']
+                this.props.reflashSales({
+                    sales: sales,
+                    totalData: pagination == null ? null : pagination['totalCount'],
+                    dataPerPage: pagination == null ? null : pagination['pageSize'],
+                    curPageIndex: pagination == null ? null : pagination['currentPage'],
+                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                    curPageLink: curPageLink == null ? null : curPageLink,
+                    nextPageLink: curPageLink == null ? null : nextPageLink,
+                    prePageLink: curPageLink == null ? null : prePageLink,
+                    loading: false
+                });  //put sales into redux
+            })
     }
 
     addData = (sales) => {
-        fetch('/sales/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(sales)
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
+        var httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/sales`;
+
+        httpHelper.post(url, GetAccessToken(), sales)
+            .then(data => {
+                alert(data['msg']);
             });
     }
 
     updateData = (sales) => {
-        fetch('/sales/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(sales)
-        })
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
+        let httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/sales/${sales.id}`;
+        console.log(`execute Update ${url}`);
+        debugger;
+        httpHelper.put(url, GetAccessToken(), sales)
+            .then(data => {
+                alert(data['msg']);
             });
     }
 
     deleteData = (salesId) => {
-        let url = '/sales/delete/' + salesId;
-        fetch(url)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (myJson) {
-                alert(myJson.message);
-                return myJson;
-            })
-            .then(
-                myJson => {
-                    if (myJson.result) {
-                        //debugger;
-                        this.props.deleteSales(salesId)
+        let httpHelper = new Es7FetchData();
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/sales/${salesId}`;
+        console.log(`execute delete ${url}`);
+        httpHelper.delete(url, GetAccessToken())
+            .then(message => {
+                alert(message);
+            }).then(
+                () => {
+                    let curPageLink = this.props.curPageLink;
+                    if (curPageLink !== null) {
+                        httpHelper.get(curPageLink['href'], GetAccessToken())
+                            .then((data) => {
+                                //debugger
+                                let body = data['body'];
+                                let pagination = data['pagination'];
+                                let location = data['location'];
+                                let sales = body.value;
+                                let curPageLink = body.links.find(link => link.rel === 'self');
+                                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
+                                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+                                pagination = JSON.parse(pagination);
+                                this.props.reflashSales({
+                                    sales: sales,
+                                    totalData: pagination == null ? null : pagination['totalCount'],
+                                    dataPerPage: pagination == null ? null : pagination['pageSize'],
+                                    curPageIndex: pagination == null ? null : pagination['currentPage'],
+                                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                                    curPageLink: curPageLink === null ? null : curPageLink,
+                                    nextPageLink: curPageLink === null ? null : nextPageLink,
+                                    prePageLink: curPageLink === null ? null : prePageLink,
+                                    loading: false
+                                });  //put customers into redux
+                            })
                     }
                 }
             );
     }
     
     getQueryParamsUrl(queryUrl) {
-        let dateSoldQry = this.state['dateSoldQry'];
+        let beginDateSoldQry = this.state['beginDateSoldQry'];
+        let endDateSoldQry = this.state['endDateSoldQry'];
         let customerId = this.state['customerId'];
         let productId = this.state['productId'];
         let storeId = this.state['storeId'];
-        if (dateSoldQry != null && dateSoldQry != '') {
-            queryUrl += '&dateSoldQry=' + dateSoldQry;
+        if (beginDateSoldQry != null && beginDateSoldQry != '') {
+            queryUrl += '&beginDateSoldQry=' + beginDateSoldQry;
+        }
+        if (endDateSoldQry != null && endDateSoldQry != '') {
+            queryUrl += '&endDateSoldQry=' + endDateSoldQry;
         }
         if (customerId != null && customerId != '') {
            
@@ -131,8 +162,9 @@ class SalesApp extends Component {
         return queryUrl;
     }
 
-    getPaginatedUrl(url, paginationParams) {
-        url += '?skipData=' + paginationParams.skipData + '&dataPerPage=' + paginationParams.dataPerPage;
+    getPaginatedUrl(url, pageIndex) {
+        let pageNumber = pageIndex == null ? 1 : (pageIndex < 1 ? 1 : pageIndex);
+        url = `${url}?PageNumber=${pageNumber}`;
         return url;
     }
 
@@ -157,10 +189,11 @@ class SalesApp extends Component {
         return { totalData: totalData, dataPerPage: dataPerPage, curPageIndex: curPageIndex, skipData: skipData, maxPageNumber: maxPageNumber, beginPage: beginPage, endPage: endPage };
     }
 
-    refreshList(curPageIndex=null) {
-        let url = '/sales/query/';
-        let paginationParams = this.paginate(curPageIndex);
-        url = this.getPaginatedUrl(url, paginationParams);
+    refreshList(pageIndex=null) {
+        let apiUrl = environment.apiBase;
+        let url = `${apiUrl}/api/sales`;
+        //let paginationParams = this.paginate();
+        url = this.getPaginatedUrl(url, pageIndex);
         url = this.getQueryParamsUrl(url);
         this.queryData(url);
     }
@@ -181,6 +214,8 @@ class SalesApp extends Component {
 
     skipPage = (event, { pageIndex }) => {
         //debugger
+        this.props.updateQueryParams({ curPageIndex: pageIndex });  //put current page index into the store.
+        console.log(this.props.curPageIndex);
         this.refreshList(pageIndex);
     }
 
@@ -196,7 +231,7 @@ class SalesApp extends Component {
                 </div>*/}
                 <div className='listContent'>
                     <SalesList {...this.props}
-                        paginate={this.paginate}
+                        //paginate={this.paginate}
                         refreshList={this.refreshList}
                         //myChangeHandler={this.myChangeHandler}
                         //myDropDownChangeHandler={this.myDropDownChangeHandler}

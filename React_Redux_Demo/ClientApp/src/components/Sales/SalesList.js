@@ -20,10 +20,10 @@ import MyDatepicker from '../Datepicker';
      }
 
     renderSalesTable() {
-        let paginationParams = this.props.paginate(this.props.curPageIndex);
-        let beginPage = paginationParams.beginPage;
-        let endPage = paginationParams.endPage;
-        let curPage = paginationParams.curPageIndex;
+        //let paginationParams = this.props.paginate(this.props.curPageIndex);
+        let beginPage = 1; //paginationParams.beginPage;
+        let endPage = this.props.maxPageNumber; //paginationParams.endPage;
+        let curPage = this.props.curPageIndex;
         let pages = new Array();
         //debugger
         for (let ind = beginPage; ind <= endPage; ind++) {
@@ -39,34 +39,37 @@ import MyDatepicker from '../Datepicker';
                 <div className='queryBar'>
                     <div>
                         {/*<Input type='text' name='dateSoldQry' onChange={this.props.myChangeHandler} placeholder='Please input date sold.' />&nbsp;*/}
-                        <MyDatepicker name='dateSoldQry' handleChangeHandler={this.props.handleChangeHandler} />&nbsp;
+                        <MyDatepicker name='beginDateSoldQry' handleChangeHandler={this.props.handleChangeHandler} /> - <MyDatepicker name='endDateSoldQry' handleChangeHandler={this.props.handleChangeHandler} />&nbsp;
                         <DropdownSearchQuery
                             myChangeHandler={this.props.handleChangeHandler}
-                            fetchDataUrl='/customer/query'
+                            fetchDataUrl='/api/customers'
                             optionTextPropsName='name'
                             optionValuePropsName='id'
+                            queryPropsName='nameQry'
                             returnPropsName='customerId'
                             placeholder='Please select a customer.'
                         />&nbsp;
                         <DropdownSearchQuery
                             myChangeHandler={this.props.handleChangeHandler}
-                            fetchDataUrl='/product/query'
+                            fetchDataUrl='/api/products'
                             optionTextPropsName='name'
                             optionValuePropsName='id'
+                            queryPropsName='nameQry'
                             returnPropsName='productId'
                             placeholder='Please select a product.'
                         />&nbsp;
                         <DropdownSearchQuery
                             myChangeHandler={this.props.handleChangeHandler}
-                            fetchDataUrl='/store/query'
+                            fetchDataUrl='/api/stores'
                             optionTextPropsName='name'
                             optionValuePropsName='id'
+                            queryPropsName='nameQry'
                             returnPropsName='storeId'
                             placeholder='Please select a store.'
                         />&nbsp;
                         <Button as='a' onClick={() => this.props.refreshList(1)}>Query</Button>
                     </div>
-                    <AddSalesForm requeryData={this.props.refreshList} />
+                    <AddSalesForm requeryData={this.props.refreshList} addData={this.props.addData} />
                 </div>
                 <Table celled selectable>
             <Table.Header>
@@ -92,7 +95,7 @@ import MyDatepicker from '../Datepicker';
                         <Table.Cell>{sale.customer == null ? '' : sale.customer.name}</Table.Cell>
                         <Table.Cell>{sale.product == null ? '' : sale.product.name}</Table.Cell>
                         <Table.Cell>{sale.store == null ? '' : sale.store.name}</Table.Cell>
-                        <Table.Cell textAlign='center'><UpdateSalesForm sale={sale} requeryData={this.props.refreshList} /></Table.Cell>
+                        <Table.Cell textAlign='center'><UpdateSalesForm sale={sale} requeryData={this.props.refreshList} updateData={this.props.updateData} /></Table.Cell>
                         <Table.Cell textAlign='center'><DeleteButton deleteData={() => this.props.deleteData(sale.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /></Table.Cell>
                     </Table.Row>
                 )}

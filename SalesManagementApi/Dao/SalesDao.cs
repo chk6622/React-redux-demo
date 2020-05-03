@@ -40,21 +40,12 @@ namespace SalesManagementApi.Dao
             return bReturn;
         }
 
-        public async Task<bool> Delete(int id)
+        public void Delete(int id)
         {
-            bool bReturn = false;
-            try
-            {
-                Sales sales=await _context.Sales.FindAsync(id);
-                _context.Remove<Sales>(sales);
-                await _context.SaveChangesAsync();
-                bReturn = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-            return bReturn;
+             Sales sales=_context.Sales.Find(id);
+             _context.Remove<Sales>(sales);
+             _context.SaveChanges();
+
         }
 
         public async Task<Sales> GetObjectById(int id)
@@ -130,9 +121,10 @@ namespace SalesManagementApi.Dao
             bool bReturn = false;
             try
             {
-                var updateSales = this._context.Sales.Attach(sales);
-                updateSales.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //var updateSales = this._context.Sales.Attach(sales);
+                //updateSales.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 await this._context.SaveChangesAsync();
+                //this._context.Update(sales);
                 bReturn = true;
             }
             catch (Exception e)

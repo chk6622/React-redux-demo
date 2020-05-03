@@ -9,6 +9,7 @@ namespace SalesManagementApi.ViewModels
 {
     public class CustomerQryDto:PagingParameters
     {
+        public int Id { get; set; }
         private string nameQry;
         public string NameQry 
         {

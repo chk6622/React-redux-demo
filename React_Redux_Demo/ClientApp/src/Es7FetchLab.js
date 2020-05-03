@@ -15,10 +15,20 @@ export class Es7FetchData{
                 "Authorization": "Bearer " + access_token
             },
         });
-        
-        let body = await res.json();
-        let pagination = await res.headers.get('x-pagination');
-        let location = await res.headers.get('location');
+        let status = await res.status;
+        //window.alert(status);
+        let body = null;
+        let pagination = null;
+        let location = null;
+        let msg = '';
+        if (status === 200) {
+            body = await res.json();
+            pagination = await res.headers.get('x-pagination');
+            location = await res.headers.get('location');
+        }
+        else {
+            msg = `Query Failed!(Code:${status})`;
+        }
         return { pagination,body,location};
     }
 
@@ -39,6 +49,7 @@ export class Es7FetchData{
             body:JSON.stringify(newData)
         });
         let status = await res.status;
+        alert(status);
         let body = status=='201'?await res.json():null;
         let location = status == '201' ? await res.headers.get('location') : null;
         let msg = status == '201' ? 'Add success!' : 'Add fail!';
