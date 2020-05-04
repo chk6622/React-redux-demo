@@ -1,9 +1,4 @@
-﻿
-
-
-
-
-const USER = 'user';
+﻿const USER = 'user';
 
 export function StoreUser(user) {
     if (user) {

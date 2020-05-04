@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="oidc-client.js"></script>
+    <script src="../src/helpers/UserHelper.js"></script>
+    <script src="../src/environments/environment.js"></script>
+    <title></title>
+</head>
+<body>
+    <script>
+        new Oidc.UserManager().signinSilentCallback().then(user => {
+            StoreUser(user);
+        });
+    </script>
+</body>
+</html>

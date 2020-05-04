@@ -6,43 +6,34 @@ import Oidc from 'oidc-client';
 import { environment } from '../environments/environment';
 import {Button} from "semantic-ui-react";
 import { StoreUser, GetUser } from '../helpers/UserHelper';
+import GetOidcHelper from '../helpers/OidcHelper';
 import '../css/AppLogin.css';
-//import '../css/bootstrap.min.css';
 
-let mgr = new Oidc.UserManager();
-mgr.signinRedirectCallback().then(function () {
-    mgr.getUser().then(user => {
-        StoreUser(user);
-        //sessionStorage.setItem('user', JSON.stringify(user));
-        //let u = JSON.parse(sessionStorage.getItem('user'));
-        //console.log(u);
-        //console.log(u['access_token']);
-        //window.alert('aaa');
-    });
-    
+
+/*let mgr = new Oidc.UserManager();
+mgr.signinRedirectCallback().then(user => {
+    StoreUser(user);
     window.location = "/Home/Index";
 }).catch(function (e) {
     console.error(e);
-});
+});*/
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
 
-        
+        this.oidcHelper = GetOidcHelper.getInstance();
         
         this.state = {
-           
-            mgr
         };
-        this.log = this.log.bind(this);
-        this.login = this.login.bind(this);
+       // this.log = this.log.bind(this);
+        //this.login = this.login.bind(this);
 
         
     }
 
-    log() {
+    /*log() {
         document.getElementById('results').innerText = '';
 
         Array.prototype.forEach.call(arguments, function (msg) {
@@ -67,9 +58,10 @@ class Login extends Component {
         else {
             window.location = "/Home/Index";
         }
-    }
+    }*/
 
     render() {
+
         return (
           <>
 
@@ -88,7 +80,7 @@ class Login extends Component {
                             <div className="logC">
                                
 
-                            <Button primary as='a' size='huge' onClick={this.login}>Login</Button>
+                            <Button primary as='a' size='huge' onClick={()=>this.oidcHelper.login()}>Login</Button>
                             
                             </div>
                      

@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { environment } from '../environments/environment';
 import Oidc from 'oidc-client';
 import { GetUser } from '../helpers/UserHelper';
+import GetOidcHelper from '../helpers/OidcHelper';
 
 const menuHeader = {
     height: '35px',
@@ -46,7 +47,9 @@ export class AppMenu extends Component {
 
     confirmAndDo = () => {
         this.setState({ isOpen: false });
-        logout();
+        var oidcHelper = GetOidcHelper.getInstance();
+        oidcHelper.logout();
+        //logout();
     }
 
     closeConfirm = () => {

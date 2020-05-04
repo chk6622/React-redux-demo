@@ -7,6 +7,8 @@ import ProductApp  from './components/Product/ProductApp';
 import StoreApp  from './components/Store/StoreApp';
 import SalesApp from './components/Sales/SalesApp';
 import Login from './components/Login';
+import Callback from './components/Callback';
+import Renew from './components/Renew';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -15,6 +17,8 @@ export default class App extends Component {
       return (
           <>
               <Route exact path='/' component={Login} />
+              <Route exact path='/Callback' component={Callback} />
+              <Route exact path='/Renew' component={Renew} />
               <Route path='/Home'>
                   <Layout>
                       <Route path='/Home/index' component={Home} />
