@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Icon, Label, Menu, Table, Button,Input } from "semantic-ui-react";
+import { Icon, Label, Menu, Table, Button, Segment, Dimmer, Loader } from "semantic-ui-react";
 import AddSalesForm from './AddSalesForm';
 import UpdateSalesForm from './UpdateSalesForm';
 import DeleteButton from '../DeleteButton.js';
@@ -121,7 +121,16 @@ import MyDatepicker from '../Datepicker';
 
     render() {
         console.log("enter 'render' method");
-    let contents = this.props.loading? <p><em>Loading...</em></p>: this.renderSalesTable();
+        let sales = this.props.sales==null ? [] : this.props.sales;
+        let contents = sales.length==0? 
+                <>
+                    <Segment basic>
+                        <Dimmer active inverted>
+                            <Loader active inline='centered' size='medium'>Loading</Loader>
+                        </Dimmer>
+                    </Segment>
+                </>
+            : this.renderSalesTable();
 
     return (
       <>

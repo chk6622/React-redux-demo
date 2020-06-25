@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Label, Menu, Table, Button, Confirm,Input } from "semantic-ui-react";
+import { Icon, Label, Menu, Table, Button, Confirm, Input, Segment, Dimmer, Loader } from "semantic-ui-react";
 import AddStoreForm from './AddStoreForm';
 import UpdateStoreForm from './UpdateStoreForm';
 import DeleteButton from '../DeleteButton.js';
@@ -91,7 +91,16 @@ class StoreList extends Component {
   }
 
     render() {
-    let contents = this.props.loading? <p><em>Loading...</em></p>: this.renderStoresTable();
+        let stores = this.props.stores == null ? [] : this.props.stores;
+        let contents = stores.length==0 ? 
+            <>
+                <Segment basic>
+                    <Dimmer active inverted>
+                        <Loader active inline='centered' size='medium'>Loading</Loader>
+                    </Dimmer>
+                </Segment>
+            </>
+            : this.renderStoresTable();
 
     return contents;
   }

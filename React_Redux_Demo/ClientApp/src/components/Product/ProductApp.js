@@ -51,10 +51,10 @@ class ProductApp extends Component {
                 let body = data['body'];
                 let pagination = data['pagination'];
                 let location = data['location'];
-                let products = body.value;
-                let curPageLink = body.links.find(link => link.rel === 'self');
-                let nextPageLink = body.links.find(link => link.rel === 'get_next_page');
-                let prePageLink = body.links.find(link => link.rel === 'get_previous_page');
+                let products = body?.value;
+                let curPageLink = body?.links.find(link => link.rel === 'self');
+                let nextPageLink = body?.links.find(link => link.rel === 'get_next_page');
+                let prePageLink = body?.links.find(link => link.rel === 'get_previous_page');
 
                 pagination = JSON.parse(pagination);
                 //pagination['totalCount']

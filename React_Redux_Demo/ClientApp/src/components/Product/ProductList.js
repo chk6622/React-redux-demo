@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Label, Menu, Table, Button,Input } from "semantic-ui-react";
+import { Icon, Label, Menu, Table, Button, Input, Segment, Dimmer, Loader } from "semantic-ui-react";
 import AddProductForm from './AddProductForm';
 import UpdateProductForm from './UpdateProductForm';
 import DeleteButton from '../DeleteButton.js';
@@ -87,8 +87,19 @@ export class ProductList extends Component {
     }
 
     render() {
-        let contents = this.props.loading ? <p><em>Loading...</em></p> : this.renderProductsTable();
+        
 
+        let products = this.props.products == null ? [] : this.props.products;
+        let contents = products.length == 0 ?
+            <>
+                <Segment basic>
+                    <Dimmer active inverted>
+                        <Loader active inline='centered' size='medium'>Loading</Loader>
+                    </Dimmer>
+                </Segment>
+            </>
+            :
+            this.renderProductsTable();
         return contents;
     }
 }
