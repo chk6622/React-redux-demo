@@ -124,7 +124,7 @@ namespace SalesManagementApiTest
                 Assert.False(productDict.ContainsKey("Price"));
             }
             #endregion
-
+            /*
             #region delete
             result = await productDao.Delete(product1.Id);
             Assert.True(result);
@@ -137,7 +137,7 @@ namespace SalesManagementApiTest
             result = await productDao.Delete(product3.Id);
             Assert.True(result);
             #endregion
-
+    */
         }
 
     }

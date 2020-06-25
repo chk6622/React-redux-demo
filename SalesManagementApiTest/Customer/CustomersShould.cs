@@ -130,7 +130,7 @@ namespace SalesManagementApiTest
                 Assert.False(customerDict.ContainsKey("Address"));
             }
             #endregion
-
+            /*
             #region delete
             result = await customerDao.Delete(customer1.Id);
             Assert.True(result);
@@ -146,6 +146,7 @@ namespace SalesManagementApiTest
             Assert.Null(customer);
 
             #endregion
+    */
 
         }
 

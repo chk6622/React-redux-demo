@@ -167,7 +167,7 @@ namespace SalesManagementApiTest
             Assert.Null(sales.Product);
 
             #endregion
-
+            /*
             #region Delete
             result =await salesDao.Delete(sales2.Id);
             Assert.True(result);
@@ -190,7 +190,7 @@ namespace SalesManagementApiTest
             result = await storeDao.Delete(store2.Id);
             Assert.True(result);
             #endregion
-
+    */
 
         }
 

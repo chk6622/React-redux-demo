@@ -91,7 +91,7 @@ import MyDatepicker from '../Datepicker';
             <Table.Body>
                 {sales.map(sale =>
                     <Table.Row key={sale.id}>
-                        <Table.Cell>{sale.dateSold}</Table.Cell>
+                        <Table.Cell>{sale.dateSold==null?'':sale.dateSold.substr(0, 10)}</Table.Cell>
                         <Table.Cell>{sale.customer == null ? '' : sale.customer.name}</Table.Cell>
                         <Table.Cell>{sale.product == null ? '' : sale.product.name}</Table.Cell>
                         <Table.Cell>{sale.store == null ? '' : sale.store.name}</Table.Cell>

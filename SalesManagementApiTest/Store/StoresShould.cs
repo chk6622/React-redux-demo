@@ -125,7 +125,7 @@ namespace SalesManagementApiTest
                 Assert.False(storeDict.ContainsKey("Address"));
             }
             #endregion
-
+            /*
             #region delete
             result = await storeDao.Delete(store1.Id);
             Assert.True(result);
@@ -138,7 +138,7 @@ namespace SalesManagementApiTest
             result = await storeDao.Delete(store3.Id);
             Assert.True(result);
             #endregion
-
+    */
         }
     }
 }
