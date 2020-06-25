@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pvl77icLSv91xe1cFm9STHk1+CXNaRuZB9NovzigcGtL/nk4/GJK8aT5Y1o/lM0vDejPe/KYZupt3Lkpw7aWrg==",
+  "dgSpecHash": "/Q9uS3vCyAIUPzehFCzbBBYjQ3IS8EoxyzVHOs/lCo27GavQpOAP9bB1wnQ3PGLraWxgL79XJ4/aDenRjKOpvA==",
   "success": true,
   "projectFilePath": "D:\\Microsoft\\Projects\\SalesManagementSystem\\SalesManagementApiTest\\SalesManagementApiTest.csproj",
   "expectedPackageFiles": [
@@ -49,6 +49,7 @@
     "C:\\Users\\xingtong\\.nuget\\packages\\microsoft.openapi\\1.1.4\\microsoft.openapi.1.1.4.nupkg.sha512",
     "C:\\Users\\xingtong\\.nuget\\packages\\microsoft.testplatform.objectmodel\\16.5.0\\microsoft.testplatform.objectmodel.16.5.0.nupkg.sha512",
     "C:\\Users\\xingtong\\.nuget\\packages\\microsoft.testplatform.testhost\\16.5.0\\microsoft.testplatform.testhost.16.5.0.nupkg.sha512",
+    "C:\\Users\\xingtong\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.8\\microsoft.visualstudio.azure.containers.tools.targets.1.10.8.nupkg.sha512",
     "C:\\Users\\xingtong\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\xingtong\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
     "C:\\Users\\xingtong\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
