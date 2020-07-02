@@ -5,12 +5,12 @@
     "\\React_Redux_Demo\\ClientApp",
     "\\React_Redux_Demo\\ClientApp\\src",
     "\\React_Redux_Demo\\ClientApp\\src\\components",
-    "\\React_Redux_Demo\\ClientApp\\src\\components\\Product",
-    "\\React_Redux_Demo\\ClientApp\\src\\components\\Product\\State",
-    "\\React_Redux_Demo\\ClientApp\\src\\components\\Product\\State\\Update",
-    "\\React_Redux_Demo\\Migrations",
-    "\\React_Redux_Demo\\Models"
+    "\\React_Redux_Demo\\ClientApp\\src\\css",
+    "\\React_Redux_Demo\\ClientApp\\src\\environments",
+    "\\React_Redux_Demo\\ClientApp\\src\\helpers",
+    "\\React_Redux_Demo\\ClientApp\\src\\reducers",
+    "\\SalesManagementApi"
   ],
-  "SelectedNode": "\\React_Redux_Demo\\ClientApp\\src\\components\\Product\\State\\Update\\ComponentState.js",
+  "SelectedNode": "\\React_Redux_Demo\\ClientApp\\src\\App.js",
   "PreviewInSolutionExplorer": false
 }
