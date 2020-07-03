@@ -1,21 +1,21 @@
 ﻿const USER = 'user';
 
-export function StoreUser(user) {
+export function StoreUser(user:any) {
     if (user) {
         sessionStorage.setItem(USER, JSON.stringify(user));
     }
 }
 
-export function GetUser() {
+export function GetUser():any {
     
     let user = sessionStorage.getItem(USER);
     if (user) {
-        user = JSON.parse(sessionStorage.getItem('user'));
+        user = JSON.parse(user);
     }
     return user;
 }
 
-export function GetAccessToken() {
+export function GetAccessToken():any {
     let access_token = '';
     let user = GetUser();
     if (user) {

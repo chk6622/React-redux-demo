@@ -1,5 +1,5 @@
 ﻿import { GetUser, StoreUser } from './UserHelper';
-import { environment } from '../environment/environment';
+import environment from '../environment/environment';
 import Oidc from 'oidc-client';
 
 
@@ -19,7 +19,7 @@ class OidcHelper {
         return OidcHelper.instance;
     }
 
-    login(redirectUrl = '/Home/Index') {
+    login(redirectUrl = '/Home/Welcome') {
         try {
             let user = GetUser();
             if (!user) {

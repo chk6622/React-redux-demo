@@ -1,8 +1,8 @@
-﻿export const idpBase = 'http://localhost:5000';
-export const apiBase = 'http://localhost:8080';
-export const appBase = 'http://localhost:3000';
+﻿export const idpBase:string = 'http://localhost:5000';
+export const apiBase:string = 'http://localhost:8080';
+export const appBase:string = 'http://localhost:3000';
 
-export const environment = {
+const environment = {
     production: false,
     apiBase,
     openIdConnectSettings: {
@@ -16,3 +16,5 @@ export const environment = {
         automaticSilentRenew: true
     }
 };
+
+export default environment;

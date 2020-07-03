@@ -5,7 +5,8 @@ import GetOidcHelper from '../helpers/OidcHelper';
 
 class Renew extends Component {
 
-    constructor(props) {
+    private oidcHelper:any|null=null;
+    constructor(props:any) {
         super(props);
         this.oidcHelper = GetOidcHelper.getInstance();
     }
@@ -14,9 +15,6 @@ class Renew extends Component {
         this.oidcHelper.renew();
         return (
             <>
-
-                
-
             </>
         )
     }

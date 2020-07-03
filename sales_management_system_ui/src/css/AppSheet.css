@@ -13,7 +13,7 @@ main {
    
 }
 
-banner {
+.banner {
     display: flex;
     height: 15%;
     align-items: center;
