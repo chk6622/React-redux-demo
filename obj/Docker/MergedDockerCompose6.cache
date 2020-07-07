@@ -1,0 +1,38 @@
+networks:
+  asp-net:
+    driver: bridge
+services:
+  idp:
+    image: chk6622/idp:latest
+    networks:
+      asp-net: {}
+    ports:
+    - published: 5001
+      target: 80
+  mydb:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Xhy123456
+    image: mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
+    networks:
+      asp-net: {}
+    ports:
+    - published: 1435
+      target: 1433
+  salesmanagementapi:
+    build:
+      context: D:\Microsoft\Projects\SalesManagementSystem
+      dockerfile: SalesManagementApi/Dockerfile
+    depends_on:
+    - mydb
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    image: chk6622/sales_management_api
+    networks:
+      asp-net: {}
+    ports:
+    - published: 5000
+      target: 80
+    - target: 80
+    privileged: true
+version: '3.4'

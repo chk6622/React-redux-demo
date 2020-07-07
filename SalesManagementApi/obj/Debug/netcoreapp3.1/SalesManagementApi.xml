@@ -58,7 +58,7 @@
         </member>
         <member name="M:SalesManagementApi.Controllers.CustomerController.CreateCustomersResourceUri(SalesManagementApi.ViewModels.CustomerQryDto,SalesManagementApi.Helpers.ResourceUriType)">
             <summary>
-            创建翻页的url
+            page turning url
             </summary>
             <param name="parameters"></param>
             <param name="type"></param>
@@ -118,7 +118,7 @@
         </member>
         <member name="M:SalesManagementApi.Controllers.ProductController.CreateProductsResourceUri(SalesManagementApi.Dto.ProductQryDto,SalesManagementApi.Helpers.ResourceUriType)">
             <summary>
-            创建翻页的url
+            create page turning url
             </summary>
             <param name="parameters"></param>
             <param name="type"></param>
@@ -407,6 +407,40 @@
             </summary>
             <param name="id">The store's primary key</param>
             <returns>true if succeed, or false</returns>
+        </member>
+        <member name="M:Routine.Api.Helpers.IEnumerableExtensions.ShapData``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Shape data
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="source"></param>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Routine.Api.Services.IPropertyCheckerService.TypeHasProperties``1(System.String)">
+            <summary>
+            validate if fields exist
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fields">input fields</param>
+            <returns></returns>
+        </member>
+        <member name="M:Routine.Api.Services.IPropertyMappingService.GetPropertyMapping``2">
+            <summary>
+            Get the mapping  of the same properties of two objects
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Routine.Api.Services.IPropertyMappingService.ValidMappingExistsFor``2(System.String)">
+            <summary>
+            Validate if fileds exist in the TDestination
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <typeparam name="TDestination"></typeparam>
+            <param name="fields"></param>
+            <returns></returns>
         </member>
         <member name="M:Routine.Api.Services.PropertyMappingService.ValidMappingExistsFor``2(System.String)">
             <summary>

@@ -115,12 +115,8 @@ namespace SalesManagementApi.Controllers
         /// <param name="shapeFields">the columns selected </param>
         /// <param name="mediaType">media type</param>
         /// <returns></returns>
-        [Produces("application/json",  //设置该资源支持的6种media type
+        [Produces("application/json",  //set media type
             "application/vnd.company.hateoas+json"
-             //"application/vnd.company.company.friendly+json",
-             //"application/vnd.company.company.friendly.hateoas+json"
-             // "application/vnd.company.company.full.hateoas+json",
-             //"application/vnd.company.company.full+json")
              )
              ]
         [HttpGet("{productId}", Name = nameof(GetProduct))]
@@ -142,7 +138,7 @@ namespace SalesManagementApi.Controllers
                 return NotFound();
             }
 
-            //如果mediatype以hateoas结尾
+            
             var includeLinks = parsedMediaType.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
 
             var result = this._mapper.Map<ProductDto>(product).ShapeData(shapeFields) as IDictionary<string, object>;
@@ -168,9 +164,6 @@ namespace SalesManagementApi.Controllers
             var product = _mapper.Map<Product>(productDto);
             bool isSuccess = await this._productDao.Add(product);
             var rProductDto = this._mapper.Map<ProductDto>(product);
-            /*var links = CreateLinksForProduct(rDto.Id, null);  //添加HATEOAS支持
-            var linkedDict = rDto.ShapeData(null) as IDictionary<string, object>;
-            linkedDict.Add("links", links);*/
             return CreatedAtRoute(nameof(GetProduct), new { productId = rProductDto.Id }, rProductDto);
         }
 
@@ -226,9 +219,6 @@ namespace SalesManagementApi.Controllers
             var product = await this._productDao.GetObjectById(productId);
             if (product == null)
             {
-                /*product = this._mapper.Map<Product>(productDto);
-                product.Id = productId;
-                await this._productDao.Add(product);*/
                 return NotFound();
             }
             else
@@ -256,7 +246,7 @@ namespace SalesManagementApi.Controllers
             {
                 var productDto = new ProductDto();
                 patchDocument.ApplyTo(productDto, ModelState);
-                if (!TryValidateModel(productDto))  //验证输入是否合法
+                if (!TryValidateModel(productDto))  //validate input
                 {
                     return ValidationProblem(ModelState);
                 }
@@ -272,7 +262,7 @@ namespace SalesManagementApi.Controllers
 
                 patchDocument.ApplyTo(productDto, ModelState);  //apply patch
 
-                if (!TryValidateModel(productDto))  //验证输入是否合法
+                if (!TryValidateModel(productDto))  //validate input
                 {
                     return ValidationProblem(ModelState);
                 }
@@ -288,7 +278,7 @@ namespace SalesManagementApi.Controllers
 
 
         /// <summary>
-        /// 创建翻页的url
+        /// create page turning url
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="type"></param>

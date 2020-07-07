@@ -9,6 +9,13 @@ namespace Routine.Api.Helpers
 {
     public static class IEnumerableExtensions
     {
+        /// <summary>
+        /// Shape data
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public static IEnumerable<ExpandoObject> ShapData<TSource>(this IEnumerable<TSource> source,string fields)
         {
             if(source==null)

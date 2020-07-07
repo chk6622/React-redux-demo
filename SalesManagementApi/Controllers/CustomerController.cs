@@ -52,11 +52,11 @@ namespace SalesManagementApi.Controllers
         {
             this._logger.LogInformation("enter 'GetCustomers' method.");
 
-            if (!this._propertyMappingService.ValidMappingExistsFor<CustomerDto, Customer>(customerQryDto.OrderFields)) //check if order field exist.
+            if (!this._propertyMappingService.ValidMappingExistsFor<CustomerDto, Customer>(customerQryDto.OrderFields)) //validate if order field exist.
             {
                 return BadRequest();
             }
-            if (!this._propertyCheckerService.TypeHasProperties<CustomerDto>(customerQryDto.ShapeFields))
+            if (!this._propertyCheckerService.TypeHasProperties<CustomerDto>(customerQryDto.ShapeFields)) //validate if properties exist.
             {
                 return BadRequest();
             }
@@ -82,11 +82,11 @@ namespace SalesManagementApi.Controllers
             var customerDtos = this._mapper.Map<IEnumerable<CustomerDto>>(customers);
             //404 NotFound
 
-            //数据塑形
+            //数据塑形 shape data
             var shapedData = customerDtos.ShapData<CustomerDto>(customerQryDto.ShapeFields);
 
 
-            //添加Hateoas支持
+            //添加Hateoas支持  add Hateoas support
             var links = CreateLinksForCustomer(customerQryDto, customers.HasPrevious, customers.HasNext);
 
             var shapedCustomersWithLinks = shapedData.Select(c =>
@@ -114,14 +114,10 @@ namespace SalesManagementApi.Controllers
         /// <param name="shapeFields">the columns selected </param>
         /// <param name="mediaType">media type</param>
         /// <returns></returns>
-        [Produces("application/json",  //设置该资源支持的6种media type
+        [Produces("application/json",  //set media type
             "application/vnd.company.hateoas+json"
-            //"application/vnd.company.company.friendly+json",
-            //"application/vnd.company.company.friendly.hateoas+json"
-            // "application/vnd.company.company.full.hateoas+json",
-             //"application/vnd.company.company.full+json")
              )
-             ]
+        ]
         [HttpGet("{customerId}", Name = nameof(GetCustomer))]
         [Authorize]
         public async Task<IActionResult> GetCustomer(int customerId, string shapeFields, [FromHeader(Name = "Accept")] string mediaType)
@@ -229,9 +225,6 @@ namespace SalesManagementApi.Controllers
             var customer=await this._customerDao.GetObjectById(customerId);
             if (customer == null)
             {
-                /*customer = this._mapper.Map<Customer>(customerDto);
-                customer.Id = customerId;
-                await this._customerDao.Add(customer);*/
                 return NotFound();
             }
             else
@@ -290,7 +283,7 @@ namespace SalesManagementApi.Controllers
 
 
         /// <summary>
-        /// 创建翻页的url
+        /// page turning url
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="type"></param>

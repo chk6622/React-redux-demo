@@ -20,6 +20,10 @@ using SalesManagementApi.AppDbContext;
 using SalesManagementApi.Dao;
 using Routine.Api.Services;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System.Net.Http;
+using System.Net;
 
 namespace SalesManagementApi
 {
@@ -54,7 +58,7 @@ namespace SalesManagementApi
                     // http://127.0.0.1:1818 和 http://localhost:1818 是不一样的，尽量写两个
                     policy
                     //.AllowAnyOrigin()
-                    .WithOrigins("http://127.0.0.1:3000", "http://localhost:3000" )  //允许的客户端ip
+                    .WithOrigins("http://127.0.0.1:3000", "http://localhost:3000","http://127.0.0.1:5000", "http://localhost:5000" )  //允许的客户端ip
                     .WithExposedHeaders("x-pagination", "location")                  //允许的返回头信息
                     .AllowAnyHeader()//允许任意头
                     .AllowAnyMethod();//允许任意方法
@@ -80,13 +84,16 @@ namespace SalesManagementApi
             #endregion
 
             #region Authenication
+            IdentityModelEventSource.ShowPII = true;
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     // auth server base endpoint (will use to search for disco doc)
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = Configuration.GetConnectionString("IdServer4Address");
                     options.Audience = "SalesManagementApi"; // required audience of access tokens
                     options.RequireHttpsMetadata = false; // dev only!
+                    options.MetadataAddress = $"{Configuration.GetConnectionString("IdServer4Address")}/.well-known/openid-configuration";
+                    //options.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
                 });
             #endregion
 
@@ -126,7 +133,7 @@ namespace SalesManagementApi
                     {
                         Implicit = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize"),
+                            AuthorizationUrl = new Uri($"http://localhost:5001/connect/authorize"),
                             Scopes = new Dictionary<string, string>
                             {
                                 {"SalesManagementApi","The SalesManagementSystem's Api"}
@@ -156,16 +163,16 @@ namespace SalesManagementApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
-                c.OAuthClientId("sales_management_client");
+                c.OAuthClientId("swagger_client");  //sales_management_client
                 c.OAuthAppName("The SalesManagementSystem's api");
-                c.OAuth2RedirectUrl("http://localhost:8080/oauth2-redirect.html");
+                c.OAuth2RedirectUrl("http://localhost:5000/oauth2-redirect.html");
                 c.OAuthScopeSeparator(" ");
                 c.RoutePrefix = string.Empty;
             });
             #endregion
 
             #region CORS
-            app.UseCors(CORS_POLICY_NAME);//添加 Cors 跨域中间件
+            //app.UseCors(CORS_POLICY_NAME);//添加 Cors 跨域中间件
             #endregion
 
             app.UseRouting();

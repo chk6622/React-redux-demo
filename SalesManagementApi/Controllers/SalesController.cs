@@ -116,12 +116,8 @@ namespace SalesManagementApi.Controllers
         /// <param name="shapeFields">the columns selected </param>
         /// <param name="mediaType">media type</param>
         /// <returns></returns>
-        [Produces("application/json",  //设置该资源支持的6种media type
+        [Produces("application/json",  //set media type
             "application/vnd.company.hateoas+json"
-             //"application/vnd.company.company.friendly+json",
-             //"application/vnd.company.company.friendly.hateoas+json"
-             // "application/vnd.company.company.full.hateoas+json",
-             //"application/vnd.company.company.full+json")
              )
              ]
         [HttpGet("{salesId}", Name = nameof(GetSales))]
@@ -218,15 +214,10 @@ namespace SalesManagementApi.Controllers
             var sales = await this._salesDao.GetObjectById(salesId);
             if (sales == null)
             {
-                /*sales = this._mapper.Map<Sales>(salesDto);
-                sales.Id = salesId;
-                await this._salesDao.Add(sales);*/
                 return NotFound();
             }
             else
             {
-                //this._mapper.Map(salesDto, sales);
-                //sales.Id = salesId;
                 sales.CustomerId = salesDto.CustomerId;
                 sales.ProductId = salesDto.ProductId;
                 sales.StoreId = salesDto.StoreId;
