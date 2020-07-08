@@ -123,6 +123,7 @@ namespace SalesManagementApi
                 c.OperationFilter<AddResponseHeadersFilter>();
                 c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
 
+                /*
                 // 在header中添加token，传递到后台
                 c.OperationFilter<SecurityRequirementsOperationFilter>();
 
@@ -141,7 +142,7 @@ namespace SalesManagementApi
                         }
                     }
                 });
-
+                */
 
                 //c.OperationFilter<AuthResponsesOperationFilter>();
             });
@@ -163,10 +164,10 @@ namespace SalesManagementApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
-                c.OAuthClientId("swagger_client");  //sales_management_client
+                /*c.OAuthClientId("swagger_client");  //sales_management_client
                 c.OAuthAppName("The SalesManagementSystem's api");
                 c.OAuth2RedirectUrl("http://localhost:5000/oauth2-redirect.html");
-                c.OAuthScopeSeparator(" ");
+                c.OAuthScopeSeparator(" ");*/
                 c.RoutePrefix = string.Empty;
             });
             #endregion
@@ -180,8 +181,8 @@ namespace SalesManagementApi
             
 
             #region Auth
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             #endregion
 
 

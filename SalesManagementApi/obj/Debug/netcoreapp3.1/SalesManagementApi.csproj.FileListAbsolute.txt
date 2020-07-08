@@ -68,7 +68,6 @@ D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcore
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.csprojAssemblyReference.cache
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.AssemblyInfoInputs.cache
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.AssemblyInfo.cs
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.RazorTargetAssemblyInfo.cache
@@ -86,3 +85,4 @@ D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\bin\Debug\netcore
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.csproj.CoreCompileInputs.cache
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.MvcApplicationPartsAssemblyInfo.cs
 D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.MvcApplicationPartsAssemblyInfo.cache
+D:\Microsoft\Projects\SalesManagementSystem\SalesManagementApi\obj\Debug\netcoreapp3.1\SalesManagementApi.csprojAssemblyReference.cache

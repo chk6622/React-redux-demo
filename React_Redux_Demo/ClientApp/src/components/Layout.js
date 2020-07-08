@@ -10,11 +10,11 @@ export class Layout extends Component {
   static displayName = Layout.name;
 
     render() {
-        let user = JSON.parse(sessionStorage.getItem('user'));
+        /*let user = JSON.parse(sessionStorage.getItem('user'));
         if (!user) {
             //alert('abc');
             window.location = '/';
-        }
+        }*/
       return (
           <main>
             <banner>

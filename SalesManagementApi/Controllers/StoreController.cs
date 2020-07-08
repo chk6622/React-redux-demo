@@ -48,7 +48,7 @@ namespace SalesManagementApi.Controllers
         /// <returns></returns>
         [HttpGet(Name = nameof(GetStores))]
         [HttpHead]  //Head请求不返回body，只返回head
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetStores([FromQuery]StoreQryDto storeQryDto)
         {
             this._logger.LogInformation("enter 'GetStores' method.");
@@ -120,7 +120,7 @@ namespace SalesManagementApi.Controllers
              )
              ]
         [HttpGet("{storeId}", Name = nameof(GetStore))]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetStore(int storeId, string shapeFields, [FromHeader(Name = "Accept")] string mediaType)
         {
             if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue parsedMediaType))
@@ -158,7 +158,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="store"></param>
         /// <returns></returns>
         [HttpPost(Name = nameof(AddStore))]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<StoreDto>> AddStore(StoreDto storeDto)
         {
             var store = _mapper.Map<Store>(storeDto);
@@ -172,7 +172,7 @@ namespace SalesManagementApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpOptions]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetStoreOptions()
         {
             Response.Headers.Add("Allow", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
@@ -185,7 +185,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="storeId"></param>
         /// <returns></returns>
         [HttpDelete("{storeId}", Name = nameof(DeleteStore))]
-        [Authorize]
+        //[Authorize]
         public IActionResult DeleteStore(int storeId)
         {
             try
@@ -211,7 +211,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="storeDto"></param>
         /// <returns></returns>
         [HttpPut("{storeId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> SaveOrUpdateStore(int storeId, StoreDto storeDto)
         {
             var store = await this._storeDao.GetObjectById(storeId);
@@ -236,7 +236,7 @@ namespace SalesManagementApi.Controllers
         /// <param name="patchDocument"></param>
         /// <returns></returns>
         [HttpPatch("{storeId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> PartiallyUpdateStore(int storeId, JsonPatchDocument<StoreDto> patchDocument)
         {
             var store = await this._storeDao.GetObjectById(storeId);
