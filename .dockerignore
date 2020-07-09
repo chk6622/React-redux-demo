@@ -21,5 +21,8 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/React_Redux_Demo
+**/sales_management_system_ui
+**/SalesManagementApiTest
 LICENSE
 README.md

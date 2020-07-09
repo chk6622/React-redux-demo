@@ -10,7 +10,7 @@ class OidcHelper {
 
     login(redirectUrl = '/Home/Index') {
         try {
-            let user = GetUser();
+            /*let user = GetUser();
             if (!user) {
                 if (this.userManager) {
                     this.userManager.signinRedirect();
@@ -18,7 +18,8 @@ class OidcHelper {
             }
             else {
                 window.location = redirectUrl;
-            }
+            }*/
+            window.location = redirectUrl;
             console.log(`Login Success!`);
         }
         catch (Exception) {

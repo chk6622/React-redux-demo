@@ -11,7 +11,7 @@ namespace SalesManagementApi.Dto
 
         private int pageNumber = 1;
 
-        private int pageSize = 2;
+        private int pageSize = 10;
 
         private string orderFields;
 

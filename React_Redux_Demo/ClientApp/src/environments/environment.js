@@ -1,6 +1,6 @@
 ﻿export const idpBase = 'http://localhost:5001';
-export const apiBase = 'http://localhost:8080';
-export const appBase = 'http://localhost:3000';
+export const apiBase = 'http://3.25.118.30:8080';
+export const appBase = 'http://3.25.118.30:3000';
 
 export const environment = {
     production: false,
