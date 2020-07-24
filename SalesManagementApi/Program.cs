@@ -17,7 +17,7 @@ namespace SalesManagementApi
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
+            /*using (var scope = host.Services.CreateScope())
             {
                 try
                 {
@@ -30,7 +30,7 @@ namespace SalesManagementApi
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                     logger.LogError(e, "Database Migration Error!");
                 }
-            }
+            }*/
             host.Run();
         }
 

@@ -21,7 +21,7 @@ class OidcHelper {
 
     login(redirectUrl = '/Home/Welcome') {
         try {
-            let user = GetUser();
+            /*let user = GetUser();
             if (!user) {
                 if (this.userManager) {
                     this.userManager.signinRedirect();
@@ -29,7 +29,8 @@ class OidcHelper {
             }
             else {
                 window.location.href = redirectUrl;
-            }
+            }*/
+            window.location.href = redirectUrl;
             console.log(`Login Success!`);
         }
         catch (Exception) {
@@ -55,7 +56,7 @@ class OidcHelper {
     }
 
     logout(redirectUrl = '/') {
-        let user = GetUser();
+        /*let user = GetUser();
         if (user) {
 
             if (this.userManager) {
@@ -66,7 +67,9 @@ class OidcHelper {
         }
         else {
             window.location.href = redirectUrl;
-        }
+        }*/
+
+        window.location.href = redirectUrl;
     }
 }
 

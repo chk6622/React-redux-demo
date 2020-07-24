@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import { Menu, Confirm } from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.min.css';
+import React, { Component } from 'react';
+import { Menu, Confirm } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import GetOidcHelper from '../helpers/OidcHelper';
 import {connect} from 'react-redux';
@@ -9,46 +8,42 @@ import {IAppMenuProps} from '../redux/IProps';
 import {ChangeActiveItemAction,ChangeOpenStateAction} from '../redux/Actions';
 
 
-class AppMenu extends Component<IAppMenuProps,IAppMenuState> {
-    constructor(props:IAppMenuProps){
-        super(props);
-    }
+const AppMenu = (props:IAppMenuProps) => {
 
-    render() {
-        const { activeItem,isOpen,handleItemClick,openConfirm,closeConfirm,confirmAndDo} = this.props
-        //debugger;
-        return (
+    const { activeItem,isOpen,handleItemClick,openConfirm,closeConfirm,confirmAndDo} = props;
+    //debugger
+    return (
           <>
                 <Menu vertical tabular fluid>
-                <Menu.Item as={Link} to="index"
+                <Menu.Item as={Link} to="Welcome"
                     icon='home'
                     name='Home'
                     active={activeItem === 'Home'}
                     onClick={()=>{handleItemClick('Home')}}
                 />
 
-                <Menu.Item as={Link} to="customer"
+                <Menu.Item as={Link} to="Customer"
                     icon='user' 
                     name='Customer'
                     active={activeItem === 'Customer'}
                     onClick={()=>{handleItemClick('Customer')}}
                 />
 
-                <Menu.Item as={Link} to="product"
+                <Menu.Item as={Link} to="Product"
                     icon='archive'
                     name='Product'
                     active={activeItem === 'Product'}
                     onClick={()=>{handleItemClick('Product')}}
                 />
 
-                <Menu.Item as={Link} to="store"
+                <Menu.Item as={Link} to="Store"
                     icon ='building outline'
                     name='Store'
                     active={activeItem === 'Store'}
                     onClick={()=>{handleItemClick('Store')}}
                     />
                     
-                <Menu.Item as={Link} to="sales"
+                <Menu.Item as={Link} to="Sales"
                     icon='dollar sign' 
                     name='Sales'
                     active={activeItem === 'Sales'}
@@ -69,13 +64,12 @@ class AppMenu extends Component<IAppMenuProps,IAppMenuState> {
             />
           </>
         )
-    }
 }
 
-const stateToProps=(state:IAppMenuState)=>{
+const stateToProps=(state:any)=>{
     return {
-        isOpen:state.isOpen,
-        activeItem:state.activeItem
+        isOpen:state.appMenuReducer.isOpen,
+        activeItem:state.appMenuReducer.activeItem
     } 
 }
 
@@ -97,6 +91,7 @@ const dispatchToAction=(dispatch:any)=>{
             dispatch(action);
         },
         openConfirm(){
+            //debugger
             const action=ChangeOpenStateAction(true);
             dispatch(action);
         }

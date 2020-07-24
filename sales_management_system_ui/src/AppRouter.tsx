@@ -12,7 +12,7 @@ function AppRouter():any{
             <Route path='/' exact component={Login}/>
             <Route path='/Callback' exact  component={Callback} />
             <Route path='/Renew' exact component={Renew} />
-            <Route path='/Home/Welcome' component={Layout}/>
+            <Route path='/Home/' component={Layout}/>
         </Router>
     );
 }

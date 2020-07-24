@@ -10,7 +10,8 @@ const initState:IAppMenuState={
     isOpen:false
 }
 
-export default (state=initState,action:IAction)=>{
+export default (state=initState,action:IAction):IAppMenuState=>{
+    //debugger
     const newState:IAppMenuState=JSON.parse(JSON.stringify(state));
     switch(action.type){
         case CHANGE_ACTIVE_ITEM:

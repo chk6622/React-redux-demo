@@ -5,8 +5,9 @@
     "\\SalesManagementApiTest",
     "\\SalesManagementApi\\bin",
     "\\SalesManagementApi\\bin\\Release",
-    "\\SalesManagementApi\\bin\\Release\\netcoreapp3.1"
+    "\\SalesManagementApi\\bin\\Release\\netcoreapp3.1",
+    "\\SalesManagementApi\\Properties"
   ],
-  "SelectedNode": "\\SalesManagementApi\\bin\\Release",
+  "SelectedNode": "\\SalesManagementApi\\SalesManagementApi.csproj",
   "PreviewInSolutionExplorer": false
 }
