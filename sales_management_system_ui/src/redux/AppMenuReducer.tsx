@@ -1,4 +1,4 @@
-import { CHANGE_ACTIVE_ITEM,CHANGE_OPEN_STATE } from './ActionTypes';
+import { CHANGE_MENU_ACTIVE_ITEM,CHANGE_MENU_OPEN_STATE } from './ActionTypes';
 import IAction from './IAction';
 import {IAppMenuState} from './IState';
 
@@ -14,10 +14,10 @@ export default (state=initState,action:IAction):IAppMenuState=>{
     //debugger
     const newState:IAppMenuState=JSON.parse(JSON.stringify(state));
     switch(action.type){
-        case CHANGE_ACTIVE_ITEM:
+        case CHANGE_MENU_ACTIVE_ITEM:
             newState.activeItem=action.value;
             break;
-        case CHANGE_OPEN_STATE:
+        case CHANGE_MENU_OPEN_STATE:
             newState.isOpen=action.value;
             break;
     }

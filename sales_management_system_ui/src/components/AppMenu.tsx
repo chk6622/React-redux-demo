@@ -5,7 +5,7 @@ import GetOidcHelper from '../helpers/OidcHelper';
 import {connect} from 'react-redux';
 import {IAppMenuState} from '../redux/IState';
 import {IAppMenuProps} from '../redux/IProps';
-import {ChangeActiveItemAction,ChangeOpenStateAction} from '../redux/Actions';
+import {ChangeActiveItemAction,ChangeOpenStateAction} from '../redux/MenuActions';
 
 
 const AppMenu = (props:IAppMenuProps) => {
@@ -68,8 +68,8 @@ const AppMenu = (props:IAppMenuProps) => {
 
 const stateToProps=(state:any)=>{
     return {
-        isOpen:state.appMenuReducer.isOpen,
-        activeItem:state.appMenuReducer.activeItem
+        isOpen:state.AppMenuReducer.isOpen,
+        activeItem:state.AppMenuReducer.activeItem
     } 
 }
 
