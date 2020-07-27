@@ -5,6 +5,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import AppMenuReducer from './AppMenuReducer';
 import CustomerReducer from './CustomerReducer';
 import ProductReducer from './ProductReducer';
+import StoreReducer from './StoreReducer';
+import SaleReducer from './SaleReducer';
 
 
 
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
       AppMenuReducer,
       CustomerReducer,
       ProductReducer,
+      StoreReducer,
+      SaleReducer,
   });
 
 const store=createStore(

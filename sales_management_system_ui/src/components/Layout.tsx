@@ -7,7 +7,7 @@ import Welcome from './Welcome';
 import ListCustomer from './customer/ListCustomer';
 import ListProduct from './product/ListProduct';
 import ListStore from './store/ListStore';
-import ListSale from './Sale/ListSale';
+import ListSale from './sale/ListSale';
 
 
 
