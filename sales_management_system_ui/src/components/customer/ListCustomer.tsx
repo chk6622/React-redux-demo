@@ -5,7 +5,8 @@ import HttpHelper from '../../helpers/HttpHelper';
 import environment from '../../environment/environment';
 import { GetAccessToken } from '../../helpers/UserHelper';
 import { ICustomerProps } from '../../redux/IProps';
-import {updateCustomerQueryParameterAction,queryCustomerAction} from '../../redux/CustomerActions';
+import {updateCustomerQueryParameterAction,queryCustomerAction,deleteCustomerAction} from '../../redux/CustomerActions';
+import DeleteButton from '../DeleteButton';
 
 class ListCustomer extends Component<ICustomerProps>{
     constructor(props:ICustomerProps){
@@ -39,21 +40,8 @@ class ListCustomer extends Component<ICustomerProps>{
             });
     }
 
-    deleteData = (customerId:any) => {
-        var httpHelper = HttpHelper.getInstance();
-        let apiUrl = environment.apiBase;
-        let url = `${apiUrl}/api/customers/${customerId}`;
-        console.log(`execute delete ${url}`);
-        httpHelper.delete(url, GetAccessToken())
-            .then(message => {
-                alert(message);
-            }).then(
-                
-            );
-    }
-
     render(){
-        const {nameQry,addressQry,customers,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData}=this.props;
+        const {nameQry,addressQry,customers,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData,deleteData}=this.props;
 
         let beginPage = 1; //paginationParams.beginPage;
         let endPage = maxPageNumber; //paginationParams.endPage;
@@ -98,7 +86,10 @@ class ListCustomer extends Component<ICustomerProps>{
                                                 {/* <UpdateCustomerForm customer={customer} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
                                             </Table.Cell>
                                             <Table.Cell width='2' textAlign='center'>
-                                                {/* <DeleteButton deleteData={() => this.props.deleteData(customer.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
+                                                <DeleteButton 
+                                                    deleteData={() => deleteData(customer.id)} 
+                                                //requeryData={() => this.props.refreshList(this.props.curPageIndex)} 
+                                                />
                                             </Table.Cell>
                                         </Table.Row>
                                     )}
@@ -109,7 +100,7 @@ class ListCustomer extends Component<ICustomerProps>{
                                     <Table.HeaderCell colSpan='4'>
                                         <Menu floated='right' pagination>
                                             {pages.map(pageIndex =>
-                                                <Menu.Item as='a' className={pageIndex === curPageIndex ? 'big' : 'normal'} onClick={()=>{skipPage(pageIndex)}}>
+                                                <Menu.Item as='a' key={pageIndex} className={pageIndex === curPageIndex ? 'big' : 'normal'} onClick={()=>{skipPage(pageIndex)}}>
                                                     {pageIndex}
                                                 </Menu.Item>
                                             )}
@@ -169,6 +160,15 @@ const dispatchToAction=(dispatch:any)=>{
             console.log('query data from the database.');
             let action = queryCustomerAction(GetAccessToken());
             dispatch(action);
+        },
+        deleteData(customerId:string){
+            console.log('delete data!');
+            let action = deleteCustomerAction(customerId,GetAccessToken());
+            dispatch(action);
+
+            //second: query customer
+            //action = queryCustomerAction(GetAccessToken());
+            //dispatch(action);
         }
     }
 }

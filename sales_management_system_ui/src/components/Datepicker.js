@@ -1,5 +1,4 @@
-﻿import React, { Component } from 'react'
-import { Button, Confirm } from 'semantic-ui-react'
+﻿import React from 'react'
 import PropTypes from 'prop-types';
 import parse from 'date-fns/parse';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
@@ -8,11 +7,11 @@ import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 
 const Datepicker = (props) => {
 
-    const propTypes = {
-        name: PropTypes.string,
-        initDate: PropTypes.string,
-        handleChangeHandler: PropTypes.func,
-    }
+    // const propTypes = {
+    //     name: PropTypes.string,
+    //     initDate: PropTypes.string,
+    //     handleChangeHandler: PropTypes.func,
+    // }
 
     const onChange = (event, data) => {
         let name = props.name;

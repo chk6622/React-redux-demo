@@ -2,6 +2,7 @@ import {CUSTOMER_UPDATE_QUERY_PARAMETER, CUSTOMER_QUERY, CUSTOMER_ADD, CUSTOMER_
 import IAction from './IAction';
 import HttpHelper from '../helpers/HttpHelper';
 import environment from '../environment/environment';
+import tool from '../Tool';
 
 export const updateCustomerQueryParameterAction=(value:any):IAction=>{
     //debugger;
@@ -13,10 +14,10 @@ export const updateCustomerQueryParameterAction=(value:any):IAction=>{
 }
 
 function getQueryParamsUrl(queryUrl:any,nameQry:any, addressQry:any) {
-    if (nameQry !== null && nameQry !== '') {
+    if (!tool.isNullString(nameQry)) {
         queryUrl += '&nameQry=' + nameQry;
     }
-    if (addressQry !== null && addressQry !== '') {
+    if (!tool.isNullString(addressQry)) {
         queryUrl += '&addressQry=' + addressQry;
     }
     return queryUrl;
@@ -48,48 +49,10 @@ export const queryCustomerAction=(accessToken:any):any=>{
         let nameQry=state.CustomerReducer.nameQry;
         let addressQry=state.CustomerReducer.addressQry;
         let curPageIndex=state.CustomerReducer.curPageIndex;
-        debugger
         
         
         let url = getUrl(curPageIndex,nameQry,addressQry);
-
-        console.log(`execute query ${url}`);
-        httpHelper.get(url, accessToken)
-            .then((data:any) => {
-                
-                let body:any = data['body'];
-                let pagination:any = data['pagination'];
-                let location = data['location'];
-                let customers = body?.value;
-                let curPageLink = body?.links?.find((link:any) => link.rel === 'self');
-                let nextPageLink = body?.links?.find((link:any) => link.rel === 'get_next_page');
-                let prePageLink = body?.links?.find((link:any) => link.rel === 'get_previous_page');
-                console.log('=========================');
-                console.log(customers);
-                console.log(pagination);
-                console.log(location);
-                console.log(curPageLink);
-                console.log(nextPageLink);
-                console.log(prePageLink);
-                console.log('=========================');
-                pagination=JSON.parse(pagination);
-                let value={
-                    customers: customers,
-                    totalData: pagination==null?null:pagination['totalCount'],
-                    dataPerPage: pagination == null ? null :pagination['pageSize'],
-                    curPageIndex: pagination == null ? null :pagination['currentPage'],
-                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
-                    curPageLink: curPageLink==null?null:curPageLink,
-                    nextPageLink: curPageLink == null ? null :nextPageLink,
-                    prePageLink: curPageLink == null ? null :prePageLink,
-                    loading: false
-                };
-                const action = {
-                    type:CUSTOMER_QUERY,
-                    value
-                };
-                dispatch(action);
-            })
+        queryDataByHttp(httpHelper,url,accessToken,dispatch);
     };
 }
 
@@ -109,10 +72,55 @@ export const updateCustomerAction=(value:any):IAction=>{
     return action;
 }
 
-export const deleteCustomerAction=(value:any):IAction=>{
-    const action = {
-        type:CUSTOMER_DELETE,
-        value:value
-    }
-    return action;
+export  const deleteCustomerAction=(customerId:any,accessToken:any):any=>{
+    return (
+        async (dispatch:any,getState:any)=>{
+            let httpHelper = HttpHelper.getInstance();
+            const state=getState();
+            let nameQry=state.CustomerReducer.nameQry;
+            let addressQry=state.CustomerReducer.addressQry;
+            let curPageIndex=state.CustomerReducer.curPageIndex;
+
+            let apiUrl = environment.apiBase;
+            let url = `${apiUrl}/api/customers/${customerId}`;
+            console.log(`execute delete ${url}`);
+            await httpHelper.delete(url, accessToken)
+                .then(message => {
+                    alert(message);
+                });
+                
+                
+            url = getUrl(curPageIndex,nameQry,addressQry);
+            await queryDataByHttp(httpHelper, url, accessToken, dispatch);
+        }
+    );
+}
+
+async function queryDataByHttp(httpHelper: HttpHelper, url: string, accessToken: any, dispatch: any) {
+    httpHelper.get(url, accessToken)
+        .then((data: any) => {
+            let body: any = data['body'];
+            let pagination: any = data['pagination'];
+            let customers = body?.value;
+            let curPageLink = body?.links?.find((link: any) => link.rel === 'self');
+            let nextPageLink = body?.links?.find((link: any) => link.rel === 'get_next_page');
+            let prePageLink = body?.links?.find((link: any) => link.rel === 'get_previous_page');
+            pagination = JSON.parse(pagination);
+            let value = {
+                customers: customers,
+                totalData: pagination == null ? null : pagination['totalCount'],
+                dataPerPage: pagination == null ? null : pagination['pageSize'],
+                curPageIndex: pagination == null ? null : pagination['currentPage'],
+                maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                curPageLink: curPageLink == null ? null : curPageLink,
+                nextPageLink: curPageLink == null ? null : nextPageLink,
+                prePageLink: curPageLink == null ? null : prePageLink,
+                loading: false
+            };
+            const action = {
+                type: CUSTOMER_QUERY,
+                value
+            };
+            dispatch(action);
+        });
 }

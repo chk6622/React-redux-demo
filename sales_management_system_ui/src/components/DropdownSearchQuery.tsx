@@ -1,20 +1,15 @@
 ﻿import React, { Component } from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import { GetUser, GetAccessToken } from '../helpers/UserHelper';
+import {GetAccessToken } from '../helpers/UserHelper';
 import environment from '../environment/environment';
 import Es7FetchData from '../helpers/HttpHelper';
+import tool from '../Tool';
 
 
 
 export default class DropdownSearchQuery extends Component<any,any> {
     constructor(props:any) {
         super(props);
-        /*let url = '/customer/query';
-        let optionTextPropsName = 'name';
-        let optionValuePropsName = 'id';
-        let returnPropsName = 'customerId';
-        */
-        //console.log(this.props.initOptions);
         this.state =
         {
             'searchQuery': '',
@@ -32,20 +27,20 @@ export default class DropdownSearchQuery extends Component<any,any> {
         };// 'optionTextPropsName': optionTextPropsName, 'optionValuePropsName': optionValuePropsName, 'returnPropsName': returnPropsName, };
         this.requireRemoteData = this.requireRemoteData.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
+        // this.handleSearchChange = this.handleSearchChange.bind(this);
         //this.requireRemoteData(this.props.fetchDataUrl);
     }
 
-    componentWillMount() {
-        //this.requireRemoteData();
+    componentDidMount() {
+        this.requireRemoteData(this.state['searchQuery']);
     }
 
-    requireRemoteData(searchQuery:any) {
+    requireRemoteData(searchQuery?:any) {
         var httpHelper = Es7FetchData.getInstance();
         let apiUrl = environment.apiBase;
         //let queryParam = searchQuery;
         let queryParam = '';
-        if (searchQuery != null && searchQuery != '') {
+        if (!tool.isNullString(searchQuery)) {
             queryParam = `?${this.props.queryPropsName}=${searchQuery}`;
         }
         /*else if (this.props.initValue != null && this.props.initValue!=''){
@@ -79,21 +74,18 @@ export default class DropdownSearchQuery extends Component<any,any> {
 
 
     handleChange = (e:any, { searchQuery, value }:any) => {
-        console.log('onChange:handleChange');
         let rName = this.props.returnPropsName;
-        //this.props.parent.setState({ [rName]: value, });
         this.props.myChangeHandler(rName,value);
-        //console.log(`========================${ searchQuery, value }`);
         this.setState({ searchQuery, value });
     }
        
 
-    handleSearchChange = (e:any, { searchQuery }:any) => {
-        console.log('onSearchChange:handleSearchChange');
-        console.log(searchQuery);
-        this.requireRemoteData(searchQuery);
-        //this.setState({ searchQuery })
-    }
+    // handleSearchChange = (e:any, { searchQuery }:any) => {
+    //     console.log('onSearchChange:handleSearchChange');
+    //     console.log(searchQuery);
+    //     this.requireRemoteData(searchQuery);
+    //     //this.setState({ searchQuery })
+    // }
 
     render() {
         //const { searchQuery, value } = this.state;
@@ -103,9 +95,9 @@ export default class DropdownSearchQuery extends Component<any,any> {
                 
                 clearable
                 onChange={this.handleChange}
-                onFocus={this.handleSearchChange}
+                onFocus={this.handleChange}
                 //onClick={this.handleChange}
-                onSearchChange={this.handleSearchChange}
+                onSearchChange={this.handleChange}
                 options={this.state.options}
                 placeholder={this.props.placeholder}
                 search

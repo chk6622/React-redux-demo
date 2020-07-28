@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Menu, Confirm } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import GetOidcHelper from '../helpers/OidcHelper';
 import {connect} from 'react-redux';
-import {IAppMenuState} from '../redux/IState';
 import {IAppMenuProps} from '../redux/IProps';
 import {ChangeActiveItemAction,ChangeOpenStateAction} from '../redux/MenuActions';
 

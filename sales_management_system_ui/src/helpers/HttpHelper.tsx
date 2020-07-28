@@ -58,9 +58,9 @@ export default class HttpHelper{
         });
         let status:any = res.status;
         //alert(status);
-        let body = status==201? await res.json():null;
-        let location = status == 201 ? res.headers.get('location') : null;
-        let msg = status == 201 ? 'Add success!' : 'Add fail!';
+        let body = status===201? await res.json():null;
+        let location = status === 201 ? res.headers.get('location') : null;
+        let msg = status === 201 ? 'Add success!' : 'Add fail!';
         return { msg, body, location };
     }
 
@@ -80,9 +80,9 @@ export default class HttpHelper{
             body:JSON.stringify(updateData)
         });
         let status:any =  res.status;
-        let body = status == 201 ? await res.json() : null;
-        let location = status == 201 ? res.headers.get('location') : null;
-        let msg = status == 201 ? 'Update success!' : status==404?'The data is not exist in the database!':'Updata fail!';
+        let body = status === 201 ? await res.json() : null;
+        let location = status === 201 ? res.headers.get('location') : null;
+        let msg = status === 201 ? 'Update success!' : status==404?'The data is not exist in the database!':'Updata fail!';
         return { msg, body, location };
     }
 
