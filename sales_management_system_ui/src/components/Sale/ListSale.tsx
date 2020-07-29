@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import { Menu, Confirm,Input,Button,Table } from 'semantic-ui-react';
+import { Menu,Button,Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { GetAccessToken } from '../../helpers/UserHelper';
 import { ISaleProps } from '../../redux/IProps';
-import {updateSaleQueryParameterAction,querySaleAction} from '../../redux/SaleActions';
+import { updateSaleQueryParameterAction, querySaleAction, deleteSaleAction } from '../../redux/SaleActions';
 import DropdownSearchQuery from '../DropdownSearchQuery';
 import MyDatepicker from '../Datepicker';
+import DeleteButton from '../DeleteButton';
 
 class ListSale extends Component<ISaleProps>{
     constructor(props:ISaleProps){
@@ -24,7 +25,7 @@ class ListSale extends Component<ISaleProps>{
     }
 
     render(){
-        const {beginDateSoldQry,endDateSoldQry,customerId,productId,storeId,sales,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData}=this.props;
+        const {beginDateSoldQry,endDateSoldQry,customerId,productId,storeId,sales,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData, deleteData}=this.props;
 
         let beginPage = 1; //paginationParams.beginPage;
         let endPage = maxPageNumber; //paginationParams.endPage;
@@ -49,7 +50,7 @@ class ListSale extends Component<ISaleProps>{
                 }
             }
         )
-        console.log(`customer=${customer} customerId=${customerId}`);
+        // console.log(`customer=${customer} customerId=${customerId}`);
         return (
             <>
             <div className='listContent'>
@@ -57,16 +58,16 @@ class ListSale extends Component<ISaleProps>{
                     <div>
                         {/*<Input type='text' name='dateSoldQry' onChange={this.props.myChangeHandler} placeholder='Please input date sold.' />&nbsp;*/}
                         <MyDatepicker name='beginDateSoldQry' 
-                            handleChangeHandler={this.props.updateQryParameters} 
+                            handleChangeHandler={updateQryParameters} 
                             initDate={beginDateSoldQry}
                             />
                              - 
                         <MyDatepicker name='endDateSoldQry' 
-                            handleChangeHandler={this.props.updateQryParameters} 
+                            handleChangeHandler={updateQryParameters} 
                             initDate={endDateSoldQry}
                             />&nbsp;
                         <DropdownSearchQuery
-                            myChangeHandler={this.props.updateQryParameters}
+                            myChangeHandler={updateQryParameters}
                             fetchDataUrl='/api/customers'
                             optionTextPropsName='name'
                             optionValuePropsName='id'
@@ -77,7 +78,7 @@ class ListSale extends Component<ISaleProps>{
                             initOptions={customer?[customer]:null}
                         />&nbsp;
                         <DropdownSearchQuery
-                            myChangeHandler={this.props.updateQryParameters}
+                            myChangeHandler={updateQryParameters}
                             fetchDataUrl='/api/products'
                             optionTextPropsName='name'
                             optionValuePropsName='id'
@@ -88,7 +89,7 @@ class ListSale extends Component<ISaleProps>{
                             initOptions={product?[product]:null}
                         />&nbsp;
                         <DropdownSearchQuery
-                            myChangeHandler={this.props.updateQryParameters}
+                            myChangeHandler={updateQryParameters}
                             fetchDataUrl='/api/stores'
                             optionTextPropsName='name'
                             optionValuePropsName='id'
@@ -98,7 +99,7 @@ class ListSale extends Component<ISaleProps>{
                             initValue={storeId}
                             initOptions={store?[store]:null}
                         />&nbsp;
-                        <Button as='a' onClick={this.props.queryData}>Query</Button>
+                        <Button as='a' onClick={queryData}>Query</Button>
                     </div>
                     {/* <AddSalesForm requeryData={this.props.refreshList} addData={this.props.addData} /> */}
                 </div>
@@ -123,15 +124,17 @@ class ListSale extends Component<ISaleProps>{
                 {sales.map(
                     (sale:any) =>
                     <Table.Row key={sale.id}>
-                        <Table.Cell>{sale.dateSold==null?'':sale.dateSold.substr(0, 10)}</Table.Cell>
-                        <Table.Cell>{sale.customer == null ? '' : sale.customer.name}</Table.Cell>
-                        <Table.Cell>{sale.product == null ? '' : sale.product.name}</Table.Cell>
-                        <Table.Cell>{sale.store == null ? '' : sale.store.name}</Table.Cell>
+                        <Table.Cell>{sale.dateSold===null?'':sale.dateSold.substr(0, 10)}</Table.Cell>
+                        <Table.Cell>{sale.customer === null ? '' : sale.customer.name}</Table.Cell>
+                        <Table.Cell>{sale.product === null ? '' : sale.product.name}</Table.Cell>
+                        <Table.Cell>{sale.store === null ? '' : sale.store.name}</Table.Cell>
                         <Table.Cell textAlign='center'>
                             {/* <UpdateSalesForm sale={sale} requeryData={this.props.refreshList} updateData={this.props.updateData} /> */}
                             </Table.Cell>
                         <Table.Cell textAlign='center'>
-                            {/* <DeleteButton deleteData={() => this.props.deleteData(sale.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
+                            <DeleteButton 
+                                deleteData={() => deleteData(sale.id)} 
+                                />
                             </Table.Cell>
                     </Table.Row>
                 )}
@@ -142,7 +145,7 @@ class ListSale extends Component<ISaleProps>{
                             <Table.HeaderCell colSpan='6'>
                                 <Menu floated='right' pagination>
                                     {pages.map(pageIndex =>
-                                        <Menu.Item as='a' className={pageIndex === curPageIndex ? 'big' : 'normal'}  onClick={()=>{skipPage(pageIndex)}}>
+                                        <Menu.Item as='a' key={pageIndex} className={pageIndex === curPageIndex ? 'big' : 'normal'}  onClick={()=>{skipPage(pageIndex)}}>
                                             {pageIndex}
                                         </Menu.Item>
                                     )}
@@ -201,6 +204,10 @@ const dispatchToAction=(dispatch:any)=>{
         queryData(){
             console.log('query data from the database.');
             let action = querySaleAction(GetAccessToken());
+            dispatch(action);
+        },
+        deleteData(saleId:string){
+            let action = deleteSaleAction(saleId,GetAccessToken());
             dispatch(action);
         }
     }

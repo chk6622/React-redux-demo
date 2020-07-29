@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import { Menu, Confirm,Input,Button,Table } from 'semantic-ui-react';
+import { Menu,Input,Button,Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { GetAccessToken } from '../../helpers/UserHelper';
 import { IStoreProps } from '../../redux/IProps';
-import {updateStoreQueryParameterAction,queryStoreAction} from '../../redux/StoreActions';
-
+import { updateStoreQueryParameterAction, queryStoreAction, deleteStoreAction } from '../../redux/StoreActions';
+import DeleteButton from '../DeleteButton';
 
 
 class ListStore extends Component<IStoreProps>{
@@ -17,7 +17,7 @@ class ListStore extends Component<IStoreProps>{
     }
 
     render(){
-        const {nameQry,addressQry,stores,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData}=this.props;
+        const {nameQry,addressQry,stores,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData,deleteData}=this.props;
 
         let beginPage = 1; //paginationParams.beginPage;
         let endPage = maxPageNumber; //paginationParams.endPage;
@@ -60,7 +60,9 @@ class ListStore extends Component<IStoreProps>{
                                                 {/* <UpdateCustomerForm customer={customer} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
                                             </Table.Cell>
                                             <Table.Cell width='2' textAlign='center'>
-                                                {/* <DeleteButton deleteData={() => this.props.deleteData(customer.id)} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
+                                                <DeleteButton 
+                                                    deleteData={() => deleteData(store.id)} 
+                                                    />
                                             </Table.Cell>
                                         </Table.Row>
                                     )}
@@ -71,7 +73,7 @@ class ListStore extends Component<IStoreProps>{
                                     <Table.HeaderCell colSpan='4'>
                                         <Menu floated='right' pagination>
                                             {pages.map(pageIndex =>
-                                                <Menu.Item as='a' className={pageIndex === curPageIndex ? 'big' : 'normal'} onClick={()=>{skipPage(pageIndex)}}>
+                                                <Menu.Item as='a' key={pageIndex} className={pageIndex === curPageIndex ? 'big' : 'normal'} onClick={()=>{skipPage(pageIndex)}}>
                                                     {pageIndex}
                                                 </Menu.Item>
                                             )}
@@ -129,6 +131,10 @@ const dispatchToAction=(dispatch:any)=>{
         queryData(){
             console.log('query data from the database.');
             let action = queryStoreAction(GetAccessToken());
+            dispatch(action);
+        },
+        deleteData(storeId:string){
+            let action = deleteStoreAction(storeId,GetAccessToken());
             dispatch(action);
         }
     }

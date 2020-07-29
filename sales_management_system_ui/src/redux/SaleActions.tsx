@@ -66,43 +66,7 @@ export const querySaleAction=(accessToken:any):any=>{
         let url = getUrl(curPageIndex,beginDateSoldQry, endDateSoldQry, customerId, productId, storeId);
 
         console.log(`execute query ${url}`);
-        httpHelper.get(url, accessToken)
-            .then((data:any) => {
-                
-                let body:any = data['body'];
-                let pagination:any = data['pagination'];
-                let location = data['location'];
-                let sales = body?.value;
-                debugger
-                let curPageLink = body?.links?.find((link:any) => link.rel === 'self');
-                let nextPageLink = body?.links?.find((link:any) => link.rel === 'get_next_page');
-                let prePageLink = body?.links?.find((link:any) => link.rel === 'get_previous_page');
-                console.log('=========================');
-                console.log(sales);
-                console.log(pagination);
-                console.log(location);
-                console.log(curPageLink);
-                console.log(nextPageLink);
-                console.log(prePageLink);
-                console.log('=========================');
-                pagination=JSON.parse(pagination);
-                let value={
-                    sales,
-                    totalData: pagination==null?null:pagination['totalCount'],
-                    dataPerPage: pagination == null ? null :pagination['pageSize'],
-                    curPageIndex: pagination == null ? null :pagination['currentPage'],
-                    maxPageNumber: pagination == null ? null : pagination['totalPages'],
-                    curPageLink: curPageLink==null?null:curPageLink,
-                    nextPageLink: curPageLink == null ? null :nextPageLink,
-                    prePageLink: curPageLink == null ? null :prePageLink,
-                    loading: false
-                };
-                const action = {
-                    type:SALE_QUERY,
-                    value
-                };
-                dispatch(action);
-            })
+        queryDataByHttp(httpHelper, url, accessToken, dispatch);
     };
 }
 
@@ -122,10 +86,74 @@ export const updateSaleAction=(value:any):IAction=>{
     return action;
 }
 
-export const deleteSaleAction=(value:any):IAction=>{
-    const action = {
-        type:SALE_DELETE,
-        value:value
-    }
-    return action;
+export const deleteSaleAction=(saleId:string, accessToken:string):any=>{
+    return (
+        async (dispatch:any,getState:any)=>{
+            let httpHelper = HttpHelper.getInstance();
+            const state=getState();
+            let beginDateSoldQry=state.SaleReducer.beginDateSoldQry;
+            let endDateSoldQry=state.SaleReducer.endDateSoldQry;
+            let customerId=state.SaleReducer.customerId;
+            let productId=state.SaleReducer.productId;
+            let storeId=state.SaleReducer.storeId;
+            let curPageIndex=state.SaleReducer.curPageIndex;
+
+            let apiUrl = environment.apiBase;
+            let url = `${apiUrl}/api/sales/${saleId}`;
+            console.log(`execute delete ${url}`);
+            await httpHelper.delete(url, accessToken)
+                .then(message => {
+                    alert(message);
+                });
+                
+                
+               
+                //debugger
+                
+                
+            url = getUrl(curPageIndex,beginDateSoldQry, endDateSoldQry, customerId, productId, storeId);
+        
+            queryDataByHttp(httpHelper, url, accessToken, dispatch);
+        }
+    );
+}
+
+function queryDataByHttp(httpHelper: HttpHelper, url: string, accessToken: any, dispatch: any) {
+    httpHelper.get(url, accessToken)
+        .then((data: any) => {
+
+            let body: any = data['body'];
+            let pagination: any = data['pagination'];
+            let location = data['location'];
+            let sales = body?.value;
+            debugger;
+            let curPageLink = body?.links?.find((link: any) => link.rel === 'self');
+            let nextPageLink = body?.links?.find((link: any) => link.rel === 'get_next_page');
+            let prePageLink = body?.links?.find((link: any) => link.rel === 'get_previous_page');
+            console.log('=========================');
+            console.log(sales);
+            console.log(pagination);
+            console.log(location);
+            console.log(curPageLink);
+            console.log(nextPageLink);
+            console.log(prePageLink);
+            console.log('=========================');
+            pagination = JSON.parse(pagination);
+            let value = {
+                sales,
+                totalData: pagination == null ? null : pagination['totalCount'],
+                dataPerPage: pagination == null ? null : pagination['pageSize'],
+                curPageIndex: pagination == null ? null : pagination['currentPage'],
+                maxPageNumber: pagination == null ? null : pagination['totalPages'],
+                curPageLink: curPageLink == null ? null : curPageLink,
+                nextPageLink: curPageLink == null ? null : nextPageLink,
+                prePageLink: curPageLink == null ? null : prePageLink,
+                loading: false
+            };
+            const action = {
+                type: SALE_QUERY,
+                value
+            };
+            dispatch(action);
+        });
 }
