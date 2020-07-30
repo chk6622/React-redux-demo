@@ -1,4 +1,4 @@
-import {CUSTOMER_UPDATE_QUERY_PARAMETER, CUSTOMER_QUERY,CUSTOMER_ADD,CUSTOMER_UPDATE,CUSTOMER_DELETE} from './ActionTypes';
+import {CUSTOMER_UPDATE_PARAMETER, CUSTOMER_QUERY,CUSTOMER_ADD,CUSTOMER_UPDATE,CUSTOMER_DELETE} from './ActionTypes';
 import IAction from './IAction';
 import { ICustomerState } from './IState';
 
@@ -19,7 +19,7 @@ const initState:ICustomerState={
 export default (state=initState,action:IAction):ICustomerState=>{
     let newState:ICustomerState=JSON.parse(JSON.stringify(state));
     switch(action.type){
-        case CUSTOMER_UPDATE_QUERY_PARAMETER:
+        case CUSTOMER_UPDATE_PARAMETER:
             newState={...newState,...action.value};
             break;
         case CUSTOMER_QUERY:

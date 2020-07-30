@@ -58,20 +58,50 @@ export const queryProductAction=(accessToken:any):any=>{
     };
 }
 
-export const addProductAction=(value:any):IAction=>{
-    const action = {
-        type:PRODUCT_ADD,
-        value:value
-    }
-    return action;
+export const addProductAction=(product:any,accessToken:any):any=>{
+    return (
+        async (dispatch:any,getState:any)=>{
+            let httpHelper = HttpHelper.getInstance();
+            const state=getState();
+            let nameQry=state.ProductReducer.nameQry;
+            let priceQry=state.ProductReducer.priceQry;
+            let curPageIndex=state.ProductReducer.curPageIndex;
+
+            let apiUrl = environment.apiBase;
+            let url = `${apiUrl}/api/products`;
+
+            await httpHelper.post(url, accessToken, product)
+                .then(data => {
+                    alert(data['msg']);
+                });
+
+            url = getUrl(curPageIndex,nameQry,priceQry);
+            queryDataByHttp(httpHelper, url, accessToken, dispatch);
+        }
+    );
 }
 
-export const updateProductAction=(value:any):IAction=>{
-    const action = {
-        type:PRODUCT_UPDATE,
-        value:value
-    }
-    return action;
+export const updateProductAction=(product:any,accessToken:any):any=>{
+    return (
+        async (dispatch:any,getState:any)=>{
+            let httpHelper = HttpHelper.getInstance();
+            const state=getState();
+            let nameQry=state.ProductReducer.nameQry;
+            let priceQry=state.ProductReducer.priceQry;
+            let curPageIndex=state.ProductReducer.curPageIndex;
+
+            let apiUrl = environment.apiBase;
+            let url = `${apiUrl}/api/products/${product.id}`;
+
+            await httpHelper.put(url, accessToken, product)
+                .then(data => {
+                    alert(data['msg']);
+                });
+
+            url = getUrl(curPageIndex,nameQry,priceQry);
+            queryDataByHttp(httpHelper, url, accessToken, dispatch);
+        }
+    );
 }
 
 export const deleteProductAction=(productId:any,accessToken:any):any=>{

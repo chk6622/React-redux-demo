@@ -5,8 +5,11 @@ import HttpHelper from '../../helpers/HttpHelper';
 import environment from '../../environment/environment';
 import { GetAccessToken } from '../../helpers/UserHelper';
 import { ICustomerProps } from '../../redux/IProps';
-import {updateCustomerQueryParameterAction,queryCustomerAction,deleteCustomerAction} from '../../redux/CustomerActions';
+import { updateCustomerParameterAction, queryCustomerAction, deleteCustomerAction, addCustomerAction, updateCustomerAction } from '../../redux/CustomerActions';
 import DeleteButton from '../DeleteButton';
+import AddCustomer from './AddCustomer';
+import EditCustomer from './EditCustomer';
+
 
 class ListCustomer extends Component<ICustomerProps>{
     constructor(props:ICustomerProps){
@@ -17,31 +20,8 @@ class ListCustomer extends Component<ICustomerProps>{
        this.props.queryData();
     }
 
-
-    addData = (customer:any) => {
-        var httpHelper = HttpHelper.getInstance();
-        let apiUrl = environment.apiBase;
-        let url = `${apiUrl}/api/customers`;
-
-        httpHelper.post(url, GetAccessToken(), customer)
-            .then(data => {
-                alert(data['msg']);
-            });
-    }
-
-    updateData = (customer:any) => {
-        var httpHelper = HttpHelper.getInstance();
-        let apiUrl = environment.apiBase;
-        let url = `${apiUrl}/api/customers/${customer.id}`;
-        console.log(`execute Update ${url}`);
-        httpHelper.put(url, GetAccessToken(), customer)
-            .then(data => {
-                alert(data['msg']);
-            });
-    }
-
     render(){
-        const {nameQry,addressQry,customers,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData,deleteData}=this.props;
+        const {nameQry,addressQry,customers,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData,addData,updateData,deleteData}=this.props;
 
         let beginPage = 1; //paginationParams.beginPage;
         let endPage = maxPageNumber; //paginationParams.endPage;
@@ -63,7 +43,10 @@ class ListCustomer extends Component<ICustomerProps>{
                                 <Input type='text' name='addressQry' value={addressQry} onChange={updateQryParameters} placeholder='Please input address.' />&nbsp;
                                 <Button as='a' onClick={queryData}>Query</Button>
                             </div>
-                            {/* <AddCustomerForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' /> */}
+                            <AddCustomer 
+                                addData={addData} 
+                                isOpen={false}
+                            />
                         </div>
 
                         <Table celled selectable>
@@ -83,12 +66,15 @@ class ListCustomer extends Component<ICustomerProps>{
                                             <Table.Cell>{customer.name}</Table.Cell>
                                             <Table.Cell>{customer.address}</Table.Cell>
                                             <Table.Cell width='2' textAlign='center'>
-                                                {/* <UpdateCustomerForm customer={customer} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
+                                                <EditCustomer 
+                                                    customer={customer} 
+                                                    updateData={updateData} 
+                                                    isOpen={false}
+                                                />
                                             </Table.Cell>
                                             <Table.Cell width='2' textAlign='center'>
                                                 <DeleteButton 
                                                     deleteData={() => deleteData(customer.id)} 
-                                                //requeryData={() => this.props.refreshList(this.props.curPageIndex)} 
                                                 />
                                             </Table.Cell>
                                         </Table.Row>
@@ -134,14 +120,14 @@ const stateToProps=(state:any)=>{
 
 const dispatchToAction=(dispatch:any)=>{
     return {
-        updateQryParameters(event:any){
+        updateParameters(event:any){
             //debugger;
             let nam = event.target.name;
             let val = event.target.value;
             let newValue={
                 [nam]:val
             }
-            let action=updateCustomerQueryParameterAction(newValue);
+            let action=updateCustomerParameterAction(newValue);
             dispatch(action);
         },
         skipPage(pageIndex:number){
@@ -149,7 +135,7 @@ const dispatchToAction=(dispatch:any)=>{
                 'curPageIndex':pageIndex
             }
             //first: update curPageIndex
-            let action=updateCustomerQueryParameterAction(newValue);
+            let action=updateCustomerParameterAction(newValue);
             dispatch(action);
             
             //second: query customer
@@ -159,6 +145,14 @@ const dispatchToAction=(dispatch:any)=>{
         queryData(){
             console.log('query data from the database.');
             let action = queryCustomerAction(GetAccessToken());
+            dispatch(action);
+        },
+        addData(customer:string){
+            let action = addCustomerAction(customer,GetAccessToken());
+            dispatch(action);
+        },
+        updateData(customer:string){
+            let action = updateCustomerAction(customer,GetAccessToken());
             dispatch(action);
         },
         deleteData(customerId:string){

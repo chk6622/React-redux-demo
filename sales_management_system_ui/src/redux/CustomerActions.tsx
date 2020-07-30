@@ -1,13 +1,14 @@
-import {CUSTOMER_UPDATE_QUERY_PARAMETER, CUSTOMER_QUERY, CUSTOMER_ADD, CUSTOMER_UPDATE, CUSTOMER_DELETE} from './ActionTypes';
+import {CUSTOMER_UPDATE_PARAMETER, CUSTOMER_QUERY, CUSTOMER_ADD, CUSTOMER_UPDATE, CUSTOMER_DELETE} from './ActionTypes';
 import IAction from './IAction';
 import HttpHelper from '../helpers/HttpHelper';
 import environment from '../environment/environment';
 import tool from '../Tool';
+import { GetAccessToken } from '../helpers/UserHelper';
 
-export const updateCustomerQueryParameterAction=(value:any):IAction=>{
+export const updateCustomerParameterAction=(value:any):IAction=>{
     //debugger;
     const action = {
-        type:CUSTOMER_UPDATE_QUERY_PARAMETER,
+        type:CUSTOMER_UPDATE_PARAMETER,
         value:value
     }
     return action;
@@ -56,20 +57,51 @@ export const queryCustomerAction=(accessToken:any):any=>{
     };
 }
 
-export const addCustomerAction=(value:any):IAction=>{
-    const action = {
-        type:CUSTOMER_ADD,
-        value:value
-    }
-    return action;
+export const addCustomerAction=(customer:string,accessToken:any):any=>{
+    return (
+        async (dispatch:any,getState:any)=>{
+            let httpHelper = HttpHelper.getInstance();
+            const state=getState();
+            let nameQry=state.CustomerReducer.nameQry;
+            let addressQry=state.CustomerReducer.addressQry;
+            let curPageIndex=state.CustomerReducer.curPageIndex;
+
+            let apiUrl = environment.apiBase;
+            let url = `${apiUrl}/api/customers`;
+
+            await httpHelper.post(url, accessToken, customer)
+                .then(data => {
+                    alert(data['msg']);
+                });
+
+            url = getUrl(curPageIndex,nameQry,addressQry);
+            queryDataByHttp(httpHelper, url, accessToken, dispatch);
+        }
+    );
 }
 
-export const updateCustomerAction=(value:any):IAction=>{
-    const action = {
-        type:CUSTOMER_UPDATE,
-        value:value
-    }
-    return action;
+export const updateCustomerAction=(customer:any,accessToken:any):any=>{
+    
+    return (
+        async (dispatch:any,getState:any)=>{
+            let httpHelper = HttpHelper.getInstance();
+            const state=getState();
+            let nameQry=state.CustomerReducer.nameQry;
+            let addressQry=state.CustomerReducer.addressQry;
+            let curPageIndex=state.CustomerReducer.curPageIndex;
+
+            let apiUrl = environment.apiBase;
+            let url = `${apiUrl}/api/customers/${customer.id}`;
+            console.log(`execute Update ${url}`);
+            await httpHelper.put(url, GetAccessToken(), customer)
+                .then(data => {
+                    alert(data['msg']);
+                });
+
+            url = getUrl(curPageIndex,nameQry,addressQry);
+            queryDataByHttp(httpHelper, url, accessToken, dispatch);
+        }
+    );
 }
 
 export  const deleteCustomerAction=(customerId:any,accessToken:any):any=>{
@@ -91,7 +123,7 @@ export  const deleteCustomerAction=(customerId:any,accessToken:any):any=>{
                 
                 
             url = getUrl(curPageIndex,nameQry,addressQry);
-            await queryDataByHttp(httpHelper, url, accessToken, dispatch);
+            queryDataByHttp(httpHelper, url, accessToken, dispatch);
         }
     );
 }

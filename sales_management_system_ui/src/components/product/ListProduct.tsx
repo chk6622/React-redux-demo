@@ -3,8 +3,11 @@ import {connect} from 'react-redux';
 import { Menu, Input,Button,Table } from 'semantic-ui-react';
 import { GetAccessToken } from '../../helpers/UserHelper';
 import { IProductProps } from '../../redux/IProps';
-import {updateProductQueryParameterAction,queryProductAction,deleteProductAction} from '../../redux/ProductActions';
+import { updateProductQueryParameterAction, queryProductAction, deleteProductAction, addProductAction, updateProductAction } from '../../redux/ProductActions';
 import DeleteButton from '../DeleteButton';
+import AddProduct from './AddProduct';
+import EditProduct from './EditProduct';
+
 
 class ListProduct extends Component<IProductProps>{
     constructor(props:IProductProps){
@@ -16,7 +19,7 @@ class ListProduct extends Component<IProductProps>{
     }
 
     render(){
-        const {nameQry,priceQry,products,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData,deleteData}=this.props;
+        const {nameQry,priceQry,products,maxPageNumber,curPageIndex,skipPage,updateQryParameters,queryData,addData,updateData,deleteData}=this.props;
 
         let beginPage = 1; //paginationParams.beginPage;
         let endPage = maxPageNumber; //paginationParams.endPage;
@@ -37,7 +40,9 @@ class ListProduct extends Component<IProductProps>{
                         <Input type='text' name='priceQry' value={priceQry} onChange={updateQryParameters} placeholder='Please input price.' />&nbsp;
                         <Button as='a' onClick={queryData}>Query</Button>
                     </div>
-                    {/* <AddProductForm addData={this.props.addData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} isOpen='true' /> */}
+                    <AddProduct 
+                        addData={this.props.addData} 
+                        isOpen={false} />
                 </div>
                 <Table celled selectable>
                 <Table.Header>
@@ -60,7 +65,11 @@ class ListProduct extends Component<IProductProps>{
                             <Table.Cell>{product.name}</Table.Cell>
                             <Table.Cell>{product.price}</Table.Cell>
                             <Table.Cell textAlign='center'>
-                                {/* <UpdateProductForm product={product} updateData={this.props.updateData} requeryData={() => this.props.refreshList(this.props.curPageIndex)} /> */}
+                                <EditProduct 
+                                    product={product} 
+                                    updateData={updateData} 
+                                    isOpen={false}
+                                    />
                             </Table.Cell>
                                 <Table.Cell textAlign='center'>
                                     <DeleteButton 
@@ -133,8 +142,16 @@ const dispatchToAction=(dispatch:any)=>{
             dispatch(action);
         },
         queryData(){
-            console.log('query data from the database.');
+            // console.log('query data from the database.');
             let action = queryProductAction(GetAccessToken());
+            dispatch(action);
+        },
+        addData(product:any){
+            let action = addProductAction(product,GetAccessToken());
+            dispatch(action);
+        },
+        updateData(product:any){
+            let action = updateProductAction(product,GetAccessToken());
             dispatch(action);
         },
         deleteData(productId:string){

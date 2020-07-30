@@ -1,7 +1,7 @@
 export const CHANGE_MENU_ACTIVE_ITEM:string='change_menu_active_item';
 export const CHANGE_MENU_OPEN_STATE:string='change_menu_open_state';
 
-export const CUSTOMER_UPDATE_QUERY_PARAMETER = 'update_customer_query_parameter';
+export const CUSTOMER_UPDATE_PARAMETER = 'update_customer_parameter';
 export const CUSTOMER_QUERY:string = 'query_customer';
 export const CUSTOMER_ADD:string = 'add_customer';
 export const CUSTOMER_UPDATE:string = 'update_customer';
